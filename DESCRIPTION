@@ -1,0 +1,23 @@
+Package: GeneMates
+Type: Package
+Title: Analysing association and physical linkage between bacterial genes
+Version: 0.1.5
+Author: Yu Wan
+Maintainer: Yu Wan <wanyuac@gmail.com>
+Description: Applies univariate linear mixed models (LMMs) to bacterial genotype
+    data to find out association between bacterial genes. Users may also incorporate
+    physical distances between genes to identify physical linkages between these genes.
+Depends: R (>= 3.2.3)
+License: Apache-2.0
+Encoding: UTF-8
+LazyData: false
+Imports:
+    data.table (>= 1.10.4),
+    parallel (>= 3.3.3),
+    pheatmap (>= 1.0.8),
+    logistf (>= 1.22),
+    ape (>= 4.1),
+    phytools (>= 0.6-00),
+    ggplot2 (>= 2.2.1),
+    ggtree (>= 1.6.11)
+RoxygenNote: 6.0.1

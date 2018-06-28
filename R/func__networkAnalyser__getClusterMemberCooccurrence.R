@@ -1,0 +1,148 @@
+#' @title Retrieving member allele co-occurrence status and strain distributions for clusters of alleles
+#'
+#' @description This function returns a data frame given a data frame of cluster IDs and alleles. In each row,
+#' a string of strain names (comma-delimited) are returned if all of the alleles are co-occurring in these
+#' strains, otherwise, an NA is returned because alleles may differ in strains when only a fixed number (less
+#' than the number of all alleles) of alleles are co-occurring in the strains. Moreover, the function reports
+#' the minimal inclusive clade of strains and the frequency of co-occurrence events in this clade when all
+#' alleles are co-occurring.
+#'
+#' Specifically, a cluster may refer to a community (also known as a module) or a clique in a network.
+#'
+#' @param clstr a data frame consisting of at least two columns: one for cluster IDs and the other for allele names.
+#' We recommend to use integers or characters as clster names.
+#' @param pam an allelic PAM with columns for allele names and rows for strain names.
+#' @param cluster.colname the column name for cluster IDs
+#' @param allele.colname the column name for allele IDs
+#' @param clade.pam (optional) a matrix for the presence/absence of samples in each clade of an input tree. It can be obtained using the function tree2Clades of phylix.
+#' @param clade.sizes (optional) A named vector of integers for the number of samples in each clade. It can be obtained from the element "sizes"
+#' in the outputs of the function tree2Clades. Optional.
+#' @param sample.dists (optional) A square matrix for distances between samples. It can be acquired through the function projectSamples.
+#' @param n.cores An integer determining the number of cores used for parallel computing. Valid values are the same as those for
+#' the findPhysLink function.
+#'
+#' @note Clade-wise summaries are not returned or only a few summary columns are returned when the three optional arguments are incomplete (some may be NULL).
+#'
+#' @examples
+#' assoc <- findPhysLink(...)
+#' clusters <- ...  # from a network package of your preference
+#' com.co <- getClusterMemberCooccurrence(com = clusters, pam = assoc[["alleles"]][["A"]], cluster.colname = "community",
+#' clade.pam = assoc[["struc"]][["clades"]][["pam"]], clade.sizes = assoc[["struc"]][["clades"]][["sizes"]],
+#' sample.dists = assoc[["struc"]][["C"]][["d"]], n.cores = 2)
+#'
+#' Dependency: data.table, parallel
+#'
+#' @author Yu Wan (\email{wanyuac@gmail.com})
+#' @export
+#
+#  Copyright 2017 Yu Wan
+#  Licensed under the Apache License, Version 2.0
+#  First edition: 27 Sep 2017, the lastest edition: 2 Oct 2017
+
+getClusterMemberCooccurrence <- function(clstr, pam, cluster.colname = "cluster",
+                                         allele.colname = "allele", clade.pam = NULL,
+                                         clade.sizes = NULL, sample.dists = NULL,
+                                         n.cores = -1) {
+    require(data.table)
+    require(parallel)
+
+    # get the variable class of cluster IDs because they will be converted to characters when the parRapply function is used (the same as the lapply function)
+    ID.class <- class(clstr[, cluster.colname])  # "integer", "character" or "numeric"
+
+    # run parallel jobs
+    cl <- makeCluster(.setCoreNum(n.cores = n.cores, cores.avai = detectCores()))  # cores.avai >= 1; n.cores >= 1
+    clusterExport(cl = cl, varlist = list("pam", "cluster.colname", "allele.colname", "clade.pam", "clade.sizes",
+                                          "sample.dists"), envir = environment())  # make variables visible to different cores
+    co <- parRapply(cl = cl, x = clstr, .getCoStatusPerCluster, pam, cluster.colname, allele.colname, clade.pam, clade.sizes, sample.dists)  # apply rows to a function
+    stopCluster(cl)
+
+    # post-summary process
+    co <- as.data.frame(rbindlist(co))  # class(rbindlist) returns a vector c("data.table", "data.frame"). It sometimes cause problems when using a column by its column name. Hence it is safer to convert it into an ordinary data frame.
+    names(co)[c(1, 2)] <- c(cluster.colname, allele.colname)
+    if (class(co[, cluster.colname]) != ID.class) {  # such as integers or numerics
+        co[, cluster.colname] <- as(object = co[, cluster.colname], Class = ID.class, strict = TRUE)  # convert cluster IDs back to their original type
+    }
+
+    return(co)
+}
+
+.getCoStatusPerCluster <- function(r, pam, cluster.colname, allele.colname,
+                                   clade.pam, clade.sizes, sample.dists) {
+    # This is a subordinate function of getCommunityMemberCooccurrence.
+    # r: a row in the data frame clstr
+
+    # parse the allele string into individual alleles or allele clusters (for identically distributed alleles) with two delimiters
+    alleles <- strsplit(x = r[[allele.colname]], split = ",", fixed = TRUE)[[1]]
+
+    # Since we do not want to lose the connection between identically distributed alleles, we build a "dictionary" of alleles.
+    mapping <- unlist(sapply(alleles, function(a) strsplit(x = a, split = "&", fixed = TRUE)[[1]][1]))  # a named vector, where one allele represents each group of identically distributed alleles
+    alleles <- as.character(mapping)  # get values only
+
+    # Count co-occurrence events ===============
+    pam <- pam[, alleles]
+    counts <- as.integer(rowSums(pam))  # remove names from the vector
+
+    # summary about the maximal count
+    max.co.count <- max(counts)  # equals the total number of alleles when all alleles are present
+    alleles.num <- length(alleles)  # including groups of identically distributed alleles
+    is.full <- max.co.count == alleles.num
+    max.co.rows <- which(counts == max.co.count)
+    max.co.str.n <- length(max.co.rows)  # number of strains having max.co.count alleles co-occurring
+    strains <- rownames(pam)
+
+    if (max.co.str.n == 1) {  # The co-occurrence event is only seen in a single strain, including circumstances where is.full = TRUE.
+        strains.max <- strains[max.co.rows]
+        strain.max.dist <- 0
+        alleles.max.co <- alleles[as.logical(pam[max.co.rows, ])]  # A matrix reduces to a named vector when there is only a single row or column gets selected.
+        alleles.max.co <- paste(as.character(mapping[alleles.max.co]), collapse = ",")  # restore original allele/group names
+        analyse.clades <- TRUE
+    } else if (is.full) {
+        strains.max <- strains[max.co.rows]  # strains having these alleles present
+        alleles.max.co <- r[[allele.colname]]
+        analyse.clades <- TRUE
+    } else {  # Allele profiles may not be the same when max.co.count < length(alleles). In this case, it is misleading to report the strain number.
+        # determine if there is only a single set of co-occurring alleles
+        pam.max.co <- pam[max.co.rows, ]
+        allele.union <- as.logical(colSums(pam.max.co))  # The idea is, when alleles come from different sets, the size of their union is greater than max.co.count.
+        if (sum(allele.union) == max.co.count) {  # Allele sets in different strains are completely overlapping.
+            strains.max <- strains[max.co.rows]
+            alleles.max.co <- alleles[allele.union]
+            alleles.max.co <- paste(as.character(mapping[alleles.max.co]), collapse = ",")
+            analyse.clades <- TRUE
+        } else {  # Allele sets in different strains do not completely overlap. In this case, reporting the set of strains having max.co.count alleles co-occurring is misleading.
+            strains.max <- NA
+            strain.max.dist <- NA
+            alleles.max.co <- NA  # not a constant vector
+            analyse.clades <- FALSE
+        }
+    }
+
+    # Retrieving the maximal strain distance ===============
+    if (!is.null(sample.dists) & max.co.str.n > 1 & analyse.clades) {
+        strain.max.dist <- max(sample.dists[strains.max, strains.max])
+    }
+
+    # Analysing minimal inclusive clades (MIC) ===============
+    if (analyse.clades & !is.null(clade.pam)) {
+        clade.info <- findMinIncCladeOfStrains(strains = strains.max, clade.pam = clade.pam, clade.sizes = clade.sizes)
+        clade <- clade.info[["clade"]]
+        clade.size <- clade.info[["size"]]
+        clade.co.freq <- clade.info[["freq"]]
+    } else {
+        clade <- NA
+        clade.size <- NA
+        clade.co.freq <- NA
+    }
+
+    # compose the output data frame ===============
+    if (!is.na(strains.max) & max.co.str.n > 1) {
+        strains.max <- paste(strains.max, collapse = ",")
+    }
+    out <- data.frame(cluster = r[[cluster.colname]], alleles = r[[allele.colname]], size = alleles.num,
+                      co_max = max.co.count, co_perc = round(max.co.count / alleles.num * 100, digits = 4),
+                      strains_num = max.co.str.n, clade = clade, clade_size = clade.size,
+                      strains_max_div = strain.max.dist, clade_co_freq = clade.co.freq, strains = strains.max,
+                      alleles_max_co = alleles.max.co, stringsAsFactors = FALSE)
+
+    return(out)
+}
