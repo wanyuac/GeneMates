@@ -9,12 +9,16 @@ mkFilterTSV(allele.mat = NULL, pam.a = NULL,
 }
 \arguments{
 \item{allele.mat}{A matrix in the output format of SRST2, which shows an allele per gene for each sample.
-This argument overrides pam.a. Row names of this matrix are sample names and column names are gene names.}
+This argument overrides pam.a. Row names of this matrix are sample names and column names are gene names.
+There must not be a column of sample names.}
 
-\item{pam.a}{A presence/absence matrix of alleles. It is an alternative to the allele.mat argument and it
-must not be a data frame. Row names of this matrix are sample names and column names are allele names.}
+\item{pam.a}{A presence-absence matrix of alleles. It is an alternative to the allele.mat argument and it
+must not be a data frame. Row names of this matrix are sample names and column names are allele names. Again,
+there must not be a column of sample names.}
 
-\item{output}{Name of the output file}
+\item{output}{Name of the output file
+
+Either allele.mat or pam.a is expected to be used as an input for this function.}
 }
 \description{
 The function prints allele names of each strain when it has at least two alleles.

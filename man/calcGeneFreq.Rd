@@ -7,21 +7,25 @@
 calcGeneFreq(x, n, ord = TRUE)
 }
 \arguments{
-\item{x}{a two-column data frame where the first column stores gene names and the second column stores counts.
-Columns must not be factor variables.}
+\item{x}{a two-column data frame where the first column stores gene names and
+the second column stores allele counts.
+    Columns must not be factor variables.}
 
 \item{n}{total number of bacterial isolates/strains in a population}
 
-\item{ord}{a logical parameter specifying whether the output data frame should be sorted by the gene frequency}
+\item{ord}{a logical parameter specifying whether the output data frame should
+be sorted by the gene frequency}
 }
 \description{
-This function takes as input the output data frame of countAlleles (more specifically, only uses its
-second and third columns) and computes the frequency per gene given a two-column data frame of gene IDs and counts
-across a bacterial population.
+This function takes as input the output data frame of countAlleles
+(more specifically, only uses its second and third columns) and computes the
+frequency per gene given a two-column data frame of gene IDs and counts across
+a bacterial population.
 }
 \examples{
 mapping <- countAlleles(...)
-gf <- calcGeneFreq(x = mapping[, c("gene", "count")], n = 1125)  # assuming there are 1125 strains
+gf <- calcGeneFreq(x = mapping[, c("gene", "count")], n = 1125)  # assuming
+there are 1125 strains
 
 }
 \author{

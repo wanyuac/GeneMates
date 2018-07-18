@@ -4,26 +4,31 @@
 #'
 #' @param allele.mat A matrix in the output format of SRST2, which shows an allele per gene for each sample.
 #' This argument overrides pam.a. Row names of this matrix are sample names and column names are gene names.
-#' @param pam.a A presence/absence matrix of alleles. It is an alternative to the allele.mat argument and it
-#' must not be a data frame. Row names of this matrix are sample names and column names are allele names.
+#' There must not be a column of sample names.
+#' @param pam.a A presence-absence matrix of alleles. It is an alternative to the allele.mat argument and it
+#' must not be a data frame. Row names of this matrix are sample names and column names are allele names. Again,
+#' there must not be a column of sample names.
 #' @param output Name of the output file
 #'
-#' @author Yu Wan (\email{wanyuac@gmail.com})
+#' Either allele.mat or pam.a is expected to be used as an input for this function.
+#'
+#' @author Yu Wan (\email{wanyuac@@gmail.com})
 #' @export
 #
-# First edition: 23 Janury 2017, 21 May 2017; the latest edition: 9 Janury 2018.
+# First edition: 23 Janury 2017, 21 May 2017; the latest edition: 18 July 2018.
 # Copyright 2017-2018 Yu Wan <wanyuac@gmail.com>
 # Licensed under the Apache License, Version 2.0
 
 mkFilterTSV <- function(allele.mat = NULL, pam.a = NULL, output = "targeted_isolates_alleles.tsv") {
+    # get input
     if (!is.null(allele.mat)) {
         if (is.data.frame(allele.mat)) {
-            allele.mat <- as.data.frame(allele.mat, stringsAsFactors = FALSE)
+            allele.mat <- as.matrix(allele.mat, stringsAsFactors = FALSE)
         }
         sample.alleles <- apply(allele.mat, 1, function(r) r[r != "-"])  # a list of character vectors
     } else if (!is.null(pam.a)) {
-        if (is.data.frame(pam.a)) {
-            pam.a <- as.data.frame(pam.a)  # converts it into a matrix of zero and one
+        if (is.data.frame(pam.a)) {  # assumes a data frame with row names and no sample name column
+            pam.a <- as.matrix(pam.a)  # converts it into a matrix of zero and one while keeping its row names
         }
         alleles <- colnames(pam.a)  # Allele names are retrieved from column names.
         sample.alleles <- apply(pam.a, 1, function(r) alleles[as.logical(r)])  # returns a list of character vectors per sample
