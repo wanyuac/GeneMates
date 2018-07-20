@@ -2,13 +2,13 @@
 % Please edit documentation in R/func__importAllelicPAM.R
 \name{importAllelicPAM}
 \alias{importAllelicPAM}
-\title{Import the allelic presence/absence (p/a) matrix of bacterial genes.}
+\title{Import the allelic presence-absence matrix (PAM) of bacterial genes.}
 \usage{
 importAllelicPAM(pam, pam.delim = "\\t", outliers = NULL, min.count = 1,
   alleles.inc = NULL, output.y = "", sample.order = NULL, skip = TRUE)
 }
 \arguments{
-\item{pam}{either the final p/a matrix or the file name of a raw p/a matrix created by the cdhitFormatter pipeline.
+\item{pam}{either the final PAM or the file name of a raw PAM created by the cdhitFormatter pipeline.
 First column: Sample; other columns: allele identifiers.}
 
 \item{pam.delim}{a single character for the delimiter in the text file of the allelic PAM.}

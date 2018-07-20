@@ -15,8 +15,8 @@
 #' @param ref (optional) name of the reference genome. The column name "Ref" in the SNP matrix will be replaced with this argument.
 #' @param min.mac (optional) An integer specifying the minimal number of times required for the minor allele of every biallelic SNP to occur across all isolates. SNPs failed this criterion will be removed from this analysis.
 #' @param genes.excl (optional) Genes to be excluded from PAMs. For example, genes.excl = c("AmpH_Bla", "OqxBgb_Flq", "OqxA_Flq", "SHV.OKP.LEN_Bla").
-#' @param genetic.pam A presence/absence matrix of genes. It may be a compiled table from SRST2.
-#' @param allelic.pam A presence/absence matrix of alleles. The matrix may be a compiled table of SRST2 results.
+#' @param genetic.pam A presence-absence matrix of genes. It may be a compiled table from SRST2.
+#' @param allelic.pam A presence-absence matrix of alleles. The matrix may be a compiled table of SRST2 results.
 #' @param genetic.pam.delim (optional) A delimiter character in the genetic PAM. Default: tab.
 #' @param allelic.pam.delim (optional) A delimiter character in the allelic PAM. Default: tab.
 #' @param min.count (option) The minimum count of alleles/genes in the current data set to be included
@@ -47,7 +47,7 @@
 #
 #  Copyright 2017-2018 Yu Wan
 #  Licensed under the Apache License, Version 2.0
-#  First edition: 15 Dec 2017; the latest edition: 20 June 2018
+#  First edition: 15 Dec 2017; the latest edition: 20 July 2018
 
 # LMM-based association tests
 lmm <- function(snps = NULL, snps.delim = ",", pos.col = "Pos", min.mac = 1,
@@ -113,7 +113,7 @@ lmm <- function(snps = NULL, snps.delim = ",", pos.col = "Pos", min.mac = 1,
         }
     }
 
-    # 2. Import allelic and genetic presence/absence matrices of bacterial genes ###############
+    # 2. Import allelic and genetic presence-absence matrices of bacterial genes ###############
     stage.record <- stage.outputs[["genes"]]
     if (save.stages & file.exists(stage.record)) {
         genes <- .recoverHistory(stage.record)
@@ -298,7 +298,8 @@ lmm <- function(snps = NULL, snps.delim = ",", pos.col = "Pos", min.mac = 1,
         # import a tree and convert its topology into a PAM of samples in each clade
         # The returned tree equals the projection tree when the argument tree = NULL.
         external.tree <- !is.null(tree)  # if the tree is a user tree
-        tree <- .importTree(tree = tree, outliers = outliers, tree.proj = C[["tr"]])
+        tree <- .importTree(tree = tree, outliers = outliers, tree.proj = C[["tr"]],
+                            ref.rename = ref)
         clades <- tree2Clades(tr = tree, sample.order = rownames(C[["C"]]))
 
         # find out the minimal inclusive clade for each pair of co-occurring alleles

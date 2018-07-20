@@ -1,7 +1,7 @@
 # A module (private functions) of the phylix package for association analysis
 # Copyright 2017 Yu Wan
 # Licensed under the Apache License, Version 2.0
-# First edition: 17 March - 10 April 2017, latest edition: 15 April 2018
+# First edition: 17 March - 10 April 2017, latest edition: 20 July 2018
 
 ##### Processing core-genome SNP data ###############
 # Construct a matrix of major and minor alleles of every biallelic SNPs
@@ -571,7 +571,7 @@
         }
     } else if (tree.class == "character") {
         tree <- read.tree(tree)  # import the tree from a file
-    }  # otherwise, GeneMates uses the user's tree (an phylo object)
+    }  # Otherwise, GeneMates uses the user's tree (an phylo object).
 
     # drop outlier tips
     if (!is.null(outliers)) {
@@ -586,7 +586,7 @@
 
     # Rename "Ref" when it is present and the ref.rename argument is given.
     if (!is.null(ref.rename)) {
-        i <- which("Ref" %in% tree$tip.label)
+        i <- which(tree$tip.label == "Ref")
         n <- length(i)
         if (n == 1) {
             print(paste("Replacing the tip label Ref with", ref.rename,

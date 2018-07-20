@@ -25,7 +25,7 @@ When min.count = 2, isolate-specific genes are removed as well.}
 \item{sample.order}{a vector of isolate names for the PAM to be matched with}
 }
 \description{
-This function reads the genetic p/a matrix and returns a list of relevant matrices.
+This function reads the genetic presence-absence matrix and returns a list of relevant matrices.
 It automatically matches isolates to those in the SNP matrix.
 }
 \author{

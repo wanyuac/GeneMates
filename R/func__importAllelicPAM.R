@@ -1,8 +1,8 @@
-#' @title Import the allelic presence/absence (p/a) matrix of bacterial genes.
+#' @title Import the allelic presence-absence matrix (PAM) of bacterial genes.
 #'
 #' @description This function reads the allelic p/a matrix and returns a list of relevant matrices.
 #'
-#' @param pam either the final p/a matrix or the file name of a raw p/a matrix created by the cdhitFormatter pipeline.
+#' @param pam either the final PAM or the file name of a raw PAM created by the cdhitFormatter pipeline.
 #'     First column: Sample; other columns: allele identifiers.
 #' @param pam.delim a single character for the delimiter in the text file of the allelic PAM.
 #' @param outliers a vector of isolate names to be excluded from rows of the allelic PAM.
@@ -16,7 +16,7 @@
 #' @param sample.order a vector of isolate names for the PAM to be matched with.
 #' @param skip wheter to skip overwriting existant output files.
 #'
-#' @author Yu Wan (\email{wanyuac@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@gmail.com})
 #' @export
 #
 # Copyright 2017 Yu Wan <wanyuac@gmail.com>
@@ -28,7 +28,7 @@ importAllelicPAM <- function(pam, pam.delim = "\t", outliers = NULL, min.count =
                              skip = TRUE) {
     pamData.class <- class(pam)
     if (pamData.class == "character") {
-        print(paste0("Reading the allelic presence/absence matrix from the file ", pam))
+        print(paste0("Reading the allelic presence-absence matrix from the file ", pam))
         pam <- read.delim(pam, header = TRUE, sep = pam.delim, check.names = FALSE, stringsAsFactors = FALSE)
         isolates <- pam[, 1]
         pam <- as.matrix(pam[, -1])  # chop out the first column, which contains isolate names, and make a genuine p/a matrix
@@ -68,7 +68,7 @@ importAllelicPAM <- function(pam, pam.delim = "\t", outliers = NULL, min.count =
                 alleles.excl <- alleles[!inc]  # alleles to be omitted due to insufficient abundance
                 pam <- pam[, inc]  # Every allele must present in at least two isolates.
                 alleles <- alleles[inc]
-                print(paste0(length(alleles.excl), " alleles are excluded from the p/a matrix due to insufficient counts:"))
+                print(paste0(length(alleles.excl), " alleles are excluded from the presence-absence matrix due to insufficient counts:"))
                 print(paste(alleles.excl, collapse = ","))
             } else {
                 print("No gene is excluded due to an insufficient count.")
@@ -105,7 +105,7 @@ importAllelicPAM <- function(pam, pam.delim = "\t", outliers = NULL, min.count =
         # This branch works when this function is called within the findPhysLink function and
         # a user has imported the allelic PAM outside of the findPhysLink function already.
         if (sum(names(pam) %in% c("Y", "X", "A", "B", "alle.pat", "pat.sizes", "all")) == 7) {  # check for completeness
-            print("Skip importing the allelic presence/absence data as they are already provided.")
+            print("Skip importing the allelic presence-absence data as they are already provided.")
             if (output.y != "") {  # print the BIMBAM-compatible "phenotype" file (In fact, Y refers to genotypes)
                 .writeData(x = pam[["Y"]], output = output.y, message = "[Matrix Y]", skip = skip)
             }

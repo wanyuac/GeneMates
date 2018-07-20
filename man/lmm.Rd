@@ -21,13 +21,13 @@ lmm(snps = NULL, snps.delim = ",", pos.col = "Pos", min.mac = 1,
 
 \item{min.mac}{(optional) An integer specifying the minimal number of times required for the minor allele of every biallelic SNP to occur across all isolates. SNPs failed this criterion will be removed from this analysis.}
 
-\item{genetic.pam}{A presence/absence matrix of genes. It may be a compiled table from SRST2.}
+\item{genetic.pam}{A presence-absence matrix of genes. It may be a compiled table from SRST2.}
 
 \item{genetic.pam.delim}{(optional) A delimiter character in the genetic PAM. Default: tab.}
 
 \item{genes.excl}{(optional) Genes to be excluded from PAMs. For example, genes.excl = c("AmpH_Bla", "OqxBgb_Flq", "OqxA_Flq", "SHV.OKP.LEN_Bla").}
 
-\item{allelic.pam}{A presence/absence matrix of alleles. The matrix may be a compiled table of SRST2 results.}
+\item{allelic.pam}{A presence-absence matrix of alleles. The matrix may be a compiled table of SRST2 results.}
 
 \item{allelic.pam.delim}{(optional) A delimiter character in the allelic PAM. Default: tab.}
 

@@ -1,6 +1,6 @@
 #' @title Import the genetic presence/absence (p/a) matrix
 #'
-#' @description This function reads the genetic p/a matrix and returns a list of relevant matrices.
+#' @description This function reads the genetic presence-absence matrix and returns a list of relevant matrices.
 #' It automatically matches isolates to those in the SNP matrix.
 #'
 #' @param pam Expect pam to be "modified_allele_matrix.txt" produced by the cdhitFormatter pipeline.
@@ -14,7 +14,7 @@
 #' @param genes.rm a vector of gene names to be excluded from columns of the genetic PAM
 #' @param sample.order a vector of isolate names for the PAM to be matched with
 #'
-#' @author Yu Wan (\email{wanyuac@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@gmail.com})
 #' @export
 #
 # Copyright 2017 Yu Wan <wanyuac@gmail.com>
@@ -25,10 +25,10 @@ importGeneticPAM <- function(pam, pam.delim = "\t", outliers = NULL, min.count =
                              genes.rm = NULL, sample.order = NULL) {
     pamData.class <- class(pam)
     if (pamData.class == "character") {
-        print(paste0("Reading the genetic presence/absence matrix from the file ", pam))
+        print(paste0("Reading the genetic presence-absence matrix from the file ", pam))
         pam <- read.delim(pam, header = TRUE, sep = pam.delim, check.names = FALSE, stringsAsFactors = FALSE)
         isolates <- pam[, 1]
-        pam <- as.matrix(pam[, -1])  # chop out the first column, which contains isolate names, and make a genuine p/a matrix
+        pam <- as.matrix(pam[, -1])  # chop out the first column, which contains isolate names, and make a genuine genetic PAM
         rownames(pam) <- isolates
 
         # filter the genetic PAM for ingroup and outlier isolates
@@ -68,7 +68,7 @@ importGeneticPAM <- function(pam, pam.delim = "\t", outliers = NULL, min.count =
                 genes.excl <- genes[!genes.incl]  # alleles to be omitted due to insufficient abundance
                 pam <- pam[, genes.incl]  # drop some columns
                 genes <- colnames(pam)  # refresh the gene list
-                print(paste0(length(genes.excl), " genes are excluded from the p/a matrix due to insufficient occurrence: "))
+                print(paste0(length(genes.excl), " genes are excluded from the presence-absence matrix due to insufficient occurrence counts: "))
                 print(paste(genes.excl, collapse = ","))
             } else {
                 print("No gene is excluded due to insufficient occurrence.")
@@ -88,7 +88,7 @@ importGeneticPAM <- function(pam, pam.delim = "\t", outliers = NULL, min.count =
         pam <- list(pam = pam, all = pam.all, alleles.inc = .getAlleleNames(pam))  # pam[["pam"]] is an isolate-by-gene matrix.
     } else if (pamData.class == "list") {
         if (sum(names(pam) %in% c("pam", "all", "alleles.inc")) == 3) {
-            print("Skip importing the genetic presence/absence data as they are already provided.")
+            print("Skip importing the genetic presence-absence data as they are already provided.")
         } else {
             stop("Input error of pam: it is a list but does not have all elements.")
         }
