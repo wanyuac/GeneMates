@@ -1,7 +1,7 @@
 # A module (private functions) of the phylix package for association analysis
 # Copyright 2017 Yu Wan
 # Licensed under the Apache License, Version 2.0
-# First edition: 17 March - 10 April 2017, latest edition: 20 July 2018
+# First edition: 17 March - 10 April 2017; the latest edition: 21 July 2018
 
 ##### Processing core-genome SNP data ###############
 # Construct a matrix of major and minor alleles of every biallelic SNPs
@@ -561,11 +561,13 @@
 .importTree <- function(tree = NULL, outliers = NULL, tree.proj = NULL,
                         ref.rename = NULL) {
     require(ape)
+    require(phytools)
 
+    # IMPORT THE RAW TREE ###############
     tree.class <- class(tree)
     if (tree.class == "NULL") {
         if (!is.null(tree.proj)) {
-            tree <- tree.proj  # use the projection tree instead
+            tree <- tree.proj  # use the projection tree when the external tree is not specified
         } else {
             stop("[Import tree] Error: either an external tree or a projection tree must be provided.")
         }
@@ -573,7 +575,8 @@
         tree <- read.tree(tree)  # import the tree from a file
     }  # Otherwise, GeneMates uses the user's tree (an phylo object).
 
-    # drop outlier tips
+    # MODIFY THE TREE FOR AN APPROPRIATE STRUCTURE ###############
+    # 1. Drop outlier tips
     if (!is.null(outliers)) {
         # Notice the drop.tip function ignores outliers that are not present
         # in the original tip labels. This is a desirable behaviour as the tree
@@ -581,10 +584,10 @@
         # removed due to contamination or so. Therefore, we do not check if there
         # are any outliers absent on the tree.
         print("Dropping tips corresponding to outlier samples from the tree.")
-        tree <- drop.tip(phy = tree, tip = outliers)
+        tree <- drop.tip(phy = tree, tip = outliers)  # It keeps the rooting condition.
     }
 
-    # Rename "Ref" when it is present and the ref.rename argument is given.
+    # 2. Rename "Ref" when it is present and the ref.rename argument is given.
     if (!is.null(ref.rename)) {
         i <- which(tree$tip.label == "Ref")
         n <- length(i)
@@ -597,6 +600,26 @@
         } else {
             print("No tip label on the tree is changed because the label \'Ref\' is not found.")
         }
+    }
+
+    # 3. The tree must be rooted for analysing the structural random effects as
+    # this package assumes there are N - 1 internal nodes for a tree of N tips,
+    # which only holds for a rooted tree. By contrast, an unrooted tree only has
+    # N - 2 internal nodes.
+    if (!is.rooted(tree)) {
+        print("Midpoint rerooting the tree as it is unrooted.")
+        tree <- midpoint.root(tree)
+    }
+
+    # 4. Check the minimum branch length and ensure it is positive, which is a
+    # prerequisite for the ape::ace function. Otherwise, an error of "some branches
+    # have length zero or negative" arises.
+    len.nonpve <- tree$edge.length <= 0
+    if (any(len.nonpve)) {  # There are N + (N - 1) - 1 = 2N - 2 edges for a rooted tree of N tips.
+        print("Warning: some branches in the tree have zero or negative lengths.")
+        print("Solution: arbitrarily adjust these branch lengths to 1/10 of the minimum positive length.")
+        min.pve <- min(tree$edge.length[which(!len.nonpve)])
+        tree$edge.length[which(len.nonpve)] <- min.pve / 10
     }
 
     return(tree)

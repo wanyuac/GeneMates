@@ -405,7 +405,7 @@
         } else {
             # Currently, we arbitrarily treat the ancestral state as the same
             # when all descendents acquired the same genomic structure. Herein we
-			# cannot calculate the likelihood because we cannot estimate the
+			# cannot calculate the likelihood because we are not able to estimate the
             # transition rate when there is no variation in x. Notice the branch
 			# length is not taken into account because the core-genome history
 			# is independent to the acquisition of accessory gene clusters.
