@@ -16,15 +16,23 @@
 #' arg_cls <- data.frame(allele = assoc$mapping$allele, class = getGeneClass(x = assoc$mapping$gene), stringsAsFactors = FALSE)
 #'
 #' @author Yu Wan (\email{wanyuac@@gmail.com})
-#' @export
+#' @export getGeneClass
 #
 # Copyright 2018 Yu Wan <wanyuac@gmail.com>
 # Licensed under the Apache License, Version 2.0
-# First edition: 18 Apr 2018; the lastest edition: 2 June 2018
+# First edition: 18 Apr 2018; the lastest edition: 23 July 2018
 
-getGeneClass <- function(ids) {  # x = gf; to incorporate this function in GeneMates
-    y <- as.character(sapply(ids, function(g) strsplit(g, "_", fixed = TRUE)[[1]]))
-    y <- y[length(y)]  # take the last element
+.getClassName <- function(g) {
+    # This is a subordinate function of getGeneClass.
+    # g: gene ID.
+    c <- strsplit(g, "_", fixed = TRUE)[[1]]
+    c <- c[length(c)]  # take the last element
 
-    return(y)
+    return(c)
+}
+
+getGeneClass <- function(ids) {
+    cls <- as.character(sapply(ids, .getClassName))
+
+    return(cls)
 }
