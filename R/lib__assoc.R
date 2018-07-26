@@ -1,7 +1,7 @@
 # A module (private functions) of the phylix package for association analysis
 # Copyright 2017 Yu Wan
 # Licensed under the Apache License, Version 2.0
-# First edition: 17 March - 10 April 2017; the latest edition: 21 July 2018
+# First edition: 17 March - 10 April 2017; the latest edition: 27 July 2018
 
 ##### Processing core-genome SNP data ###############
 # Construct a matrix of major and minor alleles of every biallelic SNPs
@@ -616,7 +616,8 @@
     # have length zero or negative" arises.
     len.nonpve <- tree$edge.length <= 0
     if (any(len.nonpve)) {  # There are N + (N - 1) - 1 = 2N - 2 edges for a rooted tree of N tips.
-        print("Warning: some branches in the tree have zero or negative lengths.")
+        print(paste("Warning:", sum(len.nonpve), "branches in the tree have zero or negative lengths.",
+                    sep = " "))
         print("Solution: arbitrarily adjust these branch lengths to 1/10 of the minimum positive length.")
         min.pve <- min(tree$edge.length[which(!len.nonpve)])
         tree$edge.length[which(len.nonpve)] <- min.pve / 10
