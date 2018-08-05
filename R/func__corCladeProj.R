@@ -61,7 +61,7 @@ corCladeProj <- function(clades = NULL, projections = NULL, clade.sizes = NULL, 
     axes <- colnames(projections)
     where.root <- which(as.integer(clade.sizes) == n)  # which column corresponds to the "root clade"
     if (length(where.root) > 0) {
-        print(paste0("Removing the \"root clade\"", clade.ids[where.root], "from the clade matrix.", sep = " "))
+        print(paste("Removing the root clade", clade.ids[where.root], "from the clade matrix.", sep = " "))
         clades <- clades[, -where.root]  # remove the column corresponding to the root clade
         clade.ids <- colnames(clades)  # Do not need to update the vector clade.sizes as we will not use it anymore.
     }

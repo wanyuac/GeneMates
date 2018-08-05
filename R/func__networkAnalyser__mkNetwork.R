@@ -25,7 +25,7 @@
 #' node.x.attr = "n_x", node.attr.names = c("allele", "n"))
 #'
 #' @author Yu Wan (\email{wanyuac@gmail.com})
-#' @export mkNetwork
+#' @export
 #
 #  Copyright 2018 Yu Wan
 #  Licensed under the Apache License, Version 2.0

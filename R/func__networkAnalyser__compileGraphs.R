@@ -10,7 +10,10 @@
 #' Specifically, it keeps the separation between graphs through appending a cluster
 #' ID to each node name so that the node shared by different graphs become distinguishable.
 #' It adds a label column to save the node names. In Cytoscape, for example, the
-#' user can choose this label column as node labels.
+#' user can choose this label column as node labels. Notice the first two columns,
+#' namely, node1 and node2, correspond to allele names in the third and fourth
+#' columns, respectively. Therefore, to make a directed network in Cytoscape, the
+#' source and target columns are specified based on the third and fourth columns.
 #'
 #' @param graphs A Graph object created using the function extractSubgraphs.
 #' @param edge.attr A character vector of column names for edge attributes.

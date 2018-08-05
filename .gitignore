@@ -21,3 +21,7 @@ $RECYCLE.BIN/
 # =========================
 # Operating System Files
 # =========================
+.Rproj.user/ED8AE702/sources/prop/F5246C27
+*.RData
+*.Rhistory
+*.pper

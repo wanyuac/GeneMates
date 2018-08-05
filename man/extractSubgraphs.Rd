@@ -33,7 +33,7 @@ vertices in V are not necessarily the same as those in E. The idea to set a slot
 vertices as well as to deal with singleton.
 }
 \examples{
-g <- extractSubgraphs(V = nodes, E = edges)
+g <- extractSubgraphs(V = nodes, E = edges, clusters = c)
 
 }
 \author{

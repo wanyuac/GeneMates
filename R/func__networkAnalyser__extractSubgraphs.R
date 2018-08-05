@@ -14,7 +14,7 @@
 #' @note vertices in V are not necessarily the same as those in E. The idea to set a slot V is to keep vertex attributes
 #' vertices as well as to deal with singleton.
 #'
-#' @examples g <- extractSubgraphs(V = nodes, E = edges)
+#' @examples g <- extractSubgraphs(V = nodes, E = edges, clusters = c)
 #'
 #' @return An object of the class "Graph", which has two slots:
 #' V: A data frame for vertices and vertex attributes.

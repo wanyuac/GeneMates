@@ -22,6 +22,14 @@
 # Licensed under the Apache License, Version 2.0
 # First edition: 18 Apr 2018; the lastest edition: 23 July 2018
 
+# Must not put .getClassName before getGeneClass, otherwise an warning of
+# "# Skipping invalid path:  .getClassName.Rd" arises.
+getGeneClass <- function(ids) {
+    cls <- as.character(sapply(ids, .getClassName))
+
+    return(cls)
+}
+
 .getClassName <- function(g) {
     # This is a subordinate function of getGeneClass.
     # g: gene ID.
@@ -31,8 +39,3 @@
     return(c)
 }
 
-getGeneClass <- function(ids) {
-    cls <- as.character(sapply(ids, .getClassName))
-
-    return(cls)
-}
