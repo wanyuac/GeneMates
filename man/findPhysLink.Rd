@@ -48,7 +48,9 @@ for analysis.}
 \item{mapping}{(optional) A data frame mapping alleles to genes and patterns, etc, which equals the "mapping" element within findPhysLink's output list.
 This argument is only used when a user reruns a previous analysis.}
 
-\item{phys.dists}{A table of physical distances between targets}
+\item{phys.dists}{A table of physical distances between targets. GeneMates
+matches sample names between this table and those in the SNP matrix, hence it
+is okay to have extra or less samples in phys.dists.}
 
 \item{dist.delim}{The delimit character in the table of physical distances. Default: tab.}
 

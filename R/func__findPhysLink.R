@@ -38,7 +38,9 @@
 #' @param gemma.path Path to GEMMA. No forward slash should be attached at the end of the path.
 #
 #  =============== Parameters for findPhysLink ===============
-#' @param phys.dists A table of physical distances between targets
+#' @param phys.dists A table of physical distances between targets. GeneMates
+#' matches sample names between this table and those in the SNP matrix, hence it
+#' is okay to have extra or less samples in phys.dists.
 #' @param dist.delim The delimit character in the table of physical distances. Default: tab.
 #' @param max.node.num (optional) An integer specifying the maximal number of nodes per path in which we can trust their distance measurements.
 #'      Set max.node.num = NULL to turn off this filter of distance measurements.
@@ -83,7 +85,7 @@
 #
 #  Copyright 2017-2018 Yu Wan
 #  Licensed under the Apache License, Version 2.0
-#  First edition: 17 March 2017, the lastest edition: 20 June 2018
+#  First edition: 17 March 2017, the lastest edition: 7 August 2018
 
 findPhysLink <- function(assoc.out = NULL,
                          snps = NULL, snps.delim = ",", pos.col = "Pos", min.mac = 1,
@@ -142,7 +144,9 @@ findPhysLink <- function(assoc.out = NULL,
         lmms.ds <- records[["lmms.ds"]]
         rm(records)
     } else {
-        ds <- .importPhysicalDists(phys.dists, dist.delim, outliers)  # a data frame of original distance measurements
+        ds <- .importPhysicalDists(dists = phys.dists, delim = dist.delim,
+                                   ingroup = rownames(assoc.out[["alleles"]][["A"]]),
+                                   outgroup = outliers)  # a data frame of original distance measurements
         lmms.ds <- .attachDistances(assoc.out[["lmms"]], ds)  # attach every distance measurement to allele pairs within the LMM outputs fitted under the alternative hypothesis H1
         lmms.ds <- .retrievePairID(lmms.ds, assoc.out[["lmms"]])  # attach a pair ID for every pair of queries
         if (save.stages) {

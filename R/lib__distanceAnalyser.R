@@ -2,10 +2,11 @@
 # Copyright 2017-2018 Yu Wan
 # Licensed under the Apache License, Version 2.0
 # Development history: 23 Janury - 27 March, 2017, 26 July 2017, ...
-# Latest update: 15 Apr 2018
+# Latest update: 7 Aug 2018
 
 # Read distances between alleles ###############
-.importPhysicalDists <- function(dists = NULL, delim = "\t", outliers = NULL) {
+.importPhysicalDists <- function(dists = NULL, delim = "\t", ingroup = NULL,
+                                 outgroup = NULL) {
     ds.class <- class(dists)
     if (ds.class == "character") {  # a path to the distance file
         print(paste0(Sys.time(), ": reading physical distances from ", dists))
@@ -18,12 +19,18 @@
         stop("Input error: the dists argument must be a file path or a data frame.")
     }
 
-    # filter distances to remove those from the outlier samples
+    # Filter distances to keep those in the SNP matrix
     # This step is pretty important. Otherwise, the function .estimateIBD will
     # return an error of "length of phenotypic and of phylogenetic data do not
     # match" because extra samples get selected for distance analysis.
-    if (!is.null(outliers)) {
-        ds <- subset(ds, !(sample %in% outliers))
+    # A user may specify ingroup and/or outgroup strains for this filter.
+    if (!is.null(ingroup)) {
+        print("Filtering allelic physical distances for ingroup strains.")
+        ds <- subset(ds, sample %in% ingroup)
+    }
+    if (!is.null(outgroup)) {
+        print("Filtering allelic physical distances to remove outgroup strains.")
+        ds <- subset(ds, !(sample %in% outgroup))
     }
 
     return(ds)
