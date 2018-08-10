@@ -22,18 +22,18 @@
 #' @examples g <- compileGraphs(graphs = clusters, edge.attr = c("beta", "score"),
 #' node.attr = c("n", "class"))
 #'
-#' @author Yu Wan (\email{wanyuac@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@gmail.com})
 #' @export
 #
 #  Copyright 2018 Yu Wan
 #  Licensed under the Apache License, Version 2.0
-#  First and the lastest edition: 14 Mar 2018
+#  First version: 14 Mar 2018; the lastest edition: 10 Aug 2018
 #  In memorial to the physicist Stephen Hawking, 8/1/1942 - 14/3/2018 (aged 76).
 
 compileGraphs <- function(graphs, edge.attr = NULL, node.attr = NULL) {
     # Sanity check
-    if (as.character(class(graphs)) != "Graph") {
-        stop("Argument error: graphs must be an object of the class Graph.")
+    if (as.character(class(graphs)) != "GraphSet") {
+        stop("Argument error: graphs must be an object of the class GraphSet.")
     }
 
     # Create an edge table and a node table

@@ -24,7 +24,7 @@
 #' edge.attr = c("beta", "score", "m", "s_d"), node.y.attr = "n_y",
 #' node.x.attr = "n_x", node.attr.names = c("allele", "n"))
 #'
-#' @author Yu Wan (\email{wanyuac@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@gmail.com})
 #' @export
 #
 #  Copyright 2018 Yu Wan

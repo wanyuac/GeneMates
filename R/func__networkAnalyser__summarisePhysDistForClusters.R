@@ -14,7 +14,7 @@
 #' @param cls.distr A data frame produced by the function getClusterMemberCooccurrence for cluster distributions.
 #' It shows strains where the most number of alleles are consistently co-occurring.
 #' @param cls.col The name or index for the column of cluster IDs in cls.distr. Default: 1 (the first column).
-#' @param cls A Graph-class object produced by the function extractSubgraphs, which lists edges per cluster.
+#' @param cls A GraphSet-class object produced by the function extractSubgraphs, which lists edges per cluster.
 #' @param ds A data frame of physical distances measured in all strains. It can be obtained from the data
 #' frame "ds" in the output list of the function findPhysLink. The distances may be pre-filterred for a
 #' maximal number of nodes or a maximal distance.

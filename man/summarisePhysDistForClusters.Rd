@@ -15,7 +15,7 @@ It shows strains where the most number of alleles are consistently co-occurring.
 
 \item{cls.col}{The name or index for the column of cluster IDs in cls.distr. Default: 1 (the first column).}
 
-\item{cls}{A Graph-class object produced by the function extractSubgraphs, which lists edges per cluster.}
+\item{cls}{A GraphSet-class object produced by the function extractSubgraphs, which lists edges per cluster.}
 
 \item{ds}{A data frame of physical distances measured in all strains. It can be obtained from the data
 frame "ds" in the output list of the function findPhysLink. The distances may be pre-filterred for a
