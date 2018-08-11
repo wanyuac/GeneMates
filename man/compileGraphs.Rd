@@ -2,7 +2,7 @@
 % Please edit documentation in R/func__networkAnalyser__compileGraphs.R
 \name{compileGraphs}
 \alias{compileGraphs}
-\title{Compile graphs in a Graph object into a single network while retaining
+\title{Compile graphs in a GraphSet object into a single network while retaining
 separation between individual graphs.}
 \usage{
 compileGraphs(graphs, edge.attr = NULL, node.attr = NULL)

@@ -7,9 +7,9 @@
 compEdgeOccur(nwk, apam, directed = TRUE)
 }
 \arguments{
-\item{nwk}{A network object created by the function mkNetwork. It is a list of
-two elements: E and V. Required columns of E are "y" and "x", which are vertex
-names.}
+\item{nwk}{A Graph object created by the function mkNetwork for a single network.
+It has three attributes: id, E and V. Required columns of E are "y" and "x",
+which are vertex names.}
 
 \item{apam}{Allelic presence-absence matrix. Rows: strain names; columns:
 allele names.}

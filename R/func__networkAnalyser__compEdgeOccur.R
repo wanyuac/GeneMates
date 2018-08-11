@@ -3,9 +3,9 @@
 #' @description Compute a matrix of Simpson's similarity coefficients for the
 #' presence of edges.
 #'
-#' @param nwk A network object created by the function mkNetwork. It is a list of
-#' two elements: E and V. Required columns of E are "y" and "x", which are vertex
-#' names.
+#' @param nwk A Graph object created by the function mkNetwork for a single network.
+#' It has three attributes: id, E and V. Required columns of E are "y" and "x",
+#' which are vertex names.
 #' @param apam Allelic presence-absence matrix. Rows: strain names; columns:
 #' allele names.
 #' @param directed A logical argument specifying whether nwk stores a directed network.
@@ -22,19 +22,19 @@
 #'
 #  Copyright 2018 Yu Wan
 #  Licensed under the Apache License, Version 2.0
-#  First and the latest edition: 6 Aug 2018
+#  First version: 6 Aug 2018; the latest edition: 11 Aug 2018
 
 compEdgeOccur <- function(nwk, apam, directed = TRUE) {
     # Convert nwk into an undirected network
     if (directed) {  # Vertices will not change in this process.
-        if (!any(names(nwk$E) == "pair")) {
-            nwk$E <- assignPairID(lmms = nwk$E, from = 1, paired.rows = FALSE)  # A "pair" column is appended.
+        if (!any(names(nwk@E) == "pair")) {
+            nwk@E <- assignPairID(lmms = nwk@E, from = 1, paired.rows = FALSE)  # A "pair" column is appended.
         }
-        nwk$E <- nwk$E[!duplicated(nwk$E$pair), ]  # only preserve one edge per pair of edges
+        nwk@E <- nwk@E[!duplicated(nwk@E$pair), ]  # only preserve one edge per pair of edges
     }
 
     # Prepare the data frame of edge pairs
-    ep <- nwk$E[, c("pair", "y", "x")]
+    ep <- nwk@E[, c("pair", "y", "x")]
     ep <- ep[order(ep$pair, decreasing = FALSE), ]
     ep$pair <- paste0("e", ep$pair)  # 1, 2, ... => e1, e2, ...
     names(ep)[1] <- "edge_ID"

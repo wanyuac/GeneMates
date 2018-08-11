@@ -14,15 +14,17 @@
 #' @param node.attr.names A character vector for column names of the final data frame
 #' of nodes. It should have one more name (the "name" column for node names) than
 #' do the vectors node.x.attr and node.y.attr.
+#' @param id (optional) Network name
 #'
-#' @return E A data frame for edges and their attributes.
-#' @return V A data frame for nodes and their attributes.
+#' @return G A Graph object having three slots: id, E and V. E: a data frame for
+#' edges and their attributes; V, a data frame for nodes and their attributes; id,
+#' an optional parameter for the network name.
 #'
 #' @examples
 #' assoc <- findPhysLink(...)
 #' nwk <- mkNetwork(assoc = assoc[["assoc"]], name.x = "x", name.y = "y",
 #' edge.attr = c("beta", "score", "m", "s_d"), node.y.attr = "n_y",
-#' node.x.attr = "n_x", node.attr.names = c("allele", "n"))
+#' node.x.attr = "n_x", node.attr.names = c("allele", "n"), id = "linkage")
 #'
 #' @author Yu Wan (\email{wanyuac@@gmail.com})
 #' @export
@@ -33,7 +35,7 @@
 
 mkNetwork <- function(assoc = NULL, name.x = "x", name.y = "y", edge.attr = NULL,
                       node.x.attr = NULL, node.y.attr = NULL,
-                      node.attr.names = "name") {
+                      node.attr.names = "name", id = NULL) {
     # Sanity check
     if (length(node.x.attr) != length(node.y.attr)) {
         stop("Error: the vectors node.x.attr and node.y.attr do not have the same length.")
@@ -56,5 +58,5 @@ mkNetwork <- function(assoc = NULL, name.x = "x", name.y = "y", edge.attr = NULL
     V <- rbind.data.frame(vx, vy, stringsAsFactors = FALSE)
     V <- unique(V)  # de-duplicate rows
 
-    return(list(E = E, V = V))
+    return(new("Graph", id = id, E = E, V = V))
 }

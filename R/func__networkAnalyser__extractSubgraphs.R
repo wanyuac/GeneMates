@@ -70,7 +70,7 @@ extractSubgraphs <- function(V, E, clusters) {
     # pack data elements into G, a GraphSet object
     # see lib__networkAnalyser.R for the definition of .createGraphSet and the class
     # GraphSet.
-    G <- .createGraphSet(V = V[V[, 1] %in% vertices, ], E = cluster.edges)
+    G <- GraphSet(V = V[V[, 1] %in% vertices, ], E = cluster.edges)
 
     return(G)
 }

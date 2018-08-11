@@ -1,4 +1,4 @@
-#' @title Compile graphs in a Graph object into a single network while retaining
+#' @title Compile graphs in a GraphSet object into a single network while retaining
 #' separation between individual graphs.
 #'
 #' @description This function pools graphs in a Graph object into a single network
@@ -67,5 +67,6 @@ compileGraphs <- function(graphs, edge.attr = NULL, node.attr = NULL) {
         V <- rbind.data.frame(V, Vc, stringsAsFactors = FALSE)
     }
 
-    return(list(E = E, V = V))
+    # return a Graph object
+    return(new("Graph", id = NULL, E = E, V = V))
 }

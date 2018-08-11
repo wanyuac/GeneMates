@@ -7,6 +7,9 @@
 # Read distances between alleles ###############
 .importPhysicalDists <- function(dists = NULL, delim = "\t", ingroup = NULL,
                                  outgroup = NULL) {
+    # This function filters the distances for strain names, but it does not perform
+    # further filter for the maximum distance or node number, which is done in
+    # the function summariseDist.
     ds.class <- class(dists)
     if (ds.class == "character") {  # a path to the distance file
         print(paste0(Sys.time(), ": reading physical distances from ", dists))
