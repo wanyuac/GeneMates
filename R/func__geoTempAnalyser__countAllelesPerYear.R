@@ -15,7 +15,7 @@
 #'
 # Copyright 2018 Yu Wan <wanyuac@gmail.com>
 # Licensed under the Apache License, Version 2.0
-# First and the latest edition: 3 Aug 2018
+# First version: 3 Aug 2018; the latest edition: 12 Aug 2018
 
 countAllelesPerYear <- function(alleles = NULL, sam, mapping, apam, nul = NA) {
     # For each allele, count its occurrence in all strains in each year.
@@ -64,8 +64,8 @@ countAllelesPerYear <- function(alleles = NULL, sam, mapping, apam, nul = NA) {
                 }
             } else if (n_alleles == 1) {
                 a <- colnames(apam_yr)[mk]
-                apam_yr <- apam_yr[, mk]
-                strains_a <- strains[as.logical(apam_yr[, a])]
+                apam_yr <- apam_yr[, mk]  # becomes an integer vector
+                strains_a <- strains[as.logical(apam_yr)]
                 ac[a, as.character(yr)] <- sum(as.numeric(ws[strains_a]))
             } else {
                 print(paste("None of strains collected in", yr, "had any target allele detected.", sep = " "))

@@ -22,7 +22,6 @@
 #' @export G
 
 # CLASS DEFINITIONS ###############
-
 # Class Graph ===============
 # Store a single graph (including a network)
 # Slots: V (vertices) and E (edges).
