@@ -4,7 +4,8 @@
 \alias{countAllelesPerCountry}
 \title{Count alleles per country}
 \usage{
-countAllelesPerCountry(alleles = NULL, sam, mapping, apam, nul = NA)
+countAllelesPerCountry(alleles = NULL, sam, mapping, apam, nul = NA,
+  freq = FALSE)
 }
 \arguments{
 \item{alleles}{A character vector of allele names.}
@@ -16,9 +17,12 @@ countAllelesPerCountry(alleles = NULL, sam, mapping, apam, nul = NA)
 \item{apam}{Allelic presence-absence matrix.}
 
 \item{nul}{A value for zero counts. It can be zero definitely, but setting it to NA makes it easier to draw a heat map.}
+
+\item{freq}{A logical argument determining if the allele frequency (in %)
+rather than allele count is returned.}
 }
 \value{
-A list of two elements: count and mapping
+A list of two elements: count and mapping.
 }
 \examples{
 a_nat <- countAllelesPerCountry(alleles = nwk$V$allele, sam = sam, mapping = assoc$mapping, apam = assoc$alleles$A, nul = -30)

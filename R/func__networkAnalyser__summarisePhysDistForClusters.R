@@ -37,7 +37,7 @@
 #'
 #' Dependency: data.table
 #'
-#' @author Yu Wan (\email{wanyuac@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@gmail.com})
 #' @export summarisePhysDistForClusters
 #'
 #  Copyright 2017 Yu Wan

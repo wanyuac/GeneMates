@@ -24,7 +24,7 @@ getAllelesEarliestAppearance <- function(alleles, pam, sam) {
                       Year_up = integer(0), Country = character(0),
                       stringsAsFactors = FALSE)
     for (a in alleles) {
-        sa <- strains[which(pam[, a] > 0)]  # presence of this allele in strains
+        sa <- strains[which(pam[, a] > 0)]  # presence of this allele in strains; pam[, a] returns a vector of integers here
         sam_s <- subset(sam, Strain %in% sa)
         year_earliest <- min(sam_s$Year_up)
         i <- which(sam_s$Year_up == year_earliest)

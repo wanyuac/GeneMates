@@ -5,20 +5,23 @@
 #' @param mapping A data frame in the output of lmm or findPhysLink.
 #' @param apam Allelic presence-absence matrix.
 #' @param nul A value for zero counts. It can be zero definitely, but setting it to NA makes it easier to draw a heat map.
+#' @param freq A logical argument determining if the allele frequency (in %)
+#' rather than allele count is returned.
 #'
 #' @examples
 #' a_nat <- countAllelesPerCountry(alleles = nwk$V$allele, sam = sam, mapping = assoc$mapping, apam = assoc$alleles$A, nul = -30)
 #'
-#' @return A list of two elements: count and mapping
+#' @return A list of two elements: count and mapping.
 #'
 #' @author Yu Wan (\email{wanyuac@@gmail.com})
-#' @export
+#' @export countAllelesPerCountry
 #'
 # Copyright 2018 Yu Wan <wanyuac@gmail.com>
 # Licensed under the Apache License, Version 2.0
-# First and the latest edition: 3 Aug 2018
+# First and the latest edition: 16 Aug 2018
 
-countAllelesPerCountry <- function(alleles = NULL, sam, mapping, apam, nul = NA) {
+countAllelesPerCountry <- function(alleles = NULL, sam, mapping, apam, nul = NA,
+                                   freq = FALSE) {
     # For each allele, count its occurrence in all strains in each year.
     # am: alleleic presence-absence matrix, which only contains binary values
 
@@ -44,6 +47,11 @@ countAllelesPerCountry <- function(alleles = NULL, sam, mapping, apam, nul = NA)
     # Get country information
     sam <- sam[!is.na(sam$Country), ]  # drop strains whose country information is missing
     countries <- unique(sam$Country)
+    if (freq) {  # count number of strains per country
+        sample_size_country <- table(sam$Country)  # returns a named vector of integers
+    } else {
+        sample_size_country <- NULL
+    }
 
     # Initialise the outcome
     cc <- matrix(nul, nrow = ncol(apam), ncol = length(countries),
@@ -56,15 +64,17 @@ countAllelesPerCountry <- function(alleles = NULL, sam, mapping, apam, nul = NA)
         if (n > 1) {
             apam_c <- apam[strains, ]
             mk <- as.logical(apply(apam_c, 2, function(x) any(x > 0)))  # markers used for dropping empty columns
-            n_alleles <- sum(mk)  # number of genes left
+            n_alleles <- sum(mk)  # number of alleles left
             if (n_alleles > 1) {
                 apam_c <- apam_c[, mk]
                 for (a in colnames(apam_c)) {
-                    cc[a, c] <- sum(apam_c[, a])  # count the total number of whatever alleles
+                    num <- sum(apam_c[, a])  # count the total number of this allele
+                    cc[a, c] <- ifelse(freq, round(num / sample_size_country[[c]] * 100, digits = 2), num)
                 }
             } else if (n_alleles == 1) {
                 a <- colnames(apam_c)[mk]  # save the allele name
-                cc[a, c] <- sum(apam_c[, mk])  # sum of elements in a column vector
+                num <- sum(apam_c[, mk])  # sum of elements in a column vector
+                cc[a, c] <- ifelse(freq, round(num / sample_size_country[[c]] * 100, digits = 2), num)
             } else {
                 print(paste("No strain in", c, "had any target gene.", sep = " "))
             }
@@ -73,7 +83,7 @@ countAllelesPerCountry <- function(alleles = NULL, sam, mapping, apam, nul = NA)
             alleles <- names(apam_c)[as.logical(apam_c)]
             if (length(alleles) > 0) {
                 for (a in alleles) {
-                    cc[a, c] <- 1
+                    cc[a, c] <- ifelse(freq, round(n / sample_size_country[[c]] * 100, digits = 2), n)
                 }
             } else {
                 print(paste("The only strain from", c, "did not have any target genes.", sep = " "))

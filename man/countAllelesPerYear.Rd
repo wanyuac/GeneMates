@@ -4,7 +4,8 @@
 \alias{countAllelesPerYear}
 \title{Count alleles per year}
 \usage{
-countAllelesPerYear(alleles = NULL, sam, mapping, apam, nul = NA)
+countAllelesPerYear(alleles = NULL, sam, mapping, apam, nul_count = NA,
+  nul_freq = NA, combine = NULL)
 }
 \arguments{
 \item{alleles}{A character vector of allele names.}
@@ -15,7 +16,19 @@ countAllelesPerYear(alleles = NULL, sam, mapping, apam, nul = NA)
 
 \item{apam}{Allelic presence-absence matrix.}
 
-\item{nul}{A value for zero counts. It can be zero definitely, but setting it to NA makes it easier to draw a heat map.}
+\item{nul_count}{A value for zero counts. It can be zero definitely, but setting it to NA makes it easier to draw a heat map.}
+
+\item{nul_freq}{A value for zero frequency.}
+
+\item{combine}{A named list defining periods when counts of each allele are
+added up to make a new count. Each element in this list is an integer vector
+of years. For example, combine = list("1985-2005" = c(1985, 1986, 1988, 2005)).
+The vector must not contain a single element.}
+}
+\value{
+A list of three elements: count, freq, n (number of strains per year),
+w (weighted counts per strain) and mapping. When combine is a list, another
+two elements called comb_count, comb_freq and period are included.
 }
 \examples{
 a_yr <- countAllelesPerYear(alleles = nwk$V$allele, sam = sam, mapping = assoc$mapping,

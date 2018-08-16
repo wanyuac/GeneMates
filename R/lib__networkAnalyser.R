@@ -11,7 +11,7 @@
 #
 # Copyright 2017-2018 Yu Wan
 # Licensed under the Apache License, Version 2.0
-# First version: 10 Aug 2018; the latest update: 12 Aug 2018
+# First version: 10 Aug 2018; the latest update: 14 Aug 2018
 #
 #' @export Graph
 #' @export GraphSet
@@ -20,6 +20,8 @@
 #' @export Vn
 #' @export nE
 #' @export G
+#' @export En
+#' @export nV
 
 # CLASS DEFINITIONS ###############
 # Class Graph ===============
@@ -105,6 +107,13 @@ setGeneric(name = "Vn",
            }
 )
 
+# Count the number of vertices
+setGeneric(name = "nV",
+           def = function(object, ...) {
+               standardGeneric(f = "nV")
+           }
+)
+
 # Count number of edges per graph
 setGeneric(name = "nE",
            def = function(object, ...) {
@@ -116,6 +125,13 @@ setGeneric(name = "nE",
 setGeneric(name = "G",
            def = function(object, id) {
                standardGeneric(f = "G")
+           }
+)
+
+# Retrive member graph names (for GraphSet)
+setGeneric(name = "En",
+           def = function(object) {
+               standardGeneric(f = "En")
            }
 )
 
@@ -139,6 +155,13 @@ setMethod(f = "Vn",
           signature = "Graph",
           definition = function(object) {  # return vertex names
               return(object@V[, 1])
+          }
+)
+
+setMethod(f = "nV",
+          signature = "Graph",
+          definition = function(object) {  # return the vertex number
+              return(nrow(object@V))
           }
 )
 
@@ -179,6 +202,14 @@ setMethod(f = "Vn",
           }
 )
 
+# Count for all vertices
+setMethod(f = "nV",
+          signature = "GraphSet",
+          definition = function(object) {  # return vertex names
+              return(nrow(object@V))
+          }
+)
+
 # Count the number of edges in a given member graph
 setMethod(f = "nE",
           signature = "GraphSet",
@@ -195,5 +226,13 @@ setMethod(f = "G",
               v <- union(e[, 1], e[, 2])
               v_tab <- object@V[object@V[, 1] %in% v, ]
               return(new("Graph", id = id, V = v_tab, E = e))
+          }
+)
+
+# Get member graph names
+setMethod(f = "En",
+          signature = "GraphSet",
+          definition = function(object) {
+              return(names(object@E))
           }
 )

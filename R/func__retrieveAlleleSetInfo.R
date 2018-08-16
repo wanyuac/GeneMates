@@ -13,7 +13,7 @@
 #' @examples
 #' retrieveAlleleSetInfo(targets = c("aadA2", "dfrA12", "sul1"), assoc = a[["assoc"]], allelic.pam = a[["alleles"]][["A"]], min.count = 2, phylo.dists = cophenetic.phylo(tr))
 #'
-#' @author Yu Wan (\email{wanyuac@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@gmail.com})
 #' @export
 #
 #  Dependency: ape

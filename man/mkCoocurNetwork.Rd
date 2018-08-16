@@ -26,7 +26,8 @@ generated. Leave this argument as 0 (default) to disable year-based sampling.}
 physDist pipeline.}
 }
 \value{
-A list of a GraphSet object G, a named numeric vector w for weighted
-occurrence count per isolate, when years > 0; a list of a Graph object G and
-the same vector w when years <= 0.
+A list of two elements. The first element "G" is a list of Graph objects,
+each named by a year; the second element w is a numeric vector for weighted
+occurrence count per isolate. However, when years <= 0, the G element is a
+single Graph object.
 }
