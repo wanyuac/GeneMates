@@ -9,7 +9,7 @@ display_usage() {
     Usage: (bash) ./install_GeneMates.sh [package] [install to which directory]
     Examples:
         chmod u+x install_GeneMates.sh
-        ./install_GeneMates.sh GeneMates_0.1.0.tar.gz ~/R_lib
+        ./install_GeneMates.sh GeneMates_0.1.6.tar.gz ~/R_lib
         ./install_GeneMates.sh ~/R_lib  # install the default package (specified in this script) to a target directory
         ./install_GeneMates.sh  # install the default package under the default directory of R libraries specified by .libPaths()[1].
     "

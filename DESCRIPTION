@@ -19,5 +19,7 @@ Imports:
     ape (>= 4.1),
     phytools (>= 0.6-00),
     ggplot2 (>= 2.2.1),
-    ggtree (>= 1.6.11)
+    ggtree (>= 1.6.11),
+    network (>= 1.13.0.1),
+    networkDynamic (>= 0.9.0)
 RoxygenNote: 6.0.1
