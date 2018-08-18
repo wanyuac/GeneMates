@@ -31,8 +31,8 @@ In a narrow sense, GeneMates is an R package; in a broad sense, GeneMates is a p
   
 1. R package GeneMates (this repository)  
 2. Gene screen
-  - [PAMmaker](https://github.com/wanyuac/PAMmaker "PAMmaker")
-  - [screen_genes_in_assemblies](https://github.com/wanyuac/screen_genes_in_assemblies "screen_genes_in_assemblies")
+	- [PAMmaker](https://github.com/wanyuac/PAMmaker)
+	- [screen\_genes\_in\_assemblies](https://github.com/wanyuac/screen_genes_in_assemblies)
 3. [cgSNPs](https://github.com/wanyuac/cgSNPs "cgSNPs") for processing core-genome SNPs (cgSNPs)
 4. [physDist](https://github.com/wanyuac/physDist "physDist") for generating allelic physical distances (APDs).  
 
