@@ -42,21 +42,21 @@ It is recommended to install all components under the same parental directory.
 
 ### Software ###
 
-* [R](https://www.r-project.org) >= v3.3.3
-* [GEMMA](https://github.com/genetics-statistics/GEMMA)
-* [Bandage](https://github.com/rrwick/Bandage) >=v0.8.1
+* [R](https://www.r-project.org) >= 3.3.3
+* [GEMMA](https://github.com/genetics-statistics/GEMMA) 0.96
+* [Bandage](https://github.com/rrwick/Bandage) >= 0.8.1
 * [BLAST+](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download) >= 2.2.30
  
 ### R packages ###
 
 * parallel (>= 3.3.3)
-* data.table (>= v1.10.4)
-* ape (>= v4.1)
-* phytools (>= v0.6-00)
-* logistf (>= v1.22)
-* pheatmap (>= v1.0.8)
-* ggplot2 (>= v2.2.1)
-* [ggtree](https://github.com/GuangchuangYu/ggtree)(>= v1.6.11)
+* data.table (>= 1.10.4)
+* ape (>= 4.1)
+* phytools (>= 0.6-00)
+* logistf (>= 1.22)
+* pheatmap (>= 1.0.8)
+* ggplot2 (>= 2.2.1)
+* [ggtree](https://github.com/GuangchuangYu/ggtree)(>= 1.6.11)
 * network (>= 1.13.0.1)
 * networkDynamic (>= 0.9.0)
 
