@@ -42,9 +42,10 @@ It is recommended to install all components under the same parental directory.
 
 ### Software ###
 
-* [R](https://www.r-project.org) v3.3.3 and above
+* [R](https://www.r-project.org) >= v3.3.3
 * [GEMMA](https://github.com/genetics-statistics/GEMMA)
-* [Bandage](https://github.com/rrwick/Bandage) v0.8.1 and above
+* [Bandage](https://github.com/rrwick/Bandage) >=v0.8.1
+* [BLAST+](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download) >= 2.2.30
  
 ### R packages ###
 
