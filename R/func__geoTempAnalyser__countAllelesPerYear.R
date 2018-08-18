@@ -112,11 +112,11 @@ countAllelesPerYear <- function(alleles = NULL, sam, mapping, apam, nul_count = 
     if (is.list(combine)) {
         mat_comb <- .combineCounts(ac = ac, af = af, comb = combine, n_yr = n_yr,
                                    nul_count = nul_count, nul_freq = nul_freq)
-        out <- list(count = ac, freq = af, n = n_yr, mapping = mapping, w = ws,
+        out <- list(count = ac, freq = af, sample_size = n_yr, mapping = mapping, count_w = ws,
                     count_comb = mat_comb[["count"]], freq_comb = mat_comb[["freq"]],
                     period = mat_comb[["period"]])
     } else {
-        out <- list(count = ac, freq = af, n = n_yr, mapping = mapping, w = ws)
+        out <- list(count = ac, freq = af, sample_size = n_yr, mapping = mapping, count_w = ws)
     }
 
     return(out)

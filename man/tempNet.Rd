@@ -4,36 +4,64 @@
 \alias{tempNet}
 \title{Creating a temporal network from graphs}
 \usage{
-tempNet(gs, tail_col = "node1", head_col = "node2", directed = FALSE,
-  t_gap = 1, t_min = 1, t_max = 10, v_size = NULL, v_col = NULL,
-  e_width = NULL, e_col = NULL, default_va = list())
+tempNet(gs, v.label = "allele", e.tail = "node1", e.head = "node2",
+  directed = FALSE, t.gap = 1, v.value = "count", v.value.base = 0,
+  v.size.min = 1, v.size.max = 25, v.colour = "red", e.weight = "n_xy",
+  e.weight.base = 1, e.weight.cutoff = 0, e.width.min = 1,
+  e.width.max = 10, e.colour = "m", e.colour.low = "#FFA0A0",
+  e.colour.high = "#FF0000", e.colour.num = 9)
 }
 \arguments{
 \item{gs}{A GraphSet object with years as graph IDs.}
 
-\item{tail_col}{Column name for tail vertices.}
+\item{v.label}{A single name or index for the column from which vertex labels
+are drawn.}
 
-\item{head_col}{Column name for head vertices.}
+\item{e.tail}{Column name for tail vertices.}
+
+\item{e.head}{Column name for head vertices.}
 
 \item{directed}{A logical parameter specifying whether the network is directed
 or not. Default: FALSE (undirected).}
 
-\item{t_gap}{An integer or numeric argument determining the non-inclusive
-minimum difference (namely, t > t_gap rather than t >= t_gap) between two
-consecutive time points to be considered as not continuous.}
+\item{t.gap}{An integer or numeric argument determining the non-inclusive
+minimum difference (namely, t > t.gap rather than t >= t.gap) between two
+consecutive time points to be considered as not continuous. This arguments
+determines each onset and terminus range for edges.}
 
-\item{v_col}{A single or multiple names for the columns from which temporal
-vertex attributes are drawn and incorporated into the network. However, since
-this function reserves "label" as an attribute, this name must not present in
-this argument. Furthermore, va_col must not point to the first column, which
-is used for vertex labels.}
+\item{v.value}{A character or integer specifying the column in V(gs) used as
+the variable defining vertex sizes.}
 
-\item{e_width}{Non-inclusive minimum edge weight that determines whether an edge
+\item{v.value.base}{An integer specifying the minimum value for the variable
+(column) defining vertex sizes. For instance, you may set v.size.base for a
+dynamic co-occurrence count where the expected minimum count is zero.}
+
+\item{v.size.min}{An integer for the minimum vertex size (when v.size.base is
+reached).}
+
+\item{v.size.max}{An integer for the maximum vertex size.}
+
+\item{v.colour}{A character vector of colours named by vertex labels.}
+
+\item{e.weight}{Column name or index in E(gs[[t]]) for edge widths.}
+
+\item{e.weight.base}{The minimum valid value of edge weights. It works in the
+same way as v.value.base.}
+
+\item{e.weight.cutoff}{Non-inclusive minimum edge weight that determines whether an edge
 is present at a time point.}
 
-\item{e_col}{Column name for edge weights.}
+\item{e.width.min}{Minimum edge width.}
 
-\item{default_va}{A named list of default attribute values for va_col.}
+\item{e.width.max}{Maximum edge width.}
+
+\item{e.colour}{A column name or index for the attributed used for colour assignment.}
+
+\item{e.colour.low}{A character specifying the colour for edges of the least weight.}
+
+\item{e.colour.high}{A character specifying the colour for edges of the highest weight.}
+
+\item{e.colour.num}{An integer specifying the number of colours to be assigned.}
 }
 \description{
 This function creates a temporal network for visualisation from
