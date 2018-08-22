@@ -14,6 +14,7 @@
 #'     Keep output.y = "" to prevent the function from printing the matrix.
 #'     In this case, only a list is returned to the user.
 #' @param sample.order a vector of isolate names for the PAM to be matched with.
+#' It can be used to filter the allelic PAM for in-group isolates.
 #' @param skip wheter to skip overwriting existant output files.
 #'
 #' @author Yu Wan (\email{wanyuac@@gmail.com})
@@ -21,7 +22,7 @@
 #
 # Copyright 2017 Yu Wan <wanyuac@gmail.com>
 # Licensed under the Apache License, Version 2.0
-# Last edition: 21 May 2017
+# An early version: 21 May 2017; the latest edition: 22 Aug 2018
 
 importAllelicPAM <- function(pam, pam.delim = "\t", outliers = NULL, min.count = 1,
                              alleles.inc = NULL, output.y = "", sample.order = NULL,
@@ -44,9 +45,14 @@ importAllelicPAM <- function(pam, pam.delim = "\t", outliers = NULL, min.count =
         if (class(sample.order) == "character") {  # Otherwise, isolates will not be selected and rearranged in pam.
             # The above condition is a weak check for this argument. So please do not challenge it through providing unexpected values.
             # Assuming a character vector of isolate names are provided.
-            if ((sum(isolates %in% sample.order) < length(isolates)) | (sum(sample.order %in% isolates) < length(sample.order))) {
-                stop("Error: isolate names do not match between the SNP matrix and the allelic matrix.")  # Two sets of names must be the same.
+            if (any(! sample.order %in% isolates)) {
+                # Abnormal situation: the required sample set contains samples that are absent in the allelic PAM
+                stop("Error: some samples in the required sample set are not found in the allelic PAM.")
+            } else if (any(! isolates %in% sample.order)) {
+                print("Warning: sample names in the allelic matrix is a subset of the required sample set.")  # Two sets of names must be the same.
+                print("Therefore, the allelic matrix will be trimmed for the required sample set.")
             }
+
             pam <- pam[sample.order, ]  # match the order of isolates to that of the core-genome SNP table
         }
 

@@ -25,7 +25,8 @@ When min.count = 2, isolate-specific alleles are removed as well.}
 Keep output.y = "" to prevent the function from printing the matrix.
 In this case, only a list is returned to the user.}
 
-\item{sample.order}{a vector of isolate names for the PAM to be matched with.}
+\item{sample.order}{a vector of isolate names for the PAM to be matched with.
+It can be used to filter the allelic PAM for in-group isolates.}
 
 \item{skip}{wheter to skip overwriting existant output files.}
 }

@@ -11,15 +11,16 @@
 #' @param min.count the minimal number of times that a gene occurs in all isolates excluding outliers
 #'     By default, only genes that do not occur at all are removed (min.count = 1).
 #'     When min.count = 2, isolate-specific genes are removed as well.
-#' @param genes.rm a vector of gene names to be excluded from columns of the genetic PAM
-#' @param sample.order a vector of isolate names for the PAM to be matched with
+#' @param genes.rm a vector of gene names to be excluded from columns of the genetic PAM.
+#' @param sample.order a vector of isolate names for the PAM to be matched with.
+#' It can be used to filter the genetic PAM for in-group isolates.
 #'
 #' @author Yu Wan (\email{wanyuac@@gmail.com})
 #' @export
 #
 # Copyright 2017 Yu Wan <wanyuac@gmail.com>
 # Licensed under the Apache License, Version 2.0
-# Last edition: 21 May 2017
+# An early version: 21 May 2017; the latest edition: 22 Aug 2018
 
 importGeneticPAM <- function(pam, pam.delim = "\t", outliers = NULL, min.count = 1,
                              genes.rm = NULL, sample.order = NULL) {
@@ -44,10 +45,15 @@ importGeneticPAM <- function(pam, pam.delim = "\t", outliers = NULL, min.count =
         if (class(sample.order) == "character") {
             # The above condition is a weak check for this argument. So please do not challenge it through providing unexpected values.
             # Assuming a character vector of isolate names are provided.
-            if ((sum(isolates %in% sample.order) < length(isolates)) | (sum(sample.order %in% isolates) < length(sample.order))) {
-                stop("Error: isolate names do not match between the SNP matrix and the genetic matrix.")  # Two sets of names must be the same.
+            if (any(! sample.order %in% isolates)) {
+                # Abnormal situation: the required sample set contains samples that are absent in the allelic PAM
+                stop("Error: some samples in the required sample set are not found in the genetic PAM.")
+            } else if (any(! isolates %in% sample.order)) {
+                print("Warning: sample names in the genetic matrix is a subset of the required sample set.")  # Two sets of names must be the same.
+                print("Therefore, the genetic matrix will be trimmed for the required sample set.")
             }
-            pam <- pam[sample.order, ]
+
+            pam <- pam[sample.order, ]  # An error arises when sample.order has extra strains comparing to pam.
         }
 
         # first, remove empty columns (with all values equalling "-") after excluding outliers

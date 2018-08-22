@@ -20,9 +20,10 @@ The genetic PAM may contain more alleles than the allelic PAM does, because the 
 By default, only genes that do not occur at all are removed (min.count = 1).
 When min.count = 2, isolate-specific genes are removed as well.}
 
-\item{genes.rm}{a vector of gene names to be excluded from columns of the genetic PAM}
+\item{genes.rm}{a vector of gene names to be excluded from columns of the genetic PAM.}
 
-\item{sample.order}{a vector of isolate names for the PAM to be matched with}
+\item{sample.order}{a vector of isolate names for the PAM to be matched with.
+It can be used to filter the genetic PAM for in-group isolates.}
 }
 \description{
 This function reads the genetic presence-absence matrix and returns a list of relevant matrices.

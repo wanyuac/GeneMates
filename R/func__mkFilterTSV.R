@@ -32,7 +32,6 @@ mkFilterTSV <- function(allele.mat = NULL, pam.a = NULL, output = "targeted_isol
         }
         alleles <- colnames(pam.a)  # Allele names are retrieved from column names.
         sample.alleles <- apply(pam.a, 1, function(r) alleles[as.logical(r)])  # returns a list of character vectors per sample
-
     } else {
         stop("Error: alleles and pam.a must not be both NULL.")
     }

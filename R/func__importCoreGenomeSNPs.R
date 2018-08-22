@@ -20,7 +20,7 @@
 #' @param annots.file file path of bimbam-formatted SNP annotations. Keep it "" to prevent the function from writing SNP annotations to the hard disk.
 #' @param skip whether to skip overwriting existing output files.
 #'
-#' @author Yu Wan (\email{wanyuac@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@gmail.com})
 #' @export
 #
 # Copyright 2017 Yu Wan <wanyuac@gmail.com>
