@@ -47,7 +47,7 @@
 #
 #  Copyright 2017-2018 Yu Wan
 #  Licensed under the Apache License, Version 2.0
-#  First edition: 15 Dec 2017; the latest edition: 20 July 2018
+#  First edition: 15 Dec 2017; the latest edition: 24 August 2018
 
 # LMM-based association tests
 lmm <- function(snps = NULL, snps.delim = ",", pos.col = "Pos", min.mac = 1,
@@ -64,7 +64,7 @@ lmm <- function(snps = NULL, snps.delim = ",", pos.col = "Pos", min.mac = 1,
     print(paste0(Sys.time(), ": initialising the lmm function."))
 
     # check whether these input files exist
-    inputs <- list(snps, allelic.pam, genetic.pam, sample.dists, gemma.path)  # load file paths into a list
+    inputs <- list(snps, allelic.pam, genetic.pam, gemma.path)  # load file paths into a list
     input.files <- NULL
     for (item in inputs) {
         if (class(item) == "character") {
@@ -308,7 +308,8 @@ lmm <- function(snps = NULL, snps.delim = ",", pos.col = "Pos", min.mac = 1,
         sample.dists <- .determineSampleDists(sample.dists = sample.dists,
                                               proj.dists = C[["d"]],
                                               external.tree = external.tree,
-                                              tree = tree, outliers = outliers)
+                                              tree = tree, outliers = outliers,
+                                              ref = ref)
         mc.xy <- findMinIncClade(lmms = lmms, allele.pam = alleles[["A"]],
                                  clade.pam = clades[["pam"]],
                                  clade.sizes = clades[["sizes"]],

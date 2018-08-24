@@ -1,7 +1,7 @@
 # A module (private functions) of the phylix package for association analysis
 # Copyright 2017 Yu Wan
 # Licensed under the Apache License, Version 2.0
-# First edition: 17 March - 10 April 2017; the latest edition: 27 July 2018
+# First edition: 17 March - 10 April 2017; the latest edition: 24 August 2018
 
 ##### Processing core-genome SNP data ###############
 # Construct a matrix of major and minor alleles of every biallelic SNPs
@@ -629,7 +629,7 @@
 # Determine sample distances
 .determineSampleDists <- function(sample.dists = NULL, proj.dists = NULL,
                                   external.tree = FALSE, tree = NULL,
-                                  outliers = NULL) {
+                                  outliers = NULL, ref = NULL) {
     require(ape)
 
     if (is.null(sample.dists)) {
@@ -642,8 +642,19 @@
         }
     }  # Else, do nothing.
 
+    # Substitute the sample Ref with a user-specified name
+    samples.row <- rownames(sample.dists)
+    if (!is.null(ref) && "Ref" %in% samples.row) {
+        samples.col <- colnames(sample.dists)  # They should be the same as samples.row.
+        rownames(sample.dists)[which(samples.row == "Ref")] <- ref
+        colnames(sample.dists)[which(samples.col == "Ref")] <- ref
+    }
+
     # Exclude rows and columns from the distance matrix against outliers
     if (!is.null(outliers)) {
+        if ("Ref" %in% outliers && !is.null(ref)) {
+            outliers[which(outliers == "Ref")] <- ref
+        }
         samples <- rownames(sample.dists)
         samples <- samples[!(samples %in% outliers)]
         sample.dists <- sample.dists[samples, samples]
