@@ -9,9 +9,9 @@
 #     g1 <- getGraph(gs, id = "a")
 #     V(g1)
 #
-# Copyright 2017-2018 Yu Wan
+# Copyright 2018 Yu Wan
 # Licensed under the Apache License, Version 2.0
-# First version: 10 Aug 2018; the latest update: 14 Aug 2018
+# First version: 10 Aug 2018; the latest update: 24 Aug 2018
 #
 #' @export Graph
 #' @export GraphSet
@@ -22,6 +22,7 @@
 #' @export G
 #' @export En
 #' @export nV
+#' @export Export
 
 # CLASS DEFINITIONS ###############
 # Class Graph ===============
@@ -135,6 +136,15 @@ setGeneric(name = "En",
            }
 )
 
+# Export network files (CSV format) from a Graph object for Cytoscape
+setGeneric(name = "Export",
+           def = function(object, path, prefix) {
+               # path: must not end by a forward slash; prefix: must not start
+               # by a forward slash.
+               standardGeneric(f = "Export")
+           }
+)
+
 # DEFINE METHODS ###############
 # Graph ===============
 setMethod(f = "V",
@@ -169,6 +179,14 @@ setMethod(f = "nE",
           signature = "Graph",
           definition = function(object) {
               return(nrow(object@E))
+          }
+)
+
+setMethod(f = "Export",
+          signature = "Graph",
+          definition = function(object, path = ".", prefix = "net") {
+              write.csv(object@E, file = paste0(path, "/", prefix, "__edges.csv"), row.names = FALSE, quote = FALSE)
+              write.csv(object@V, file = paste0(path, "/", prefix, "__vertices.csv"), row.names = FALSE, quote = FALSE)
           }
 )
 

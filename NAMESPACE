@@ -2,6 +2,7 @@
 
 export(E)
 export(En)
+export(Export)
 export(G)
 export(Graph)
 export(GraphSet)
