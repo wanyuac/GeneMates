@@ -31,11 +31,11 @@
 #
 #  Copyright 2018 Yu Wan
 #  Licensed under the Apache License, Version 2.0
-#  First and the lastest edition: 13 Mar 2018
+#  First edition: 13 Mar 2018; the lastest edition: 24 Aug 2018
 
 mkNetwork <- function(assoc = NULL, name.x = "x", name.y = "y", edge.attr = NULL,
                       node.x.attr = NULL, node.y.attr = NULL,
-                      node.attr.names = "name", id = NULL) {
+                      node.attr.names = "name", id = "") {
     # Sanity check
     if (length(node.x.attr) != length(node.y.attr)) {
         stop("Error: the vectors node.x.attr and node.y.attr do not have the same length.")
