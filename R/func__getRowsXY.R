@@ -14,7 +14,7 @@
 #' z <- getRowsXY(df = assoc[["assoc"]], k1 = "IntI1_1.1", k2 = "SulI_1616", c1 = "y", c2 = "x")
 #' z <- getRowsXY(df = assoc[["assoc"]], k1 = "IntI1_1.1", k2 = "SulI_1616", c1 = 1, c2 = 2)
 #'
-#' @author Yu Wan (\email{wanyuac@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@gmail.com})
 #' @export
 #'
 #  Copyright 2017 Yu Wan
