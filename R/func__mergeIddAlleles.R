@@ -2,7 +2,7 @@
 #'
 #' @description Merge nodes of identically distributed alleles into a single node to simplify the
 #' linkage network. When lmms.only = FALSE, two alleles are mergable only if the physical distances
-#' measured between them are well supporting the presence of physical linkage (namely, s_d = 1)
+#' measured between them are well supporting the presence of physical linkage (namely, w_d = 1)
 #' and the distributions of alleles are not identical by descent (IBD); when lmms.only = TRUE, two
 #' alleles are mergable if they are identically distributed (hence they are represented by the same
 #' pattern for linear mixed models).
@@ -218,10 +218,10 @@ mergeIddAlleles <- function(assoc, other.cols = NULL, lmms.only = FALSE,
         # make two rows per group of identical edges (the data frame b)
         # Under the assumption of symmetric directions for each pair of alleles, b must have at least two rows even
         # if there is no duplicated rows.
-        c <- b[1, ]
+        c <- b[1, ]  # returns a single-column data frame
 
         if (!lmms.only) {
-            # Since idd. alleles of the same cluster are physically linked (s_d = 1),
+            # Since idd. alleles of the same cluster are physically linked (w_d = 1),
             # I consider the new link betwwen the allele and the cluster is
             # supported by the distances as long as there is a single link between
             # an allele and any allele of a cluster is supported by physical distances.
@@ -247,8 +247,8 @@ mergeIddAlleles <- function(assoc, other.cols = NULL, lmms.only = FALSE,
             c$n_xy <- sum(b$n_xy)  # Will be greater than n_x and n_y.
             c$m_in <- round(c$d_in_n / c$n_xy, digits = 6)  # In fact, the equation is [sum(b$n_d) / 2] / [sum(b$n_xy) / 2] as every two rows are symmetric.
             c$s_d <- max(b$s_d)  # A connection to one, then a connection to all.
-            c$w_d <- c$m_in * c$s_d  # s_a must be the same in b as alleles are idd; s_d = 1.
-            c$score <- c$s_a + c$w_d
+            c$w_d <- c$m_in * c$s_d  # s_a must be the same in b as alleles are idd; s_d = 1; c$m_in must always be one as all the edges are in perfect physical linkage (whose m_in = 1).
+            c$score <- c$s_a + c$w_d  # So basically w_d = s_d here.
             c$pIBD_in <- max(b$pIBD_in)
         }  # Else, do nothing.
         merged <- rbind.data.frame(merged, c, stringsAsFactors = FALSE)
