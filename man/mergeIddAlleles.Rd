@@ -28,7 +28,7 @@ if replace.names equals TRUE.}
 \description{
 Merge nodes of identically distributed alleles into a single node to simplify the
 linkage network. When lmms.only = FALSE, two alleles are mergable only if the physical distances
-measured between them are well supporting the presence of physical linkage (namely, s_d = 1)
+measured between them are well supporting the presence of physical linkage (namely, w_d = 1)
 and the distributions of alleles are not identical by descent (IBD); when lmms.only = TRUE, two
 alleles are mergable if they are identically distributed (hence they are represented by the same
 pattern for linear mixed models).
