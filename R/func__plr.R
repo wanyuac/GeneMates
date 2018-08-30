@@ -26,20 +26,17 @@
 #'
 #' @examples
 #' assoc <- findPhysLink(...)
-#' flr <- penalisedLogisticReg(pat = assoc$alleles$B,
-#'        tests.pat = assoc$lmms.pat$dif$h1[, c("y_pat", "x_pat")],
-#'        tests.allele = assoc$tests$dif$tests,
-#'        n.cores = 8, p.adj.method = "bonferroni")
+#' lr <- plr(pat = assoc$alleles$B, tests.pat = assoc$lmms.pat$dif$h1[, c("y_pat", "x_pat")],
+#'       tests.allele = assoc$tests$dif$tests, n.cores = 8, p.adj.method = "bonferroni")
 #'
-#' @author (Copyright) Yu Wan (\email{wanyuac@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@gmail.com})
 #' @export
 #
 # Copyright 2017 Yu Wan
 # Licensed under the Apache License, Version 2.0
-# First edition: 17 June 2017, last edition: 23/5/2018
+# First edition: 17 June 2017; latest edition: 30 August 2018
 
-penalisedLogisticReg <- function(pat, tests.pat, tests.allele, n.cores = -1,
-                                 p.adj.method = "bonferroni") {
+plr <- function(pat, tests.pat, tests.allele, n.cores = -1, p.adj.method = "bonferroni") {
     require(parallel)
     require(data.table)  # rbindlist function
 
