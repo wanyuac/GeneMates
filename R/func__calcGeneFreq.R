@@ -17,12 +17,12 @@
 #' gf <- calcGeneFreq(x = mapping[, c("gene", "count")], n = 1125)  # assuming
 #' there are 1125 strains
 #'
-#' @author Yu Wan (\email{wanyuac@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@gmail.com})
 #' @export
 #
 # Copyright 2018 Yu Wan <wanyuac@gmail.com>
 # Licensed under the Apache License, Version 2.0
-# First edition: 26 May 2017; the latest edition: 24 Jan 2018
+# First edition: 26 May 2017; the latest edition: 4 Sep 2018
 
 
 calcGeneFreq <- function(x, n, ord = TRUE) {
@@ -37,6 +37,9 @@ calcGeneFreq <- function(x, n, ord = TRUE) {
                             n_a = nrow(r), stringsAsFactors = FALSE)
         y <- rbind.data.frame(y, y.new, stringsAsFactors = FALSE)
     }
+    y$class <- getGeneClass(y$gene)
+    y <- y[, c("gene", "class", "count", "freq", "n_a")]
+
     if (ord) {
         y <- y[order(y$freq, decreasing = TRUE), ]
     }

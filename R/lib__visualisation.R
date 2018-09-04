@@ -2,7 +2,7 @@
 # This function coverts a dataframe that corresponds to either the
 # upper/lower triangle in a matrix into a matrix.
 # Variables in the data frame: c(name1, name2, value)
-# Development history: 10 Oct 2015, 12/2/2017
+# First version: 10 Oct 2015; the latest edition: 4 Sep 2018
 # Apache License, Version 2.0
 
 # Find out which column has the name id.
@@ -65,4 +65,14 @@
     }
 
     return(m)
+}
+
+.calcDiameters <- function(n, d.min, d.max) {
+    n_min <- min(n)
+    n_max <- max(n)
+    n_range <- n_max - n_min
+    d_range <- d.max - d.min
+    d <- sapply(n, function(x) round((x - n_min) / n_range * d_range + d.min, digits = 2))
+
+    return(d)
 }
