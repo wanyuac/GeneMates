@@ -8,7 +8,8 @@
 #' @param gf A table of gene frequencies, produced by the function calcGeneFreq.
 #' @param d.min Diameter for genes of the minimum allele count.
 #' @param d.max Diameter for genes of the largest allele count.
-#' @param fill A named vector of colours filling bubbles.
+#' @param fill.colour A named vector of colours filling bubbles.
+#' @param border.colour A single colour for borders of circles.
 #' @param core.genes Names of core genes
 #' @param bar.acc Whether to draw a bar plot of gene frequencies for accessory genes
 #' (TRUE) or all genes (FALSE, default).
@@ -42,9 +43,10 @@
 # Dependency: ggplot2
 # Copyright 2018 Yu Wan
 # Licensed under the Apache License, Version 2.0
-# First and the lastest edition: 4 Sep 2018
+# First version: 4 Sep 2018, the lastest edition: 6 Sep 2018
 
-showGeneContent <- function(af, gf, pam.g, d.min = 2, d.max = 20, fill,
+showGeneContent <- function(af, gf, pam.g, d.min = 2, d.max = 20,
+                            fill.colour, border.colour = "grey90",
                             core.genes = NULL, bar.acc = FALSE,
                             panel.names = c("a", "b", "c"), panelA.xmax = 120,
                             panelB.xinterv = 5, panelB.yinterv = 20,
@@ -59,8 +61,8 @@ showGeneContent <- function(af, gf, pam.g, d.min = 2, d.max = 20, fill,
         # mapping allele counts to diameters via a linear model
         gf$diam <- .calcDiameters(gf$n_a, d.min, d.max)  # lib__visualisation.R
         gf <- gf[order(gf$class, decreasing = FALSE), ]
-        gf$fill <- as.character(fill[gf$class])
-        gf$border <- "#ffffff"
+        gf$fill <- as.character(fill.colour[gf$class])
+        gf$border <- border.colour
 
         # Try to draw hollow circules for core genes
         with_core <- !is.null(core.genes)
@@ -96,7 +98,7 @@ showGeneContent <- function(af, gf, pam.g, d.min = 2, d.max = 20, fill,
         gene_num <- gene_num[order(gene_num$n, decreasing = TRUE), ]
 
         # Panel c: allele frequency ===============
-        af$colour <- as.character(fill[af$class])
+        af$colour <- as.character(fill.colour[af$class])
         af <- af[order(af$class, af$freq, decreasing = TRUE), ]
     } else {
         gene_num <- prev.out[["gene_num"]]

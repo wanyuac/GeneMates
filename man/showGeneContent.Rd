@@ -4,13 +4,13 @@
 \alias{showGeneContent}
 \title{Draw a bubble plot and two bar plots to summarise gene and allele frequencies.}
 \usage{
-showGeneContent(af, gf, pam.g, d.min = 2, d.max = 20, fill,
-  core.genes = NULL, bar.acc = FALSE, panel.names = c("a", "b", "c"),
-  panelA.xmax = 120, panelB.xinterv = 5, panelB.yinterv = 20,
-  panelB.lwd = 1, panelC.lwd = 1, panelC.xinterv = 20, prev.out = NULL,
-  f = "gene_content.png", w = 170, h = 200, r = 300, u = "mm",
-  img.oma = c(0.1, 0.1, 0.1, 0.1), img.mar = c(3, 2.6, 1, 0.5),
-  img.mgp = c(1.8, 0.6, -0.2))
+showGeneContent(af, gf, pam.g, d.min = 2, d.max = 20, fill.colour,
+  border.colour = "grey90", core.genes = NULL, bar.acc = FALSE,
+  panel.names = c("a", "b", "c"), panelA.xmax = 120, panelB.xinterv = 5,
+  panelB.yinterv = 20, panelB.lwd = 1, panelC.lwd = 1,
+  panelC.xinterv = 20, prev.out = NULL, f = "gene_content.png", w = 170,
+  h = 200, r = 300, u = "mm", img.oma = c(0.1, 0.1, 0.1, 0.1),
+  img.mar = c(3, 2.6, 1, 0.5), img.mgp = c(1.8, 0.6, -0.2))
 }
 \arguments{
 \item{af}{A table of allele frequencies, produced by the function countAlleles.}
@@ -21,7 +21,9 @@ showGeneContent(af, gf, pam.g, d.min = 2, d.max = 20, fill,
 
 \item{d.max}{Diameter for genes of the largest allele count.}
 
-\item{fill}{A named vector of colours filling bubbles.}
+\item{fill.colour}{A named vector of colours filling bubbles.}
+
+\item{border.colour}{A single colour for borders of circles.}
 
 \item{core.genes}{Names of core genes}
 
