@@ -19,7 +19,7 @@ compPvalues(p.lmm, p.plm, lmm.h0, p.min = 2.2e-16, p.max = 0.05,
 patterns. Assuming assoc = lmm(...), then p.lmm = assoc$lmms.pat$dif$h1.}
 
 \item{p.plm}{A data frame from the function plr for association status between
-patterns. Assuming assoc = plr(...), then p.lmm = assoc$pat. Pattern orders for
+patterns. Assuming assoc = plr(...), then p.plm = assoc$pat. Pattern orders for
 association tests must match to those in p.lmm. Otherwise, both data frames
 cannot merge correctly.}
 

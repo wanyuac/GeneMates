@@ -8,7 +8,7 @@
 #' @param p.lmm A data frame from the function lmm for association status between
 #' patterns. Assuming assoc = lmm(...), then p.lmm = assoc$lmms.pat$dif$h1.
 #' @param p.plm A data frame from the function plr for association status between
-#' patterns. Assuming assoc = plr(...), then p.lmm = assoc$pat. Pattern orders for
+#' patterns. Assuming assoc = plr(...), then p.plm = assoc$pat. Pattern orders for
 #' association tests must match to those in p.lmm. Otherwise, both data frames
 #' cannot merge correctly.
 #' @param lmm.h0 A data frame from the function lmm for null models. lmm.h0 =
