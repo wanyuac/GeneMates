@@ -73,6 +73,8 @@ bar plot (panel b). Default: 50.}
 Use the function countAlleles and calcGeneFreq to know allele and
 gene content before using this function, in order to set appropriate graphic
 arguments. The diameter of each bubble is porportional to the allele number.
+
+Dependency: ggplot2.
 }
 \author{
 Yu Wan (\email{wanyuac@gmail.com})

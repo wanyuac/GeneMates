@@ -4,6 +4,8 @@
 #' gene content before using this function, in order to set appropriate graphic
 #' arguments. The diameter of each bubble is porportional to the allele number.
 #'
+#' Dependency: ggplot2.
+#'
 #' @param af A table of allele frequencies, produced by the function countAlleles.
 #' @param gf A table of gene frequencies, produced by the function calcGeneFreq.
 #' @param d.min Diameter for genes of the minimum allele count.
@@ -40,7 +42,6 @@
 #' @author Yu Wan (\email{wanyuac@@gmail.com})
 #' @export
 #
-# Dependency: ggplot2
 # Copyright 2018 Yu Wan
 # Licensed under the Apache License, Version 2.0
 # First version: 4 Sep 2018, the lastest edition: 6 Sep 2018
