@@ -16,8 +16,7 @@
 #' p-values in the result.
 #'
 #' @examples sg <- betaSignCongruence(lmms = assoc_lmm$lmms.pat$dif$h1,
-#' plms = assoc_lgr$pat, p.max = 1, step = 0.005/nrow(assoc_lmm$lmms.pat$dif$h1),
-#' nevLog = TRUE)
+#' plms = assoc_lgr$pat, p.max = 1, step = 0.0005, nevLog = TRUE)
 #'
 #' @return A data frame of percentages as measurements of sign congruence.
 #'

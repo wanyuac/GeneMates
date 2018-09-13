@@ -32,8 +32,7 @@ having the same sign. The outcome can be visualised as a scatter plot or so.
 }
 \examples{
 sg <- betaSignCongruence(lmms = assoc_lmm$lmms.pat$dif$h1,
-plms = assoc_lgr$pat, p.max = 1, step = 0.005/nrow(assoc_lmm$lmms.pat$dif$h1),
-nevLog = TRUE)
+plms = assoc_lgr$pat, p.max = 1, step = 0.0005, nevLog = TRUE)
 
 }
 \author{
