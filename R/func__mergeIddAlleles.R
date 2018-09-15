@@ -50,7 +50,7 @@
 #
 # Copyright 2017 Yu Wan <wanyuac@gmail.com>
 # Licensed under the Apache License, Version 2.0
-# First edition: 30 June 2017; the latest edition: 3 April 2018.
+# First edition: 30 June 2017; the latest edition: 15 September 2018.
 
 mergeIddAlleles <- function(assoc, other.cols = NULL, lmms.only = FALSE,
                             replace.names = TRUE) {
@@ -151,7 +151,7 @@ mergeIddAlleles <- function(assoc, other.cols = NULL, lmms.only = FALSE,
     if (nrow(cl) > 0) {
         y <- list(cls = cl, merged = merged, unmerged = keep.sep)
     } else {
-        y <- NULL
+        y <- list(cls = NULL, merged = NULL, unmerged = keep.sep)
     }
 
     return(y)
@@ -162,42 +162,46 @@ mergeIddAlleles <- function(assoc, other.cols = NULL, lmms.only = FALSE,
 # merges vertex properties in a network.
 .modifyAssocTable <- function(assoc, cls, lmms.only = FALSE, replace.names = TRUE) {
     # assuming that assoc is a data frame of symmetric associations
-    edges <- vector(mode = "list", length = 0)
-    for (i in 1 : nrow(cls)) {  # for every cluster
-        cl.id <- cls$ID[i]  # get the current cluster ID
-        alleles <- strsplit(x = cls$Alleles[i], split = ",", fixed = FALSE)[[1]]  # alleles comprising this cluster
-        cluster.edges <- (assoc$x %in% alleles) | (assoc$y %in% alleles)  # select edges involving allele clusters
+    if (!is.null(cls)) {
+        edges <- vector(mode = "list", length = 0)
+        for (i in 1 : nrow(cls)) {  # for every cluster
+            cl.id <- cls$ID[i]  # get the current cluster ID
+            alleles <- strsplit(x = cls$Alleles[i], split = ",", fixed = FALSE)[[1]]  # alleles comprising this cluster
+            cluster.edges <- (assoc$x %in% alleles) | (assoc$y %in% alleles)  # select edges involving allele clusters
 
-        if (sum(cluster.edges) > 0) {
-            a <- subset(assoc, cluster.edges)  # select all edges involving alleles of the current cluster
-            b <- subset(assoc, !cluster.edges)  # other edges, which will be processed in the next iteration
+            if (sum(cluster.edges) > 0) {
+                a <- subset(assoc, cluster.edges)  # select all edges involving alleles of the current cluster
+                b <- subset(assoc, !cluster.edges)  # other edges, which will be processed in the next iteration
 
-            # substitute allele names in a with the current cluster ID
-            a$y[a$y %in% alleles] <- cl.id
-            a$x[a$x %in% alleles] <- cl.id
-            edges[[cl.id]] <- a  # add modified edges into the list
+                # substitute allele names in a with the current cluster ID
+                a$y[a$y %in% alleles] <- cl.id
+                a$x[a$x %in% alleles] <- cl.id
+                edges[[cl.id]] <- a  # add modified edges into the list
 
-            # replace cluster names with allele names
-            if (replace.names) {
-                allele.names <- paste(alleles, collapse = "&")  # paste allele names back into a single string
-                a$y[which(a$y == cl.id)] <- allele.names
-                a$x[which(a$x == cl.id)] <- allele.names
-            }
+                # replace cluster names with allele names
+                if (replace.names) {
+                    allele.names <- paste(alleles, collapse = "&")  # paste allele names back into a single string
+                    a$y[which(a$y == cl.id)] <- allele.names
+                    a$x[which(a$x == cl.id)] <- allele.names
+                }
 
-            # merge rows where edges become the same (namely, x1 = x2, y1 = y2)
-            # after the allele-name substitution in this iteration
-            a <- .mergeIdenticalEdges(a, lmms.only)
+                # merge rows where edges become the same (namely, x1 = x2, y1 = y2)
+                # after the allele-name substitution in this iteration
+                a <- .mergeIdenticalEdges(a, lmms.only)
 
-            assoc <- rbind.data.frame(a, b, stringsAsFactors = FALSE)
-        }  # No modification is performed when this cluster is not connected to any other alleles
+                assoc <- rbind.data.frame(a, b, stringsAsFactors = FALSE)
+            }  # No modification is performed when this cluster is not connected to any other alleles
+        }
+        assoc <- assoc[order(assoc$pair, decreasing = FALSE), ]
+        print(paste("Reminder: this modified association table does not include",
+                    "associations and physical distances between identically",
+                    "distributed alleles. For these alleles, plase inspect the",
+                    "original association table to infer their co-transfer status.",
+                    sep = " "))  # An important message for users.
+    } else {  # No edges will be merged.
+        print("No edges are merged.")
+        edges <- NULL
     }
-
-    assoc <- assoc[order(assoc$pair, decreasing = FALSE), ]
-    print(paste("Reminder: this modified association table does not include",
-                "associations and physical distances between identically",
-                "distributed alleles. For these alleles, plase inspect the",
-                "original association table to infer their co-transfer status.",
-                sep = " "))  # An important message for users.
 
     return(list(a = assoc, edges = edges))
 }
