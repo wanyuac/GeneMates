@@ -39,7 +39,7 @@
 #' @export
 #' @author Guangchuang Yu, Yu Wan (\email{wanyuac@@gmail.com})
 #
-# First and the latest edition of this function: 5 Sep 2018
+# First edition of this function: 5 Sep 2018; the latest edition: 20/9/2018
 # Licence: Artistic License 2.0 (follow the licence of the package ggtree)
 
 heatMapPAM <- function(p, data, col_colours = "black", null_colour = "grey90",
@@ -71,17 +71,23 @@ heatMapPAM <- function(p, data, col_colours = "black", null_colour = "grey90",
     if (cluster_cols && ncol(data) > 2) {
         hc <- hclust(d = dist(t(data), method = cluster_distance),
                      method = cluster_method)
-        data <- data[, hc$order]
+        data <- data[, hc$order]  # reorder columns
+        clustered <- TRUE
+    } else {
+        clustered <- FALSE
     }
 
     # weight cells before converting the PAM (dd) into a data frame
     n_colours <- length(col_colours)
-    is_multi_colour <- n_colours > 1 && !is.null(names(colours))
+    is_multi_colour <- n_colours > 1 && !is.null(names(col_colours))
     if (is_multi_colour) {
         colours_uniq <- sort(unique(as.character(col_colours)), decreasing = FALSE)  # colours for positive values in PAM
         colour_codes <- 1 : length(colours_uniq)  # codes for colours
         names(colour_codes) <- colours_uniq  # e.g., c("red" = 1, "blue" = 2, ...)
         column_names <- colnames(data)  # the matrix product loses column names
+        if (clustered) {
+            col_colours <- col_colours[column_names]
+        }
         data <- data %*% diag(as.integer(colour_codes[as.character(col_colours)]))  # convert colour characters into integer codes
         colnames(data) <- column_names
         names(colours_uniq) <- as.character(colour_codes)
