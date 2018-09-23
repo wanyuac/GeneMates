@@ -37,7 +37,7 @@ compEdgeOccur <- function(nwk, apam, directed = TRUE) {
     ep <- nwk@E[, c("pair", "y", "x")]
     ep <- ep[order(ep$pair, decreasing = FALSE), ]
     ep$pair <- paste0("e", ep$pair)  # 1, 2, ... => e1, e2, ...
-    names(ep)[1] <- "edge_ID"
+    names(ep)[1] <- "edge_ID"  # replace the first column name
     ep$edge_name <- mapply(function(a1, a2) paste(a1, a2, sep = "&"), ep$y, ep$x)
     eids <- ep$edge_ID
     n <- length(eids)  # number of undirected edges
