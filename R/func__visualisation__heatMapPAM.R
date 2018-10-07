@@ -24,6 +24,9 @@
 #' @param colnames_position One of 'bottom' or 'top'
 #' @param colnames_angle Angle of column names
 #' @param colnames_level Levels of colnames
+#' @param set_label_colours Whether colour column names in the same way as painting columns.
+#' By default, this option is turned off, which result in all column names to be printed
+#' in black.
 #' @param colnames_offset_x x offset for column names
 #' @param colnames_offset_y y offset for column names
 #' @param font.size Font size of matrix colnames
@@ -39,15 +42,15 @@
 #' @export
 #' @author Guangchuang Yu, Yu Wan (\email{wanyuac@@gmail.com})
 #
-# First edition of this function: 5 Sep 2018; the latest edition: 20/9/2018
+# First edition of this function: 5 Sep 2018; the latest edition: 7 Oct 2018
 # Licence: Artistic License 2.0 (follow the licence of the package ggtree)
 
 heatMapPAM <- function(p, data, col_colours = "black", null_colour = "grey90",
                        border_colour = "white",
                        cluster_cols = FALSE, cluster_method = "single",
                        cluster_distance = "binary", colnames = TRUE,
-                       colnames_position = "bottom",
-                       colnames_angle = 0, colnames_level = NULL,
+                       colnames_position = "bottom", colnames_angle = 0,
+                       colnames_level = NULL, set_label_colours = FALSE,
                        colnames_offset_x = 0, colnames_offset_y = 0,
                        font.size = 4, hjust = 0.5, offset = 0, width = 1,
                        show_legend = FALSE) {
@@ -93,7 +96,7 @@ heatMapPAM <- function(p, data, col_colours = "black", null_colour = "grey90",
         names(colours_uniq) <- as.character(colour_codes)
         colours_uniq <- append(c("0" = null_colour), colours_uniq)
 
-        # convert values in the matrix into levels for assigning colours
+        # Convert values in the matrix into factors so as to map colours to the levels
         dd <- as.data.frame(data)
         for (i in names(dd)) {
             dd[, i] <- factor(dd[, i], levels = c(0, as.integer(colour_codes)),
@@ -126,9 +129,19 @@ heatMapPAM <- function(p, data, col_colours = "black", null_colour = "grey90",
         dd$variable <- factor(dd$variable, levels = colnames_level)
     }
     V2 <- start + as.numeric(dd$variable) * width
-    mapping <- data.frame(from = dd$variable, to = V2)
-    mapping <- unique(mapping)
 
+    # Create a data frame for label attributes
+    mapping <- data.frame(from = as.character(dd$variable), to = V2, stringsAsFactors = FALSE)  # from: label texts
+    mapping <- unique(mapping)
+    paint_labels <- set_label_colours && is_multi_colour
+    if (paint_labels) {
+        mapping$col <- as.character(col_colours[mapping$from])  # variable label colour
+        mapping$col <- factor(mapping$col, levels = as.character(colours_uniq),
+                              labels = names(colours_uniq))
+    }
+    mapping$from = as.factor(mapping$from)  # change back to factors
+
+    # Create the coloured tile matrix
     dd$x <- V2
     dd$width <- width
     dd[[".panel"]] <- factor("Tree")
@@ -139,15 +152,8 @@ heatMapPAM <- function(p, data, col_colours = "black", null_colour = "grey90",
         p2 <- p + geom_tile(data = dd, aes(x, y, fill = value), width = width,
                             colour = border_colour, inherit.aes = FALSE)
     }
-    if (is_multi_colour) {
-        p2 <- p2 + scale_fill_manual(name = "Class",
-                                     breaks = c("0", as.character(colour_codes)),
-                                     values = colours_uniq, na.value = NA)
-    } else {
-        p2 <- p2 + scale_fill_gradient(low = null_colour, high = col_colours,
-                                       na.value = NA)
-    }
 
+    # Print column names
     if (colnames) {
         if (colnames_position == "bottom") {
             y <- 0
@@ -156,17 +162,43 @@ heatMapPAM <- function(p, data, col_colours = "black", null_colour = "grey90",
         }
         mapping$y <- y
         mapping[[".panel"]] <- factor("Tree")
-        p2 <- p2 + geom_text(data = mapping, aes(x = to, y = y, label = from),
-                             size = font.size, inherit.aes = FALSE,
-                             angle = colnames_angle, nudge_x = colnames_offset_x,
-                             nudge_y = colnames_offset_y, hjust = hjust)
+        if (paint_labels) {
+            p2 <- p2 + geom_text(data = mapping,
+                                 aes(x = to, y = y, label = from, colour = col),
+                                 size = font.size, inherit.aes = FALSE,
+                                 angle = colnames_angle, nudge_x = colnames_offset_x,
+                                 nudge_y = colnames_offset_y, hjust = hjust)
+        } else {  # Labels are printed in black.
+            p2 <- p2 + geom_text(data = mapping,
+                                 aes(x = to, y = y, label = from),
+                                 size = font.size, inherit.aes = FALSE,
+                                 angle = colnames_angle, nudge_x = colnames_offset_x,
+                                 nudge_y = colnames_offset_y, hjust = hjust)
+        }
     }
 
+    # Scale colours for both tiles and column labels
+    if (is_multi_colour) {
+        # This command does not scale label colours when paint_labels = FALSE.
+        # Class: title of the legend
+        # scale_fill_manual: for tile colours; scale_colour_manual: for label colours
+        p2 <- p2 + scale_fill_manual(name = "Class",
+                                     breaks = c("0", as.character(colour_codes)),
+                                     values = colours_uniq, na.value = NA) +
+            scale_colour_manual(name = "Class",
+                                breaks = c("0", as.character(colour_codes)),
+                                values = colours_uniq, na.value = NA)
+    } else {
+        p2 <- p2 + scale_fill_gradient(low = null_colour, high = col_colours,
+                                       na.value = NA)
+    }
+
+    # Print legend
     if (show_legend) {
         p2 <- p2 + theme(legend.position = "right", legend.title = element_blank())
     }
 
     attr(p2, "mapping") <- mapping
 
-    return(p2)
+    return(list(p = p2, mapping = mapping, data = dd))
 }

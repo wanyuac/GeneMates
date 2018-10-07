@@ -8,8 +8,9 @@ heatMapPAM(p, data, col_colours = "black", null_colour = "grey90",
   border_colour = "white", cluster_cols = FALSE,
   cluster_method = "single", cluster_distance = "binary", colnames = TRUE,
   colnames_position = "bottom", colnames_angle = 0, colnames_level = NULL,
-  colnames_offset_x = 0, colnames_offset_y = 0, font.size = 4,
-  hjust = 0.5, offset = 0, width = 1, show_legend = FALSE)
+  set_label_colours = FALSE, colnames_offset_x = 0, colnames_offset_y = 0,
+  font.size = 4, hjust = 0.5, offset = 0, width = 1,
+  show_legend = FALSE)
 }
 \arguments{
 \item{p}{A tree view from the function ggtree in the package ggtree}
@@ -38,6 +39,10 @@ than three columns in the PAM.}
 \item{colnames_angle}{Angle of column names}
 
 \item{colnames_level}{Levels of colnames}
+
+\item{set_label_colours}{Whether colour column names in the same way as painting columns.
+By default, this option is turned off, which result in all column names to be printed
+in black.}
 
 \item{colnames_offset_x}{x offset for column names}
 
