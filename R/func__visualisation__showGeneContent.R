@@ -26,8 +26,7 @@
 #' @param panelC.xinterv Distance between major ticks on the X axis of the second
 #' bar plot (panel b). Default: 50.
 #' @param prev.out Output from a previous run of this function.
-#' @param panelB.lwd An integer specifying the width of bars for gene counts per
-#' strain in the panel b. Default: 1.
+#' @param panelB.col Colour for a bar plot in the panel b. Default: grey50.
 #' @param panelC.lwd An integer specifying the width of bars for allele frequencies
 #' in the panel c. Default: 1.
 #' @param f Name for the output PNG file. Default: gene_content.png.
@@ -44,14 +43,14 @@
 #
 # Copyright 2018 Yu Wan
 # Licensed under the Apache License, Version 2.0
-# First version: 4 Sep 2018, the lastest edition: 6 Sep 2018
+# First version: 4 Sep 2018, the lastest edition: 7 Oct 2018
 
 showGeneContent <- function(af, gf, pam.g, d.min = 2, d.max = 20,
                             fill.colour, border.colour = "grey90",
                             core.genes = NULL, bar.acc = FALSE,
                             panel.names = c("a", "b", "c"), panelA.xmax = 120,
                             panelB.xinterv = 5, panelB.yinterv = 20,
-                            panelB.lwd = 1, panelC.lwd = 1, panelC.xinterv = 20,
+                            panelB.col = "grey50", panelC.lwd = 1, panelC.xinterv = 20,
                             prev.out = NULL, f = "gene_content.png",
                             w = 170, h = 200, r = 300, u = "mm",
                             img.oma = c(0.1, 0.1, 0.1, 0.1),
@@ -128,7 +127,7 @@ showGeneContent <- function(af, gf, pam.g, d.min = 2, d.max = 20,
     y_max_c <- ceiling(max(af$freq) / 10) * 10  # for panel c
     x_max_c <- ceiling(n_a / panelC.xinterv) * panelC.xinterv
 
-    # Make the figure covering 188 alleles ===============
+    # Make the figure covering alleles ===============
     png(filename = f, width = w, height = h, res = r, units = u)
     layout(mat = matrix(c(1, 1, 2, 3), byrow = FALSE, ncol = 2))
     par(oma = img.oma, mar = img.mar, mgp = img.mgp)
@@ -145,10 +144,37 @@ showGeneContent <- function(af, gf, pam.g, d.min = 2, d.max = 20,
 
     # Panel b at the bottom: a bar plot of gene count per strain
     # https://stackoverflow.com/questions/38002360/increasing-the-width-of-type-h-r-plot
-    plot(x = xs, y = ys, col = "black", type = "h", lwd = panelB.lwd, lend = 1,
-         xlab = "Gene count", ylab = "Strain count", xlim = c(0, x_max),
-         ylim = c(0, y_max), axes = FALSE, cex.lab = 1)
-    axis(side = 1, at = seq(0, x_max, by = panelB.xinterv), cex.axis = 0.8)
+    #plot(x = xs, y = ys, col = "black", type = "h", lwd = panelB.lwd, lend = 1,
+    #     xlab = "Gene count", ylab = "Strain count", xlim = c(0, x_max),
+    #     ylim = c(0, y_max), axes = FALSE, cex.lab = 1)
+    # Determine bar heights at continuous integers
+    ys_b <- rep(0, times = x_max + 1)  # default heights in the panel b
+    for (i in 1 : length(xs)) {
+        x <- xs[i]
+        ys_b[x + 1] <- ys[i]  # xs and ys are matched.
+    }
+
+    # Produce labels on the X axis
+    x_labs <- rep(NA, times = length(ys_b))
+    prev_val <- 0  # the previous value written into x_labs
+    x_labs[1] <- as.character(prev_val)  # the first label
+    lab_counter <- 0
+    for (i in 2 : length(x_labs)) {
+        lab_counter <- lab_counter + 1
+        # Since x_max is determined by panelB.xinterv, the last element written
+        # into the x_labs must equal x_max.
+        if (lab_counter == panelB.xinterv) {
+            prev_val <- prev_val + panelB.xinterv
+            x_labs[i] <- as.character(prev_val)
+            lab_counter <- 0
+        }
+    }
+
+    # Make the bar plot for panel b
+    barplot(height = ys_b, names.arg = x_labs, col = panelB.col, axes = FALSE,
+            xlab = "Gene count", ylab = "Strain count", cex.lab = 1,
+            ylim = c(0, y_max))  # bars is a matrix of a single column, which stores the midpoint of each bar.
+    #axis(side = 1, at = bars[, 1], labels = x_labs, cex.axis = 0.8, vadj = -0.5)
     axis(side = 2, at = seq(0, y_max, by = panelB.yinterv), cex.axis = 0.8)
     minor_y_interv_width <- panelB.yinterv / 2
     rug(side = 2, x = seq(minor_y_interv_width, y_max - minor_y_interv_width,

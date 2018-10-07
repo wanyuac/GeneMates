@@ -9,13 +9,13 @@ ringPlotPAM(pam, genotypes, tree, y = NULL, y.pat = NULL,
   struc.pmax = 0.05, struc.nmax = 10, genotype.cluster = TRUE,
   genotype.dist = "binary", cluster.method = "single",
   pam.colour = "grey50", co.colours = "red", null.colour = "grey90",
-  y.colour = "grey10", highlight.tips = NULL, highlight.tip.colour = NULL,
-  highlight.tip.shape = 16, highlight.tip.size = 1,
-  highlight.tip.alpha = 0.75, clade.colours = rainbow(10),
-  output = "ringPlot.png", is.pdf = FALSE, res = 72, width = 1600,
-  height = 1600, unit = "px", htmap.width = 0.5, offset = -0.001,
-  branch.width = 0.25, font.size = 2, print.colnames = TRUE,
-  show.legend = FALSE)
+  y.colour = "grey10", highlight.tips = NULL,
+  highlight.tip.colour = "red", highlight.tip.shape = 16,
+  highlight.tip.size = 1, highlight.tip.alpha = 0.75,
+  clade.colours = rainbow(10), output = "ringPlot.png", is.pdf = FALSE,
+  res = 72, width = 1600, height = 1600, unit = "px",
+  htmap.width = 0.5, offset = -0.001, branch.width = 0.25,
+  font.size = 2, print.colnames = TRUE, show.legend = FALSE)
 }
 \arguments{
 \item{pam}{A presence/absence matrix (PAM) of genotypes (either alleles or genes)}

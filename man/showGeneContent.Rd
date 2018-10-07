@@ -7,7 +7,7 @@
 showGeneContent(af, gf, pam.g, d.min = 2, d.max = 20, fill.colour,
   border.colour = "grey90", core.genes = NULL, bar.acc = FALSE,
   panel.names = c("a", "b", "c"), panelA.xmax = 120, panelB.xinterv = 5,
-  panelB.yinterv = 20, panelB.lwd = 1, panelC.lwd = 1,
+  panelB.yinterv = 20, panelB.col = "grey50", panelC.lwd = 1,
   panelC.xinterv = 20, prev.out = NULL, f = "gene_content.png", w = 170,
   h = 200, r = 300, u = "mm", img.oma = c(0.1, 0.1, 0.1, 0.1),
   img.mar = c(3, 2.6, 1, 0.5), img.mgp = c(1.8, 0.6, -0.2))
@@ -42,8 +42,7 @@ bar plot (panel b). Default: 5.}
 \item{panelB.yinterv}{Distance between major ticks on the Y axis of the first
 bar plot (panel b). Default: 20.}
 
-\item{panelB.lwd}{An integer specifying the width of bars for gene counts per
-strain in the panel b. Default: 1.}
+\item{panelB.col}{Colour for a bar plot in the panel b. Default: grey50.}
 
 \item{panelC.lwd}{An integer specifying the width of bars for allele frequencies
 in the panel c. Default: 1.}
