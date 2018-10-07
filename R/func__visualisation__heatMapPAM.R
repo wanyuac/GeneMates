@@ -35,9 +35,12 @@
 #' @param width Total width of heatmap, compare to width of tree
 #' @param show_legend A logical argument determining whether to show the legend.
 #'
-#' @return When multiple colours are provided, the function returns a list of a
-#' tree view and a columnwise weighted PAM. Otherwise, only the tree view is
-#' returned.
+#' @return A list of three elements: p, a tree view that can be plotted directly;
+#' mapping: a data frame mapping allele names to colours; data, a data frame of
+#' weighted presence-absence status.
+#'
+#' @examples htmap <- heatMapPAM(...)
+#' plot(htmap$p)
 #'
 #' @export
 #' @author Guangchuang Yu, Yu Wan (\email{wanyuac@@gmail.com})

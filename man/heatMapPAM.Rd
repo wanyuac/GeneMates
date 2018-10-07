@@ -59,9 +59,9 @@ in black.}
 \item{show_legend}{A logical argument determining whether to show the legend.}
 }
 \value{
-When multiple colours are provided, the function returns a list of a
-tree view and a columnwise weighted PAM. Otherwise, only the tree view is
-returned.
+A list of three elements: p, a tree view that can be plotted directly;
+mapping: a data frame mapping allele names to colours; data, a data frame of
+weighted presence-absence status.
 }
 \description{
 To append a heatmap of a presence-absence matrix (PAM) to the
@@ -72,6 +72,11 @@ in the heat map can be coloured by group information. This function is useful
 when users need draw a heat map of gene or allele contents across strains.
 
 In the PAM, absence status is coded as zero and presence status is coded as one.
+}
+\examples{
+htmap <- heatMapPAM(...)
+plot(htmap$p)
+
 }
 \author{
 Guangchuang Yu, Yu Wan (\email{wanyuac@gmail.com})
