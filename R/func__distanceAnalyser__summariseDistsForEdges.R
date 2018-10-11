@@ -28,6 +28,10 @@
 #'   Nc_r: number of reliable distances from contigs;
 #'   Nf: number of distances from finished-grade genomes.
 #'
+#' @note Since the distance measurements may be prioritised according to their
+#' sources, Ng and Ng_r may not be accurate when Nc_r or Nf > 0; Nc_r may not be
+#' accurate when Nf > 0.
+#'
 #' @examples
 #'   assoc_lmm <- findPhysLink(...)
 #'   a_lmm_dif <- subset(assoc_lmm$assoc, beta > 0 & p_adj <= 0.05)
@@ -37,12 +41,13 @@
 #'                                      source.complete = NA, sort.output = TRUE)
 #'   ds_stats <- ds_stats[, c("Allele_1", "Allele_2", "Co", "S_d", "M", "Mr", "N", "Nr", "Nc_r")]  # For prioritised distances, Nc_r and Ng are mutually exclusive.
 #'
+#'
 #' @author Yu Wan, \email{wanyuac@@gmail.com}
 #' @export summariseDistsForEdges
 #
 #  Copyright 2018 Yu Wan
 #  Licensed under the Apache License, Version 2.0
-#  First edition: 10 Oct 2017, the lastest edition: 10 Oct 2018
+#  First edition: 10 Oct 2017, the lastest edition: 11 Oct 2018
 
 summariseDistsForEdges <- function(E, ds, d.max = 250e3, n.max = 2, source.graph = "graph",
                                    source.contig = "contig", source.complete = "complete",
@@ -102,7 +107,7 @@ summariseDistsForEdges <- function(E, ds, d.max = 250e3, n.max = 2, source.graph
     ds <- getRowsXY(df = ds, k1 = a1, k2 = a2, c1 = "query1", c2 = "query2")
     n <- nrow(ds)
     if (n > 0) {
-        m <- round(n / co * 100, digits = 2)  # measurability based on all distance measurements
+        m <- round(n / co, digits = 4)  # measurability based on all distance measurements
         if (!is.na(source.graph)) {
             ng <- sum(ds$source == source.graph)  # number of distances measured in assembly graphs
         } else {
@@ -123,7 +128,7 @@ summariseDistsForEdges <- function(E, ds, d.max = 250e3, n.max = 2, source.graph
         # summarise reliable distances
         nr <- nrow(ds_reli)
         if (nr > 0) {
-            mr <- round(nr / co * 100, digits = 2)
+            mr <- round(nr / co, digits = 4)
             source_tab <- table(ds_reli$source)
             source_list <- names(source_tab)
             if (!is.na(source.graph) && source.graph %in% source_list) {

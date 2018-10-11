@@ -47,6 +47,11 @@ This function summarises allelic physical distances for a table
 of edges. The result shows how does the incorporation of physical distances
 affect the edge weights (weighted distance score: w_d).
 }
+\note{
+Since the distance measurements may be prioritised according to their
+sources, Ng and Ng_r may not be accurate when Nc_r or Nf > 0; Nc_r may not be
+accurate when Nf > 0.
+}
 \examples{
   assoc_lmm <- findPhysLink(...)
   a_lmm_dif <- subset(assoc_lmm$assoc, beta > 0 & p_adj <= 0.05)
@@ -55,6 +60,7 @@ affect the edge weights (weighted distance score: w_d).
                                      source.graph = "graph", source.contig = "contig",
                                      source.complete = NA, sort.output = TRUE)
   ds_stats <- ds_stats[, c("Allele_1", "Allele_2", "Co", "S_d", "M", "Mr", "N", "Nr", "Nc_r")]  # For prioritised distances, Nc_r and Ng are mutually exclusive.
+
 
 }
 \author{
