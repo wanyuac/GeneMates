@@ -18,19 +18,21 @@
 #' @param graphs A Graph object created using the function extractSubgraphs.
 #' @param edge.attr A character vector of column names for edge attributes.
 #' @param node.attr A character vector of column names for node attributes.
+#' @param id A name (character) for the output network object (default: "").
 #'
 #' @examples g <- compileGraphs(graphs = clusters, edge.attr = c("beta", "score"),
-#' node.attr = c("n", "class"))
+#' node.attr = c("n", "class"), id = "cliques")
 #'
 #' @author Yu Wan (\email{wanyuac@@gmail.com})
 #' @export
 #
 #  Copyright 2018 Yu Wan
 #  Licensed under the Apache License, Version 2.0
-#  First version: 14 Mar 2018; the lastest edition: 10 Aug 2018
+#  First version: 14 Mar 2018; the lastest edition: 27 Oct 2018
 #  In memorial to the physicist Stephen Hawking, 8/1/1942 - 14/3/2018 (aged 76).
 
-compileGraphs <- function(graphs, edge.attr = NULL, node.attr = NULL) {
+compileGraphs <- function(graphs, edge.attr = NULL, node.attr = NULL,
+                          id = "") {
     # Sanity check
     if (as.character(class(graphs)) != "GraphSet") {
         stop("Argument error: graphs must be an object of the class GraphSet.")
@@ -68,5 +70,5 @@ compileGraphs <- function(graphs, edge.attr = NULL, node.attr = NULL) {
     }
 
     # return a Graph object
-    return(new("Graph", id = NULL, E = E, V = V))
+    return(new("Graph", id = id, E = E, V = V))
 }

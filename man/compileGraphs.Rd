@@ -5,7 +5,7 @@
 \title{Compile graphs in a GraphSet object into a single network while retaining
 separation between individual graphs.}
 \usage{
-compileGraphs(graphs, edge.attr = NULL, node.attr = NULL)
+compileGraphs(graphs, edge.attr = NULL, node.attr = NULL, id = "")
 }
 \arguments{
 \item{graphs}{A Graph object created using the function extractSubgraphs.}
@@ -13,6 +13,8 @@ compileGraphs(graphs, edge.attr = NULL, node.attr = NULL)
 \item{edge.attr}{A character vector of column names for edge attributes.}
 
 \item{node.attr}{A character vector of column names for node attributes.}
+
+\item{id}{A name (character) for the output network object (default: "").}
 }
 \description{
 This function pools graphs in a Graph object into a single network
@@ -31,7 +33,7 @@ source and target columns are specified based on the third and fourth columns.
 }
 \examples{
 g <- compileGraphs(graphs = clusters, edge.attr = c("beta", "score"),
-node.attr = c("n", "class"))
+node.attr = c("n", "class"), id = "cliques")
 
 }
 \author{
