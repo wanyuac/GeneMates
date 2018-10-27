@@ -1,9 +1,12 @@
 #' @title Evaluate evidence of physical linkage for positive associations with summary statistics of distance measurements
 #'
-#' @description This function must be used after running through the findPhysLink function.
+#' @description This function evaluates evidence of physical linkage using association
+#' status and consistency in allelic physical distances.
 #'
-#' @param lmms a list produced by .summariseDist, which contains LMM parameters
-#' and distance measurements
+#' @param lmms This argument can be a list produced by the function summariseDist,
+#' which contains LMM parameters and distance measurements. It can also be the
+#' data frame assoc in the output of findPhysLink. When the latter kind of input
+#' is used, users can rescore the evidence using new criteria.
 #' @param min.beta only associations with beta's >= min.beta will be considered
 #' as showing evidence of physical linkage.
 #' @param max.p only associations with P values <= max.p will be considered as signficant.
@@ -13,35 +16,40 @@
 #' inclusive clade to display a positive binary trait, such as having a pair of
 #' alleles co-occurring or a specific allelic physical distance. Default: 0.9 (90\%).
 #'
-#' @author Yu Wan (\email{wanyuac@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@gmail.com})
 #' @export
 #
 #  Copyright 2017-2018 Yu Wan
 #  Licensed under the Apache License, Version 2.0
-#  First edition: 1 June 2017; latest edition: 2 April 2018
+#  First edition: 1 June 2017; latest edition: 27 Oct 2018
 
 evalPL <- function(lmms, min.beta = 0, max.p = 0.05, max.range = 2000, min.pIBD = 0.9) {
     print(paste0(Sys.time(), ": Evaluating evidence of physical linkage."))
 
     # Sanity check
-    if (class(lmms) != "list") {  # The input must be a list produced by the function summariseDist.
-        stop("Argument error: \"lmms\" must be a list produced by the function summariseDist.")
-    } else if (!("dif" %in% names(lmms))) {  # two requisite elements
-        stop("Structural error: the list \"lmms\" must contain an elements called \"dif\".")
-    }
-
-    # Concatenate data frame elements in the list lmms into a single one
-    assoc <- NULL
-    for (g in names(lmms)) {  # c("dif", "idd") or "dif" only
-        d <- lmms[[g]]
-        if (!is.null(d)) {  # assign groups of association results
-            if (g == "dif") {
-                d$dif <- rep(1, times = nrow(d))  # Are alleles differently distributed? Yes
-            } else {
-                d$dif <- rep(0, times = nrow(d))  # identically distributed; # beta = 1 for all idd. alleles and all associations are considered as significant.
-            }
+    arg_cls <- class(lmms)
+    if (arg_cls == "list") {  # lmms = summariseDist(...)
+        if (!("dif" %in% names(lmms))) {
+            stop("Structural error: the list \"lmms\" must contain an elements called \"dif\".")
         }
-        assoc <- rbind.data.frame(assoc, d, stringsAsFactors = FALSE)
+
+        # Concatenate data frame elements in the list lmms into a single one
+        assoc <- NULL
+        for (g in names(lmms)) {  # c("dif", "idd") or "dif" only
+            d <- lmms[[g]]
+            if (!is.null(d)) {  # assign groups of association results
+                if (g == "dif") {
+                    d$dif <- rep(1, times = nrow(d))  # Are alleles differently distributed? Yes
+                } else {
+                    d$dif <- rep(0, times = nrow(d))  # identically distributed; # beta = 1 for all idd. alleles and all associations are considered as significant.
+                }
+            }
+            assoc <- rbind.data.frame(assoc, d, stringsAsFactors = FALSE)
+        }
+    } else if (arg_cls == "data.frame") {  # element "assoc" from findPhysLink
+        assoc <- lmms
+    } else {
+        stop("Argument error: \"lmms\" must be a list produced by the function summariseDist.")
     }
 
     # Score evidence for physical linkage

@@ -8,8 +8,10 @@ evalPL(lmms, min.beta = 0, max.p = 0.05, max.range = 2000,
   min.pIBD = 0.9)
 }
 \arguments{
-\item{lmms}{a list produced by .summariseDist, which contains LMM parameters
-and distance measurements}
+\item{lmms}{This argument can be a list produced by the function summariseDist,
+which contains LMM parameters and distance measurements. It can also be the
+data frame assoc in the output of findPhysLink. When the latter kind of input
+is used, users can rescore the evidence using new criteria.}
 
 \item{min.beta}{only associations with beta's >= min.beta will be considered
 as showing evidence of physical linkage.}
@@ -24,7 +26,8 @@ inclusive clade to display a positive binary trait, such as having a pair of
 alleles co-occurring or a specific allelic physical distance. Default: 0.9 (90\%).}
 }
 \description{
-This function must be used after running through the findPhysLink function.
+This function evaluates evidence of physical linkage using association
+status and consistency in allelic physical distances.
 }
 \author{
 Yu Wan (\email{wanyuac@gmail.com})
