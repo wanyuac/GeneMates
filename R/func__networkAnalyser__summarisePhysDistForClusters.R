@@ -14,6 +14,7 @@
 #' @param cls.distr A data frame produced by the function getClusterMemberCooccurrence for cluster distributions.
 #' It shows strains where the most number of alleles are consistently co-occurring.
 #' @param cls.col The name or index for the column of cluster IDs in cls.distr. Default: 1 (the first column).
+#' @param allele.col The name or index for the column of allele IDs in cls.distr. Default: 2 (the second column).
 #' @param cls A GraphSet-class object produced by the function extractSubgraphs, which lists edges per cluster.
 #' @param ds A data frame of physical distances measured in all strains. It can be obtained from the data
 #' frame "ds" in the output list of the function findPhysLink. The distances may be pre-filterred for a
@@ -42,15 +43,19 @@
 #'
 #  Copyright 2017 Yu Wan
 #  Licensed under the Apache License, Version 2.0
-#  First edition: 2 Oct 2017, the latest edition: 4 Oct 2017
+#  First edition: 2 Oct 2017, the latest edition: 29 Oct 2018
 
-summarisePhysDistForClusters <- function(cls.distr, cls.col = 1, cls, ds,
-                                         bidirectional = TRUE, sample.dists = NULL,
-                                         clade.pam = NULL, clade.sizes = NULL) {
+summarisePhysDistForClusters <- function(cls.distr, cls.col = 1, allele.col = 2,
+                                         cls, ds, bidirectional = TRUE,
+                                         sample.dists = NULL, clade.pam = NULL,
+                                         clade.sizes = NULL) {
     require(data.table)
 
-    if (is.integer(cls.col)) {
-        cls.col <- names(cls.distr)[1]  # It is easier to have the column name rather than the index for programming.
+    if (is.numeric(cls.col)) {  # is.integer does not work here.
+        cls.col <- names(cls.distr)[cls.col]  # It is easier to have the column name rather than the index for programming.
+    }
+    if (is.numeric(allele.col)) {
+        allele.col <- names(cls.distr)[allele.col]
     }
 
     # split the input data frame for empty and non-empty rows
@@ -89,12 +94,19 @@ summarisePhysDistForClusters <- function(cls.distr, cls.col = 1, cls, ds,
         cluster_summary <- merge(x = cls.distr, y = cluster_summary, by = cls.col, all = TRUE, sort = TRUE)
 
         # rearrange columns to highlight key information
-        cluster_summary <- cluster_summary[, c(cls.col, "size", "co_max", "co_perc",
-                                               "strains_num", "strains_max_div", "clade_co_freq", "clade",
-                                               "clade_size", "strains100_num", "min_connectivity",
-                                               "strains100_max_div", "dmax_top", "dmax_median", "dmax_min",
-                                               "clade100_freq", "clade100", "clade100_size", "alleles",
-                                               "alleles_max_co", "strains", "strains100")]
+        new_order <- c(cls.col, "size", "co_max", "co_perc",
+                       "strains_num", "strains_max_div", "clade_co_freq", "clade",
+                       "clade_size", "strains100_num", "min_connectivity",
+                       "strains100_max_div", "dmax_top", "dmax_median", "dmax_min",
+                       "clade100_freq", "clade100", "clade100_size", allele.col,
+                       "alleles_max_co", "strains", "strains100")
+        colname_mismatch <- setdiff(new_order, names(cluster_summary))
+        if (length(colname_mismatch) == 0) {  # ideal situation
+            cluster_summary <- cluster_summary[, new_order]
+        } else {
+            stop(paste("Error: columns", colname_mismatch,
+                       "are absent in the data frame new_order.", sep = " "))
+        }
 
         out <- list(strain = phys, cluster = cluster_summary)  # strain-level and cluster-level summaries of physical distances
     } else {  # not run the summary process
@@ -123,7 +135,7 @@ summarisePhysDistForClusters <- function(cls.distr, cls.col = 1, cls, ds,
 
     # expected edges of the current cluster
     edges_exp <- cls@E[[cl]]
-    n <- length(getV(object = cls, cluster.id = cl))  # number of alleles (including merged groups) of the current subgraph
+    n <- nV(object = cls, id = cl)  # number of alleles (including merged groups) of the current subgraph
 
     # remove edges involving alleles that are not consistantly occurring in the current set of strains
     m <- length(alleles_parsed)  # number of singleton alleles + number of allele groups

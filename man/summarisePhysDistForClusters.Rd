@@ -5,8 +5,8 @@
 \alias{summarisePhysDistForClusters}
 \title{Summarising physical distances involving clusters of alleles}
 \usage{
-summarisePhysDistForClusters(cls.distr, cls.col = 1, cls, ds,
-  bidirectional = TRUE, sample.dists = NULL, clade.pam = NULL,
+summarisePhysDistForClusters(cls.distr, cls.col = 1, allele.col = 2, cls,
+  ds, bidirectional = TRUE, sample.dists = NULL, clade.pam = NULL,
   clade.sizes = NULL)
 }
 \arguments{
@@ -14,6 +14,8 @@ summarisePhysDistForClusters(cls.distr, cls.col = 1, cls, ds,
 It shows strains where the most number of alleles are consistently co-occurring.}
 
 \item{cls.col}{The name or index for the column of cluster IDs in cls.distr. Default: 1 (the first column).}
+
+\item{allele.col}{The name or index for the column of allele IDs in cls.distr. Default: 2 (the second column).}
 
 \item{cls}{A GraphSet-class object produced by the function extractSubgraphs, which lists edges per cluster.}
 

@@ -11,7 +11,7 @@
 #
 # Copyright 2018 Yu Wan
 # Licensed under the Apache License, Version 2.0
-# First version: 10 Aug 2018; the latest update: 24 Aug 2018
+# First version: 10 Aug 2018; the latest update: 29 Oct 2018
 #
 #' @export Graph
 #' @export GraphSet
@@ -223,8 +223,14 @@ setMethod(f = "Vn",
 # Count for all vertices
 setMethod(f = "nV",
           signature = "GraphSet",
-          definition = function(object) {  # return vertex names
-              return(nrow(object@V))
+          definition = function(object, id = NULL) {  # return vertex names
+              if (is.null(id)) {
+                  n <- nrow(object@V)  # number of all alleles when a subgraph ID is not specified
+              } else {
+                  edges <- object@E[[id]]
+                  n <- length(union(edges[, 1], edges[, 2]))
+              }
+              return(n)
           }
 )
 
