@@ -4,10 +4,12 @@
 \alias{summariseCliques}
 \title{Summarise allele content per clique}
 \usage{
-summariseCliques(q)
+summariseCliques(q, s = NULL)
 }
 \arguments{
 \item{q}{A list produced by the function max_cliques of the package igraph.}
+
+\item{s}{An optional list produced by the function compEdgeOccur for edge similarities.}
 }
 \value{
 A data frame of three columns: Clique, Size and Alleles.

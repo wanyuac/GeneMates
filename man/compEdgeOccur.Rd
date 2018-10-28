@@ -4,22 +4,22 @@
 \alias{compEdgeOccur}
 \title{Compare similarity between edges' occurrence}
 \usage{
-compEdgeOccur(nwk, apam, directed = TRUE)
+compEdgeOccur(net, apam, directed = TRUE)
 }
 \arguments{
-\item{nwk}{A Graph object created by the function mkNetwork for a single network.
+\item{net}{A Graph object created by the function mkNetwork for a single network.
 It has three attributes: id, E and V. Required columns of E are "y" and "x",
 which are vertex names.}
 
 \item{apam}{Allelic presence-absence matrix. Rows: strain names; columns:
 allele names.}
 
-\item{directed}{A logical argument specifying whether nwk stores a directed network.
+\item{directed}{A logical argument specifying whether net stores a directed network.
 Default: TRUE.}
 }
 \value{
-A list of three elements: nwk, an undirected network converted from
-the input network; ep, a data frame of edge pairs; sim, the similarity matrix
+A list of three elements: net, an undirected network converted from
+the input network; es, a data frame of edge pairs; sim, the similarity matrix
 for edges, which is a symmetric matrix.
 }
 \description{
