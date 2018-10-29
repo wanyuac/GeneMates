@@ -17,14 +17,20 @@
 #
 #  Copyright 2018 Yu Wan
 #  Licensed under the Apache License, Version 2.0
-#  First edition: 9 Sep 2018, the lastest edition: 9 Sep 2018
+#  First edition: 9 Sep 2018, the lastest edition: 29 Oct 2018
 
 countNeighbours <- function(net, groups = NULL, na = "Mix") {
     require(igraph)  # Notice it overrides V, E methods in the package GeneMates.
 
+    # Deduplicate rows when treating them as undirected
+    E <- GeneMates::E(net)
+    if (! "pair" %in% names(E)) {
+        E <- assignPairID(lmms = E, from = 1, paired.rows = FALSE)
+    }
+    E <- E[!duplicated(E$pair), ]
+
     # Allele-level counts
-    a <- graph_from_data_frame(d = GeneMates::E(net), directed = FALSE,
-                               vertices = GeneMates::V(net))
+    a <- graph_from_data_frame(d = E, directed = FALSE, vertices = GeneMates::V(net))
     a_deg <- degree(graph = a, mode = "all")  # for an undirected network, all = in = out degrees
     a_deg <- data.frame(Allele = names(a_deg), Neighbours = as.integer(a_deg), stringsAsFactors = FALSE)
     a_deg <- a_deg[order(a_deg$Neighbours, decreasing = TRUE), ]
