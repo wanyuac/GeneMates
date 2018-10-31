@@ -21,5 +21,6 @@ Imports:
     ggplot2 (>= 2.2.1),
     ggtree (>= 1.6.11),
     network (>= 1.13.0.1),
-    networkDynamic (>= 0.9.0)
+    networkDynamic (>= 0.9.0),
+    vegan (>= 2.4-4)
 RoxygenNote: 6.0.1
