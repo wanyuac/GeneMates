@@ -11,14 +11,15 @@
 #' @examples
 #' a_nat <- countAllelesPerCountry(alleles = nwk$V$allele, sam = sam, mapping = assoc$mapping, apam = assoc$alleles$A, nul = -30)
 #'
-#' @return A list of two elements: count and mapping.
+#' @return This function returns a list of two elements: count and mapping, when
+#' freq = FALSE, else, returns a list of three elements: freq, mapping and sample_size_country.
 #'
 #' @author Yu Wan (\email{wanyuac@@gmail.com})
 #' @export countAllelesPerCountry
 #'
 # Copyright 2018 Yu Wan <wanyuac@gmail.com>
 # Licensed under the Apache License, Version 2.0
-# First and the latest edition: 16 Aug 2018
+# First edition: 16 Aug 2018; the latest update: 1 Nov 2018
 
 countAllelesPerCountry <- function(alleles = NULL, sam, mapping, apam, nul = NA,
                                    freq = FALSE) {
@@ -93,5 +94,12 @@ countAllelesPerCountry <- function(alleles = NULL, sam, mapping, apam, nul = NA,
         }
     }
 
-    return(list(count = cc, mapping = mapping))
+    # Produce the output
+    if (freq) {
+        out <- list(freq = cc, mapping = mapping, sample_size = sample_size_country)
+    } else {
+        out <- list(count = cc, mapping = mapping)
+    }
+
+    return(out)
 }
