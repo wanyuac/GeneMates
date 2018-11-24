@@ -17,7 +17,7 @@
 #' @author Yu Wan (\email{wanyuac@@gmail.com})
 #' @export
 #'
-#  Copyright 2018 Yu Wan
+#  Copyright 2018 Yu Wan <wanyuac@gmail.com>
 #  Licensed under the Apache License, Version 2.0
 #  First and the latest edition: 25 May 2018
 
