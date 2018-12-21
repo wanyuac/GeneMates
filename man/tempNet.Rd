@@ -32,7 +32,7 @@ determines each onset and terminus range for edges.}
 \item{v.value}{A character or integer specifying the column in V(gs) used as
 the variable defining vertex sizes.}
 
-\item{v.value.base}{An integer specifying the minimum value for the variable
+\item{v.value.base}{A numeric specifying the minimum value for the variable
 (column) defining vertex sizes. For instance, you may set v.size.base for a
 dynamic co-occurrence count where the expected minimum count is zero.}
 

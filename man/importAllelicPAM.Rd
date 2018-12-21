@@ -8,7 +8,7 @@ importAllelicPAM(pam, pam.delim = "\\t", outliers = NULL, min.count = 1,
   alleles.inc = NULL, output.y = "", sample.order = NULL, skip = TRUE)
 }
 \arguments{
-\item{pam}{either the final PAM or the file name of a raw PAM created by the cdhitFormatter pipeline.
+\item{pam}{either the final PAM or the file name of a raw PAM created by the PAMmaker pipeline.
 First column: Sample; other columns: allele identifiers.}
 
 \item{pam.delim}{a single character for the delimiter in the text file of the allelic PAM.}

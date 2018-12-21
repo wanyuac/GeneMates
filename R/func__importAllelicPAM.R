@@ -2,7 +2,7 @@
 #'
 #' @description This function reads the allelic p/a matrix and returns a list of relevant matrices.
 #'
-#' @param pam either the final PAM or the file name of a raw PAM created by the cdhitFormatter pipeline.
+#' @param pam either the final PAM or the file name of a raw PAM created by the PAMmaker pipeline.
 #'     First column: Sample; other columns: allele identifiers.
 #' @param pam.delim a single character for the delimiter in the text file of the allelic PAM.
 #' @param outliers a vector of isolate names to be excluded from rows of the allelic PAM.
