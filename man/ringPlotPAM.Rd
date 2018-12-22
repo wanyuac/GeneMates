@@ -65,7 +65,7 @@ when co-occurrence events are relatively common.}
 
 \item{highlight.tips}{(optional) A character vector of names of tips to be highlighted with coloured circles.}
 
-\item{highlight.tip.colour}{(optional) A colour for highlighted tips.}
+\item{highlight.tip.colour}{(optional) One (an unnamed character vector) or more colours (a vector of colours named by tip labels) for highlighted tips.}
 
 \item{highlight.tip.shape}{(optional) An integer specifying the shape of highlighted tips, which follows the standard pch argument for R plots. Default: 16.}
 

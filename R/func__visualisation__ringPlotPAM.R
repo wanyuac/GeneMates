@@ -43,7 +43,7 @@
 #' when co-occurrence events are relatively common.
 #' @param y.colour (optional) A single colour for the y genotype variable.
 #' @param highlight.tips (optional) A character vector of names of tips to be highlighted with coloured circles.
-#' @param highlight.tip.colour (optional) A colour for highlighted tips.
+#' @param highlight.tip.colour (optional) One (an unnamed character vector) or more colours (a vector of colours named by tip labels) for highlighted tips.
 #' @param highlight.tip.shape (optional) An integer specifying the shape of highlighted tips, which follows the standard pch argument for R plots. Default: 16.
 #' @param highlight.tip.size (optional) An integer specifying the size of highlighted tips. Default: 1.
 #' @param highlight.tip.alpha (optional) A numeric specifying the alpha of the tip symbol. Default: 0.75.
@@ -97,7 +97,7 @@
 # Dependency: ape, ggplot2, ggtree
 # Copyright 2017 Yu Wan
 # Licensed under the Apache License, Version 2.0
-# First edition: 23 June 2017, lastest edition: 4 April 2018
+# First edition: 23 June 2017, lastest edition: 22 December 2018
 
 ringPlotPAM <- function(pam, genotypes, tree, y = NULL, y.pat = NULL,
                         struc.eff = NULL, clade.cor = NULL, clade.sizes = NULL,
@@ -131,8 +131,13 @@ ringPlotPAM <- function(pam, genotypes, tree, y = NULL, y.pat = NULL,
             tree.annot <- data.frame(strain = tree$tip.label,
                                      shape = as.integer(sapply(to.highlight, function(x) ifelse(x, highlight.tip.shape, NA))),
                                      size = as.integer(sapply(to.highlight, function(x) ifelse(x, highlight.tip.size, NA))),
-                                     colour = as.character(sapply(to.highlight, function(x) ifelse(x, highlight.tip.colour, NA))),
                                      stringsAsFactors = FALSE)  # annotations of the input tree
+            if (is.null(names(highlight.tip.colour))) {  # names = NULL when highlight.tip.colour is not a named vector.
+                tree.annot$colour <- as.character(sapply(to.highlight, function(x) ifelse(x, highlight.tip.colour, NA)))
+            } else {  # multiple colours for highlighted tips
+                names(to.highlight) <- tree$tip.label
+                tree.annot$colour <- as.character(sapply(tree.annot$strain, function(x) ifelse(to.highlight[[x]], highlight.tip.colour[[x]], NA)))
+            }
         }
     } else {
         paint.tips <- FALSE
