@@ -4,14 +4,20 @@
 \alias{mkCoocurNetwork}
 \title{Converting a given network into a co-occurrence network}
 \usage{
-mkCoocurNetwork(net, pam = NULL, sam = NULL, name.col = 1, years = 0,
-  ds = NULL, use.ingroup.d = FALSE)
+mkCoocurNetwork(alleles = NULL, net = NULL, pam = NULL, sam = NULL,
+  name.col = 1, years = 0, ds = NULL, use.ingroup.d = FALSE)
 }
 \arguments{
-\item{net}{A Graph object defining a network where the first two columns of
-the edge attribute must be node names. Edge attributes must include "d_min"
-and "d_max" for the ingroup distances when the parameter ds is specified and
-use.ingroup.d = TRUE.}
+\item{alleles}{A vector of alleles for which pairwise co-occurrence counts
+will be calculated.}
+
+\item{net}{A Graph object defining a network whose edge weights will be replaced
+with co-occurrence counts. The argument "alleles" overrides this argument. When
+alleles = NULL and net != NULL, the net will be converted into a co-occurrence
+network while no edges will be added to it. To define the object "net", the
+first two columns of the edge attribute must be node names. Edge attributes
+must include "d_min" and "d_max" for the ingroup distances when the parameter
+ds is specified and use.ingroup.d = TRUE.}
 
 \item{pam}{An allelic presence-absence matrix produced by the function
 importAllelicPAM.}
@@ -40,4 +46,7 @@ A list of two elements. The first element "G" is a list of Graph objects,
 each named by a year; the second element w is a numeric vector for weighted
 occurrence count per isolate. However, when years <= 0, the G element is a
 single Graph object.
+}
+\author{
+Yu Wan (\email{wanyuac@gmail.com})
 }

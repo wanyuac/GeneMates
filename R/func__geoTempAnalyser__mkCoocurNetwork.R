@@ -1,9 +1,14 @@
 #' @title Converting a given network into a co-occurrence network
 #'
-#' @param net A Graph object defining a network where the first two columns of
-#' the edge attribute must be node names. Edge attributes must include "d_min"
-#' and "d_max" for the ingroup distances when the parameter ds is specified and
-#' use.ingroup.d = TRUE.
+#' @param alleles A vector of alleles for which pairwise co-occurrence counts
+#' will be calculated.
+#' @param net A Graph object defining a network whose edge weights will be replaced
+#' with co-occurrence counts. The argument "alleles" overrides this argument. When
+#' alleles = NULL and net != NULL, the net will be converted into a co-occurrence
+#' network while no edges will be added to it. To define the object "net", the
+#' first two columns of the edge attribute must be node names. Edge attributes
+#' must include "d_min" and "d_max" for the ingroup distances when the parameter
+#' ds is specified and use.ingroup.d = TRUE.
 #' @param pam An allelic presence-absence matrix produced by the function
 #' importAllelicPAM.
 #' @param sam A data frame of sample information. It must have two columns named
@@ -26,13 +31,21 @@
 #' occurrence count per isolate. However, when years <= 0, the G element is a
 #' single Graph object.
 #'
+#' @author Yu Wan (\email{wanyuac@@gmail.com})
 #' @export
-#  Copyright 2018 Yu Wan
+#
+#  Copyright 2018 Yu Wan <wanyuac@gmail.com>
 #  Licensed under the Apache License, Version 2.0
-#  First edition: 11 Aug 2018, the latest edition: 21 Dec 2018
+#  First edition: 11 Aug 2018, the latest edition: 25 Dec 2018
 
-mkCoocurNetwork <- function(net, pam = NULL, sam = NULL, name.col = 1, years = 0,
-                            ds = NULL, use.ingroup.d = FALSE) {
+mkCoocurNetwork <- function(alleles = NULL, net = NULL, pam = NULL, sam = NULL,
+                            name.col = 1, years = 0, ds = NULL, use.ingroup.d = FALSE) {
+    # Validity check
+    all_to_all <- !is.null(alleles)  # to compute all-to-all co-occurrence or simply convert a network into a co-occurrence network?
+    if ((!all_to_all) && is.null(net)) {
+        stop("Argument error: alleles and net cannot be NULL at the same time.")
+    }
+
     # Unify column name
     if (names(sam)[name.col] != "Strain") {
         names(sam)[name.col] <- "Strain"
@@ -50,16 +63,27 @@ mkCoocurNetwork <- function(net, pam = NULL, sam = NULL, name.col = 1, years = 0
     #rownames(W) <- rownames(pam)  # Otherwise, PAM loses row names in the next step.
     #pam <- W %*% pam  # Convert the allelic PAM into a weighted PAM by multiplying the weights to rows of PAM, which is essentially weight the allelic presence-absence for each strain
 
-    # Convert the network into an undirected network
-    no_pair <- !any(names(net@E) == "pair")
-    if (no_pair) {
-        net@E <- assignPairID(lmms = net@E, paired.rows = FALSE)  # a "pair" column will be appended to this data frame
+    if (all_to_all) {
+        # Create a new network from all the alleles
+        E <- data.frame(a1 = character(0), a2 = character(0), stringsAsFactors = FALSE)
+        n <- length(alleles)
+        for (i in 1 : (n - 1)) {
+            for (j in (i + 1) : n) {
+                E <- rbind.data.frame(E, data.frame(a1 = alleles[i], a2 = alleles[j], stringsAsFactors = FALSE))
+            }
+        }
+    } else {
+        # Convert the network into an undirected network
+        no_pair <- !any(names(net@E) == "pair")
+        if (no_pair) {
+            net@E <- assignPairID(lmms = net@E, paired.rows = FALSE)  # a "pair" column will be appended to this data frame
+        }
+        E <- net@E[!duplicated(net@E$pair), ]  # only use the data frame of edge attributes for the rest of process
+        if (no_pair) {
+            E <- E[, -ncol(E)]  # drop the last column - "pair", which was appended just now
+        }
+        names(E)[c(1, 2)] <- c("a1", "a2")  # allele 1 and 2. Actually, only the first two columns will be used for the rest of process.
     }
-    E <- net@E[!duplicated(net@E$pair), ]
-    if (no_pair) {
-        E <- E[, -ncol(E)]  # drop the last column - "pair"
-    }
-    names(E)[c(1, 2)] <- c("a1", "a2")  # allele 1 and 2
 
     # Get co-occurrence count for each pair of alleles in each year
     if (years[1] > 0) {  # temporal mode
