@@ -6,12 +6,12 @@
 (LMMs) and penalised logistic models (PLMs).}
 \usage{
 compPvalues(p.lmm, p.plm, lmm.h0, p.min = 2.2e-16, p.max = 0.05,
-  L.weak = 1, bks = seq(0, 16, by = 2), show.p.max = TRUE, cols = c(`0`
-  = "red", `1` = "orange", `2` = "blue", `3` = "grey50"),
+  L.weak = 1, bks = seq(0, 16, by = 2), show.p.max = TRUE,
+  cols = c(`0` = "red", `1` = "orange", `2` = "blue", `3` = "grey50"),
   plot.title.size = 10, axis.text.size = 8, axis.title.size = 10,
   axis.title.size.panelB = 3, img = "comp_pvals.png", img.w = 150,
-  img.h = 150, img.r = 300, img.u = "mm", img.oma = c(0.1, 0.1, 0.1,
-  0.1), img.mar = c(3, 2.6, 1, 0.5), img.mgp = c(1.8, 0.6, -0.2),
+  img.h = 150, img.r = 300, img.u = "mm", img.oma = c(0.1, 0.1,
+  0.1, 0.1), img.mar = c(3, 2.6, 1, 0.5), img.mgp = c(1.8, 0.6, -0.2),
   p.prev = NULL)
 }
 \arguments{

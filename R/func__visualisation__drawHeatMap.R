@@ -65,7 +65,7 @@ drawHeatMap <- function(data = NULL, x = "x", y = "y", val = "val", diag = 1, re
     if (fn.ext == "png") {
         png(filename = filename, width = width, height = height, res = res, units = unit)
     } else {
-        pdf(filename = filename, width = width, height = height, res = res, units = unit)
+        pdf(filename = filename, paper = "a4", width = width, height = height)
     }
 
     # set colours

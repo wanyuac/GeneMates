@@ -46,7 +46,7 @@
 #
 #  Copyright 2018 Yu Wan
 #  Licensed under the Apache License, Version 2.0
-#  First edition: 14 August 2017; the lastest edition: 18 August 2018
+#  First edition: 14 August 2017; the lastest edition: 26 December 2018
 
 tempNet <- function(gs, v.label = "allele", e.tail = "node1", e.head = "node2",
                     directed = FALSE, t.gap = 1,
@@ -92,21 +92,21 @@ tempNet <- function(gs, v.label = "allele", e.tail = "node1", e.head = "node2",
 
     # Pull edge and vertex lists together ###############
     # Assume all edges are placed in the same order in each list.
-    E.attr <- data.frame(time = integer(0), tail = integer(0), head = integer(0),
+    E.attr <- data.frame(tail = integer(0), head = integer(0),
                          weight = numeric(0), colour_attr = numeric(0),
-                         edge.id = integer(0),
-                         stringsAsFactors = FALSE)
+                         time = integer(0), eid = integer(0),
+                         stringsAsFactors = FALSE)  # eid: internal edge IDs for creating action spells. They will be dropped later.
     V.attr <- data.frame(time = integer(0), label = character(0), value = numeric(0),
                          stringsAsFactors = FALSE)
     ne <- nE(gs[[1]])  # edge number per graph and network slice
     print("Pulling edge and vertex information together.")
     for (t in ts) {
         # edge attributes | year = t
-        g <- gs[[as.character(t)]]  # g is a Graph object.
+        g <- gs[[as.character(t)]]  # g is a Graph object describing a network
         e <- E(g)
         e <- e[, c(e.tail, e.head, e.weight, e.colour)]  # edge attributes
         names(e) <- c("tail", "head", "weight", "colour_attr")
-        e.t <- cbind.data.frame(time = rep(t, times = ne), e, edge.id = 1 : ne)
+        e.t <- cbind.data.frame(e, time = rep(t, times = ne), eid = 1 : ne)  # Must not create edge IDs here as the IDs are uniform throughout all years.
         E.attr <- rbind.data.frame(E.attr, e.t, stringsAsFactors = FALSE)  # edge.id is a reserved column name for edge IDs in the networkDynamic package.
 
         # vertex attributes | year = t
@@ -145,13 +145,24 @@ tempNet <- function(gs, v.label = "allele", e.tail = "node1", e.head = "node2",
 
     # Establish edge spells (activity script) from the pooled edge list
     act <- .mkEdgeSpells(E.attr, t.gap)
+    act <- act[, c("onset", "terminus", "tail", "head")]  # drop the helper column eid
+    E.attr <- E.attr[, names(E.attr) != "eid"]
 
     # Create the temporal network, assuming all Graph objects contain the same
     # number of vertices.
     print("Initialising the temporal network.")
     net <- network.initialize(n = nv, directed = directed)
     net <- networkDynamic(base.net = net, edge.spells = act, start = t.start,
-                          end = t.end)  # The edge spells define the range of time for visualisation in the dynamic network.
+                          end = t.end, create.TEAs = FALSE, edge.TEA.names = NULL)  # The edge spells define the range of time for visualisation in the dynamic network.
+    edge.ids <- .retrieveEdgeIDs(net, vid.mapping)  # tail, head, edge.id, tail.label, head.label
+    E.attr <- merge(x = E.attr, y = edge.ids[, c("tail", "head", "edge.id")],
+                    by = c("tail", "head"), all.x = TRUE, all.y = FALSE, sort = FALSE)  # append edge IDs to edge attributes
+    if (any(is.na(E.attr$edge.id))) {
+        print(E.attr[is.na(E.attr$edge.id), ])
+        stop("Runtime error: tail or head vertices of E.attr do not match to edges in the networkDynamic object.")
+    }
+    E.attr <- E.attr[, c("time", "edge.id", "tail", "head", "width", "colour", "weight", "colour_attr")]
+    edge.ids <- edge.ids[, c("edge.id", "tail", "head", "tail.label", "head.label")]
 
     # Append vertex attributes to the dynamic network ###############
     # Static attributes
@@ -183,71 +194,77 @@ tempNet <- function(gs, v.label = "allele", e.tail = "node1", e.head = "node2",
     # Add edge attributes to the network ###############
     print("Appending edge attributes. It may take a while to finish.")
     for (t in ts) {
-        Es.t <- subset(E.attr, time = t)
-        for (i in 1 : nrow(Es.t)) {
-            r <- Es.t[i, ]
-            activate.edge.attribute(x = net, prefix = "width", value = r$width,
-                                    at = t, e = r$edge.id)
-            activate.edge.attribute(x = net, prefix = "colour", value = r$colour,
-                                    at = t, e = r$edge.id)
+        Es.t <- subset(E.attr, time == t)
+        if (nrow(Es.t) > 0) {
+            for (i in 1 : nrow(Es.t)) {
+                r <- Es.t[i, ]
+                activate.edge.attribute(x = net, prefix = "width", value = r$width,
+                                        at = t, e = r$edge.id)
+                activate.edge.attribute(x = net, prefix = "colour", value = r$colour,
+                                        at = t, e = r$edge.id)
+            }
         }
     }
 
     # Return a temporal graph and the action table
-    return(list(G = net, A = act, E = E.attr, V = V.attr, M = vid.mapping))
+    return(list(G = net, A = act, E = E.attr, V = V.attr, M = vid.mapping, I = edge.ids))
 }
 
 .mkEdgeSpells <- function(Es, t.gap) {
     print("Generating an activity list for edges.")
     act <- data.frame(onset = integer(0), terminus = integer(0),
                       tail = integer(0), head = integer(0),
-                      edge.id = integer(0), stringsAsFactors = FALSE)
+                      eid = integer(0), stringsAsFactors = FALSE)  # presence of each edge: [onset, terminus)
 
-    # Go through all edges
+    # Go through all rows of edge attributes
     # Assumes that at each time point, there is one and only one edge of the
     # same alleles present.
-    eids <- sort(unique(Es$edge.id), decreasing = FALSE)
+    eids <- sort(unique(Es$eid), decreasing = FALSE)
     for (i in eids) {
-       Ei <- subset(Es, edge.id == i)  # all time points of the current edge
-       if (nrow(Ei) > 0) {
-           v.tail <- Ei$tail[1]  # tail vertex of the current edge
-           v.head <- Ei$head[1]  # head vertex
-           ts <- sort(unique(Ei$time), decreasing = FALSE)  # 1, 2, 3, 5, 6, 9, ...
-           if (length(ts) > 1) {  # This edge appeared multiple times.
-               t.on <- ts[1]  # the lower bound of an interval
-               t.max <- max(ts)
-               t0 <- t.on  # lagging pointer
-               for (t in ts[-1]) {
-                   if (t == t.max) {
-                       if (t - t0 > t.gap) {  # In the meantime, the last time point separates from the others.
-                           spell <- data.frame(onset = c(t.on, t), terminus = c(t0, t),
-                                               tail = rep(v.tail, times = 2),
-                                               head = rep(v.head, times = 2),
-                                               edge.id = rep(i, times = 2), stringsAsFactors = FALSE)
-                       } else {  # force the current interval to be saved
-                           spell <- data.frame(onset = t.on, terminus = t,
-                                               tail = v.tail, head = v.head,
-                                               edge.id = i, stringsAsFactors = FALSE)
-                       }
-                       act <- rbind.data.frame(act, spell, stringsAsFactors = FALSE)  # Then the "for" loop terminates.
-                   } else if (t - t0 > t.gap) {
-                       # a gap is found and an interval is hence determined
-                       # Now t is in the next interval.
-                       spell <- data.frame(onset = t.on, terminus = t0,
-                                           tail = v.tail, head = v.head,
-                                           edge.id = i, stringsAsFactors = FALSE)
-                       act <- rbind.data.frame(act, spell, stringsAsFactors = FALSE)
-                       t.on <- t  # move the onset to the current point
-                       t0 <- t
-                   } else {  # The increment of time points remains stable.
-                       t0 <- t  # move to the next time point
-                   }
-               }
-           } else {  # This edge only appear once.
-               spell <- data.frame(onset = ts, terminus = ts,
-                                   tail = v.tail, head = v.head, edge.id = i,
-                                   stringsAsFactors = FALSE)
-           }
+        Ei <- subset(Es, eid == i) # all time points of the current edge
+        if (nrow(Ei) > 0) {
+            v.tail <- Ei$tail[1]  # tail vertex of the current edge
+            v.head <- Ei$head[1]  # head vertex
+            ts <- sort(unique(Ei$time), decreasing = FALSE)  # year 1, 2, 3, 5, 6, 9, ...
+            if (length(ts) > 1) {  # This edge appeared multiple times.
+                t.on <- ts[1]  # the lower bound of an interval
+                t.max <- max(ts)
+                t0 <- t.on  # lagging pointer
+                for (t in ts[-1]) {
+                    if (t == t.max) {  # reaches the last year of the time series
+                        if (t - t0 > t.gap) {  # In the meantime, the last time point separates from the others. E.g., t = 2018 while t0 = 2016.
+                            spell <- data.frame(onset = c(t.on, t),
+                                                terminus = c(t0 + t.gap, t + t.gap),
+                                                tail = rep(v.tail, times = 2),
+                                                head = rep(v.head, times = 2),
+                                                eid = rep(i, times = 2),
+                                                stringsAsFactors = FALSE)
+                        } else {  # force the current interval to be saved
+                            # Notice terminus must not equal t (t.max), otherwise, edges are missing in the final year of their presence,
+                            # because the presence is defined by [onset, terminus), not [onset, terminus].
+                            spell <- data.frame(onset = t.on, terminus = t + t.gap,
+                                                tail = v.tail, head = v.head,
+                                                eid = i, stringsAsFactors = FALSE)
+                        }
+                        act <- rbind.data.frame(act, spell, stringsAsFactors = FALSE)  # Then the "for" loop terminates.
+                    } else if (t - t0 > t.gap) {  # E.g., t - t0 = 1 when t.gap = 1, then the current time frame will extend to t continuously without inserting a break.
+                        # a gap is found and an interval is hence determined
+                        # Now t is in the next interval. The edge does not exists at t0 + t.gap, but at t0.
+                        spell <- data.frame(onset = t.on, terminus = t0 + t.gap,
+                                            tail = v.tail, head = v.head,
+                                            eid = i, stringsAsFactors = FALSE)
+                        act <- rbind.data.frame(act, spell, stringsAsFactors = FALSE)
+                        t.on <- t  # move the onset to the current point
+                        t0 <- t
+                    } else {  # The increment of time points remains stable.
+                        t0 <- t  # move to the next time point
+                    }
+                }
+            } else {  # This edge only appear once.
+                spell <- data.frame(onset = ts, terminus = ts,
+                                    tail = v.tail, head = v.head, eid = i,
+                                    stringsAsFactors = FALSE)
+            }
        } else {
            print(paste("Warning: no edge is present for the edge ID", i,
                        "in Es, which is abnormal. Skip this edge.", sep = " "))
@@ -265,4 +282,19 @@ tempNet <- function(gs, v.label = "allele", e.tail = "node1", e.head = "node2",
     y <- sapply(x, function(z) ifelse(z > x.outlier, round((z - x0) * b + y.min, digits = 4), y.outlier))
 
     return(y)
+}
+
+.retrieveEdgeIDs <- function(net, vid.mapping) {
+    # Find out edge IDs from the networkDynamic object
+    ids <- data.frame(tail = integer(0), head = integer(0), edge.id = integer(0), stringsAsFactors = FALSE)
+    for (i in 1 : length(net$mel)) {
+        #print(paste0("Retrieving vertex IDs for edge ", i, "."))
+        e <- net$mel[[i]]
+        ids <- rbind.data.frame(ids, data.frame(tail = e$outl, head = e$inl, edge.id = i,
+                                                stringsAsFactors = FALSE), stringsAsFactors = FALSE)
+    }
+    ids$tail.label = vid.mapping$label[match(ids$tail, vid.mapping$id)]
+    ids$head.label = vid.mapping$label[match(ids$head, vid.mapping$id)]
+
+    return(ids)
 }

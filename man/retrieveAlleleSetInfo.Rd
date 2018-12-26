@@ -5,7 +5,8 @@
 \title{Retrive allelic presence/absence information given a vector of allele names}
 \usage{
 retrieveAlleleSetInfo(targets, assoc, allelic.pam, min.count = 2,
-  phylo.dists = NULL, dist.method = "binary", clust.method = "single")
+  phylo.dists = NULL, dist.method = "binary",
+  clust.method = "single")
 }
 \arguments{
 \item{targets}{A character vector of allele names whose co-occurrence information is to be retrieved}

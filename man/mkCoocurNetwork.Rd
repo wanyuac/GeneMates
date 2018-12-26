@@ -47,6 +47,9 @@ each named by a year; the second element w is a numeric vector for weighted
 occurrence count per isolate. However, when years <= 0, the G element is a
 single Graph object.
 }
+\description{
+Converting a given network into a co-occurrence network
+}
 \author{
 Yu Wan (\email{wanyuac@gmail.com})
 }

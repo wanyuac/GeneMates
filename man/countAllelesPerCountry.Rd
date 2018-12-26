@@ -25,6 +25,9 @@ rather than allele count is returned.}
 This function returns a list of two elements: count and mapping, when
 freq = FALSE, else, returns a list of three elements: freq, mapping and sample_size_country.
 }
+\description{
+Count alleles per country
+}
 \examples{
 a_nat <- countAllelesPerCountry(alleles = nwk$V$allele, sam = sam, mapping = assoc$mapping, apam = assoc$alleles$A, nul = -30)
 

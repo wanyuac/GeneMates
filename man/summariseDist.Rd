@@ -5,8 +5,8 @@
 \title{Attach new columns summarising distance measurements to LMM results (lmms)}
 \usage{
 summariseDist(lmms, lmms.ds, tree, clades, allele.pam, max.nodes = -1,
-  max.dist = Inf, colname.pair = "pair", colname.co = "n_xy", qs = c(0,
-  0.25, 0.5, 0.75, 1), n.cores = n.cores)
+  max.dist = Inf, colname.pair = "pair", colname.co = "n_xy",
+  qs = c(0, 0.25, 0.5, 0.75, 1), n.cores = n.cores)
 }
 \arguments{
 \item{lmms}{a data frame that must contain two columns x and y for allele names.}

@@ -4,8 +4,8 @@
 \alias{importGeneticPAM}
 \title{Import the genetic presence/absence (p/a) matrix}
 \usage{
-importGeneticPAM(pam, pam.delim = "\\t", outliers = NULL, min.count = 1,
-  genes.rm = NULL, sample.order = NULL)
+importGeneticPAM(pam, pam.delim = "\\t", outliers = NULL,
+  min.count = 1, genes.rm = NULL, sample.order = NULL)
 }
 \arguments{
 \item{pam}{Expect pam to be "modified_allele_matrix.txt" produced by the cdhitFormatter pipeline.

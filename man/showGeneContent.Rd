@@ -6,11 +6,12 @@
 \usage{
 showGeneContent(af, gf, pam.g, d.min = 2, d.max = 20, fill.colour,
   border.colour = "grey90", core.genes = NULL, bar.acc = FALSE,
-  panel.names = c("a", "b", "c"), panelA.xmax = 120, panelB.xinterv = 5,
-  panelB.yinterv = 20, panelB.col = "grey50", panelC.lwd = 1,
-  panelC.xinterv = 20, prev.out = NULL, f = "gene_content.png", w = 170,
-  h = 200, r = 300, u = "mm", img.oma = c(0.1, 0.1, 0.1, 0.1),
-  img.mar = c(3, 2.6, 1, 0.5), img.mgp = c(1.8, 0.6, -0.2))
+  panel.names = c("a", "b", "c"), panelA.xmax = 120,
+  panelB.xinterv = 5, panelB.yinterv = 20, panelB.col = "grey50",
+  panelC.lwd = 1, panelC.xinterv = 20, prev.out = NULL,
+  f = "gene_content.png", w = 170, h = 200, r = 300, u = "mm",
+  img.oma = c(0.1, 0.1, 0.1, 0.1), img.mar = c(3, 2.6, 1, 0.5),
+  img.mgp = c(1.8, 0.6, -0.2))
 }
 \arguments{
 \item{af}{A table of allele frequencies, produced by the function countAlleles.}

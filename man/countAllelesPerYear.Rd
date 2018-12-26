@@ -30,6 +30,9 @@ A list of three elements: count, freq, n (number of strains per year),
 w (weighted counts per strain) and mapping. When combine is a list, another
 two elements called comb_count, comb_freq and period are included.
 }
+\description{
+Count alleles per year
+}
 \examples{
 a_yr <- countAllelesPerYear(alleles = nwk$V$allele, sam = sam, mapping = assoc$mapping,
                             apam = assoc$alleles$A, nul = -30)

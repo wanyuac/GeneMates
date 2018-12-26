@@ -8,9 +8,9 @@ lmm(snps = NULL, snps.delim = ",", pos.col = "Pos", min.mac = 1,
   genetic.pam = NULL, genetic.pam.delim = "\\t", genes.excl = NULL,
   allelic.pam = NULL, allelic.pam.delim = "\\t", mapping = NULL,
   min.count = 2, min.co = 2, ingroup = NULL, outliers = NULL,
-  ref = NULL, tree = NULL, sample.dists = NULL, output.dir = "output",
-  prefix = NULL, gemma.path = "gemma", n.cores = -1, save.stages = TRUE,
-  skip = TRUE)
+  ref = NULL, tree = NULL, sample.dists = NULL,
+  output.dir = "output", prefix = NULL, gemma.path = "gemma",
+  n.cores = -1, save.stages = TRUE, skip = TRUE)
 }
 \arguments{
 \item{snps}{Core-genome SNPs used for estimating the relatedness matrix.}

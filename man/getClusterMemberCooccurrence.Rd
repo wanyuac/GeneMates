@@ -7,8 +7,8 @@
 for clusters of alleles}
 \usage{
 getClusterMemberCooccurrence(clstr, cluster.colname = "cluster",
-  allele.colname = "allele", pam, clade.pam = NULL, clade.sizes = NULL,
-  sample.dists = NULL, n.cores = -1)
+  allele.colname = "allele", pam, clade.pam = NULL,
+  clade.sizes = NULL, sample.dists = NULL, n.cores = -1)
 }
 \arguments{
 \item{clstr}{a data frame consisting of at least two columns: one for cluster

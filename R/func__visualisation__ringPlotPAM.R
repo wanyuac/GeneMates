@@ -307,7 +307,7 @@ ringPlotPAM <- function(pam, genotypes, tree, y = NULL, y.pat = NULL,
 
     # draw the plot
     if (is.pdf) {
-        pdf(filename = output, width = width, height = height, res = res, units = unit)
+        pdf(filename = output, paper = "a4", width = width, height = height)
     } else {
         png(filename = output, width = width, height = height, res = res, units = unit)
     }

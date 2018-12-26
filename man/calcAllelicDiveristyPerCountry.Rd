@@ -5,8 +5,8 @@
 \alias{calcAllelicDiveristyPerCountry}
 \title{Allelic diversity per country or any kind of regions}
 \usage{
-calcAllelicDiveristyPerCountry(sam, pam, alleles = NULL, countries = NULL,
-  method = "simpson", shannon_base = exp(1))
+calcAllelicDiveristyPerCountry(sam, pam, alleles = NULL,
+  countries = NULL, method = "simpson", shannon_base = exp(1))
 }
 \arguments{
 \item{sam}{A data frame whose first and second columns are strain and country
