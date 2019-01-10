@@ -31,7 +31,7 @@
     if (is.list(assoc.out)) {
         # check if assoc.out contains all obligate elements
         if (any(!(c("outputs", "alleles", "genes", "mapping", "tests", "lmms.pat",
-                    "lmms", "struc") %in% names(assoc.out)))) {
+                    "lmms", "struc", "stage.outputs") %in% names(assoc.out)))) {
             pass <- FALSE  # miss one or more elements
         } else {
             pass <- TRUE
@@ -61,7 +61,7 @@
     # func: which function does this function produces stage filenames for.
     # func = "findPhysLink" or "lmm"
     if (save.stages) {
-        print("Stages will be saved under the /temp directory.")
+        print("Stages will be saved under directory ./temp.")
         if (!file.exists("temp")) {  # check the presence of \temp
             dir.create("temp")
         }
