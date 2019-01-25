@@ -60,6 +60,7 @@ heatMapPAM <- function(p, data, col_colours = "black", null_colour = "grey90",
     # The first two packages are dependencies of the package ggtree.
     require(ggplot2)
     require(tidyr)  # for the function gather
+    require(tibble)
     require(magrittr)  # for operators "%<>%" and "%>%"(github.com/GuangchuangYu/ggtree/blob/master/R/operator.R)
     require(ggtree)
 
