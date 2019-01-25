@@ -45,7 +45,7 @@
 #' @export
 #' @author Guangchuang Yu, Yu Wan (\email{wanyuac@@gmail.com})
 #
-# First edition of this function: 5 Sep 2018; the latest edition: 7 Oct 2018
+# First edition of this function: 5 Sep 2018; the latest edition: 25 Jan 2019
 # Licence: Artistic License 2.0 (follow the licence of the package ggtree)
 
 heatMapPAM <- function(p, data, col_colours = "black", null_colour = "grey90",
@@ -58,6 +58,7 @@ heatMapPAM <- function(p, data, col_colours = "black", null_colour = "grey90",
                        font.size = 4, hjust = 0.5, offset = 0, width = 1,
                        show_legend = FALSE) {
     # The first two packages are dependencies of the package ggtree.
+    require(ggplot2)
     require(tidyr)  # for the function gather
     require(magrittr)  # for operators "%<>%" and "%>%"(github.com/GuangchuangYu/ggtree/blob/master/R/operator.R)
     require(ggtree)
@@ -120,7 +121,10 @@ heatMapPAM <- function(p, data, col_colours = "black", null_colour = "grey90",
     dd <- dd[match(lab, rownames(dd)), , drop = FALSE]
     dd$y <- sort(df$y)
     dd$lab <- lab
-    dd <- gather(dd, variable, value, -c(lab, y))
+
+    # tibble::set_tidy_names(dd) solves the problem of the error: "Can't bind data because some arguments have the same name"
+    # see https://github.com/tidyverse/tidyr/issues/472
+    dd <- gather(data = tibble::set_tidy_names(dd), key = variable, value = value, -c(lab, y))
 
     i <- which(dd$value == "")
     if (length(i) > 0) {
