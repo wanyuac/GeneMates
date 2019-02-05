@@ -7,10 +7,11 @@
 heatMapPAM(p, data, col_colours = "black", null_colour = "grey90",
   border_colour = "white", cluster_cols = FALSE,
   cluster_method = "single", cluster_distance = "binary",
-  colnames = TRUE, colnames_position = "bottom", colnames_angle = 0,
-  colnames_level = NULL, set_label_colours = FALSE,
-  colnames_offset_x = 0, colnames_offset_y = 0, font.size = 4,
-  hjust = 0.5, offset = 0, width = 1, show_legend = FALSE)
+  rev_cols = FALSE, colnames = TRUE, colnames_position = "bottom",
+  colnames_angle = 0, colnames_level = NULL,
+  set_label_colours = FALSE, colnames_offset_x = 0,
+  colnames_offset_y = 0, font.size = 4, hjust = 0.5, offset = 0,
+  width = 1, show_legend = FALSE)
 }
 \arguments{
 \item{p}{A tree view from the function ggtree in the package ggtree}
@@ -31,6 +32,9 @@ than three columns in the PAM.}
 \item{cluster_method}{Method for clustering. Default: binary.}
 
 \item{cluster_distance}{The distance used for clustering columns. Default: binary.}
+
+\item{rev_cols}{A logical argument specifying whether to reverse the column order
+when it is necessary for a better visualisation.}
 
 \item{colnames}{Logical, add matrix colnames or not}
 

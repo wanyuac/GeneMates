@@ -20,6 +20,8 @@
 #' than three columns in the PAM.
 #' @param cluster_method Method for clustering. Default: binary.
 #' @param cluster_distance The distance used for clustering columns. Default: binary.
+#' @param rev_cols A logical argument specifying whether to reverse the column order
+#' when it is necessary for a better visualisation.
 #' @param colnames Logical, add matrix colnames or not
 #' @param colnames_position One of 'bottom' or 'top'
 #' @param colnames_angle Angle of column names
@@ -45,14 +47,14 @@
 #' @export
 #' @author Guangchuang Yu, Yu Wan (\email{wanyuac@@gmail.com})
 #
-# First edition of this function: 5 Sep 2018; the latest edition: 25 Jan 2019
+# First edition of this function: 5 Sep 2018; the latest edition: 6 Feb 2019
 # Licence: Artistic License 2.0 (follow the licence of the package ggtree)
 
 heatMapPAM <- function(p, data, col_colours = "black", null_colour = "grey90",
                        border_colour = "white",
                        cluster_cols = FALSE, cluster_method = "single",
-                       cluster_distance = "binary", colnames = TRUE,
-                       colnames_position = "bottom", colnames_angle = 0,
+                       cluster_distance = "binary", rev_cols = FALSE,
+                       colnames = TRUE, colnames_position = "bottom", colnames_angle = 0,
                        colnames_level = NULL, set_label_colours = FALSE,
                        colnames_offset_x = 0, colnames_offset_y = 0,
                        font.size = 4, hjust = 0.5, offset = 0, width = 1,
@@ -85,6 +87,11 @@ heatMapPAM <- function(p, data, col_colours = "black", null_colour = "grey90",
         clustered <- FALSE
     }
 
+    # Inverse columns for improving visualisation
+    if (rev_cols) {
+        data <- data[, ncol(data) : 1]
+    }
+
     # weight cells before converting the PAM (dd) into a data frame
     n_colours <- length(col_colours)
     is_multi_colour <- n_colours > 1 && !is.null(names(col_colours))
@@ -92,8 +99,10 @@ heatMapPAM <- function(p, data, col_colours = "black", null_colour = "grey90",
         colours_uniq <- sort(unique(as.character(col_colours)), decreasing = FALSE)  # colours for positive values in PAM
         colour_codes <- 1 : length(colours_uniq)  # codes for colours
         names(colour_codes) <- colours_uniq  # e.g., c("red" = 1, "blue" = 2, ...)
-        column_names <- colnames(data)  # the matrix product loses column names
+        column_names <- colnames(data)  # The matrix product loses column names, that is, the allele names.
         if (clustered) {
+            col_colours <- col_colours[column_names]
+        } else if (n_colours > length(column_names))  {
             col_colours <- col_colours[column_names]
         }
         data <- data %*% diag(as.integer(colour_codes[as.character(col_colours)]))  # convert colour characters into integer codes
