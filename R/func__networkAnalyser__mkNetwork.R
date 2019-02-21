@@ -31,11 +31,11 @@
 #
 #  Copyright 2018 Yu Wan
 #  Licensed under the Apache License, Version 2.0
-#  First edition: 13 Mar 2018; the lastest edition: 24 Aug 2018
+#  First edition: 13 Mar 2018; the lastest edition: 21 Feb 2019
 
 mkNetwork <- function(assoc = NULL, name.x = "x", name.y = "y", edge.attr = NULL,
                       node.x.attr = NULL, node.y.attr = NULL,
-                      node.attr.names = "name", id = "") {
+                      node.attr.names = "node", id = "") {
     # Sanity check
     if (length(node.x.attr) != length(node.y.attr)) {
         stop("Error: the vectors node.x.attr and node.y.attr do not have the same length.")
@@ -53,10 +53,15 @@ mkNetwork <- function(assoc = NULL, name.x = "x", name.y = "y", edge.attr = NULL
     # Create the data frame for nodes
     vx <- assoc[, c(name.x, node.x.attr)]
     vy <- assoc[, c(name.y, node.y.attr)]
-    names(vx) <- node.attr.names
-    names(vy) <- node.attr.names
-    V <- rbind.data.frame(vx, vy, stringsAsFactors = FALSE)
-    V <- unique(V)  # de-duplicate rows
+    if (is.character(vx) && is.character(vy)) {  # when there is no node attribute
+        V <- data.frame(Node = union(x = vx, y = vy), stringsAsFactors = FALSE)
+        names(V) <- node.attr.names[1]
+    } else {
+        names(vx) <- node.attr.names
+        names(vy) <- node.attr.names
+        V <- rbind.data.frame(vx, vy, stringsAsFactors = FALSE)
+        V <- unique(V)  # de-duplicate rows
+    }
 
     return(new("Graph", id = id, E = E, V = V))
 }
