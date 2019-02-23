@@ -32,7 +32,7 @@ summariseCliques <- function(q, s = NULL) {
                     stringsAsFactors = FALSE)
 
     # Summarise Edge similarities
-    if (is.list(sim)) {  # assuming elements "ep" and "sim" are included
+    if (is.list(sim)) {  # assuming elements "es" and "sim" are included
         es <- subset(sim[["es"]], y %in% alleles & x %in% alleles) # extract undirected, non-duplicated edges for the current clique
         eids <- es$edge_ID
         eid_n <- length(eids)

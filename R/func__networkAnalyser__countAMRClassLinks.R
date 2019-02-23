@@ -17,6 +17,7 @@
 #' @export countAMRClassLinks
 #' @author Yu Wan (\email{wanyuac@@gmail.com})
 #
+#  Copyright 2019 Yu Wan
 # First and the latest edition: 21 Feb 2019
 
 countAMRClassLinks <- function(net, mapping, out.matrix = FALSE) {
