@@ -8,7 +8,7 @@ ringPlotPAM(pam, genotypes, tree, y = NULL, y.pat = NULL,
   struc.eff = NULL, clade.cor = NULL, clade.sizes = NULL,
   struc.pmax = 0.05, struc.nmax = 10, genotype.cluster = TRUE,
   genotype.dist = "binary", cluster.method = "single",
-  pam.colour = "grey50", co.colours = "red", null.colour = "grey90",
+  x.colours = "grey50", co.colours = "red", null.colour = "grey90",
   y.colour = "grey10", highlight.tips = NULL,
   highlight.tip.colour = "red", highlight.tip.shape = 16,
   highlight.tip.size = 1, highlight.tip.alpha = 0.75,
@@ -55,7 +55,7 @@ Not applicable when PAM has less than three columns. Notice the order of inner r
 
 \item{cluster.method}{(optional) A string specifying which clustering method is used. Default: single}
 
-\item{pam.colour}{(optional) A single colour for PAM. It must not be white.}
+\item{x.colours}{(optional) A single colour or a named (by allele names) colour vector for all explanatory alleles. It must not be white.}
 
 \item{co.colours}{(optional) A single or multiple colours for co-occurrence data. They must not contain white.}
 
@@ -120,7 +120,7 @@ represent the third allele a3.
 \examples{
 # Example 1
 ringPlotPAM(pam = assoc[["alleles"]][["A"]], genotypes = list(c1 = c("SulI_1616", "DfrA12_1089"),
-c2 = c("SulI_1616", "DfrA12_1089", "AadA2_1605.1158")), tree = tr, pam.colour = "grey50",
+c2 = c("SulI_1616", "DfrA12_1089", "AadA2_1605.1158")), tree = tr, x.colours = "grey50",
 co.colours = c("blue", "red"))
 
 # Example 2
@@ -137,7 +137,7 @@ rp <- ringPlotPAM(pam = assoc[["alleles"]][["A"]],
                  clade.sizes = assoc[["struc"]][["clades"]][["size"]],
                  struc.pmax = 0.05, struc.nmax = 20,
                  genotype.dist = "binary", cluster.method = "single",
-                 pam.colour = "grey50", null.colour = "gray90",
+                 x.colours = "grey50", null.colour = "gray90",
                  co.colours = c("#d73027", "#fc8d59"), y.colour = "grey10",
                  output = "ringPlot_arr2cmlA5Cluster_2017080203.png",
                  branch.width = 0.25, htmap.width = 0.5, width = 190, height = 190, unit = "mm",

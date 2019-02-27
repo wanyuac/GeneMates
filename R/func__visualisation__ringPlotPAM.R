@@ -37,11 +37,11 @@
 #' Not applicable when PAM has less than three columns. Notice the order of inner rings may not follow the original one specified in the genotypes list.
 #' @param genotype.dist (optional) A string specifying which distance metric is used for the clustering. Default: binary
 #' @param cluster.method (optional) A string specifying which clustering method is used. Default: single
-#' @param pam.colour (optional) A single colour for PAM. It must not be white.
+#' @param y.colour (optional) A single colour for the y genotype variable.
+#' @param x.colours (optional) A single colour or a named (by allele names) colour vector for all explanatory alleles. It must not be white.
 #' @param co.colours (optional) A single or multiple colours for co-occurrence data. They must not contain white.
 #' @param null.colour (optional) A single baseline colour for absence of every allele. Default: grey90. Users may choose "white" as an alternative
 #' when co-occurrence events are relatively common.
-#' @param y.colour (optional) A single colour for the y genotype variable.
 #' @param highlight.tips (optional) A character vector of names of tips to be highlighted with coloured circles.
 #' @param highlight.tip.colour (optional) One (an unnamed character vector) or more colours (a vector of colours named by tip labels) for highlighted tips.
 #' @param highlight.tip.shape (optional) An integer specifying the shape of highlighted tips, which follows the standard pch argument for R plots. Default: 16.
@@ -66,7 +66,7 @@
 #' @examples
 #' # Example 1
 #' ringPlotPAM(pam = assoc[["alleles"]][["A"]], genotypes = list(c1 = c("SulI_1616", "DfrA12_1089"),
-#' c2 = c("SulI_1616", "DfrA12_1089", "AadA2_1605.1158")), tree = tr, pam.colour = "grey50",
+#' c2 = c("SulI_1616", "DfrA12_1089", "AadA2_1605.1158")), tree = tr, x.colours = "grey50",
 #' co.colours = c("blue", "red"))
 #'
 #' # Example 2
@@ -83,7 +83,7 @@
 #'                  clade.sizes = assoc[["struc"]][["clades"]][["size"]],
 #'                  struc.pmax = 0.05, struc.nmax = 20,
 #'                  genotype.dist = "binary", cluster.method = "single",
-#'                  pam.colour = "grey50", null.colour = "gray90",
+#'                  x.colours = "grey50", null.colour = "gray90",
 #'                  co.colours = c("#d73027", "#fc8d59"), y.colour = "grey10",
 #'                  output = "ringPlot_arr2cmlA5Cluster_2017080203.png",
 #'                  branch.width = 0.25, htmap.width = 0.5, width = 190, height = 190, unit = "mm",
@@ -97,13 +97,13 @@
 # Dependency: ape, ggplot2, ggtree
 # Copyright 2017 Yu Wan
 # Licensed under the Apache License, Version 2.0
-# First edition: 23 June 2017, lastest edition: 22 December 2018
+# First edition: 23 June 2017, lastest edition: 28 February 2018
 
 ringPlotPAM <- function(pam, genotypes, tree, y = NULL, y.pat = NULL,
                         struc.eff = NULL, clade.cor = NULL, clade.sizes = NULL,
                         struc.pmax = 0.05, struc.nmax = 10,
                         genotype.cluster = TRUE, genotype.dist = "binary",
-                        cluster.method = "single", pam.colour = "grey50",
+                        cluster.method = "single", x.colours = "grey50",
                         co.colours = "red", null.colour = "grey90", y.colour = "grey10",
                         highlight.tips = NULL, highlight.tip.colour = "red",
                         highlight.tip.shape = 16, highlight.tip.size = 1,
@@ -118,6 +118,7 @@ ringPlotPAM <- function(pam, genotypes, tree, y = NULL, y.pat = NULL,
     }
     gs <- .getAllGenotypes(genotypes)  # get an overall set of genotypes (Each element is a character vector)
     pam <- pam[tree$tip.label, gs]  # extract presence/absence status of the targets and matches rows of the PAM to the tree
+    x.colour.num <- length(x.colours)  # >= 1
 
     # determine whether to highlight tips
     if (is.character(highlight.tips)) {
@@ -152,54 +153,80 @@ ringPlotPAM <- function(pam, genotypes, tree, y = NULL, y.pat = NULL,
     co <- .calcCooccurrenceMatrix(pam = pam, genotypes = genotypes)  # calculate a co-occurrence matrix
 
     # configuration of colours for co-occurrence data
-    co.colours.n <- length(co.colours)  # Notice co.colours may contain the same colour of pam.colour.
+    co.colours.n <- length(co.colours)  # Notice co.colours may contain the same colour of x.colours.
     co.n <- ncol(co)  # number of co-occurrence groups
     if (co.colours.n < co.n) {
         print("Warning: there are less colours in co.colours than the actual number of co-occurrence groups.")
-        print("Additional columns of co-occurrence data will be filled with pam.colour.")
-        co.colours <- c(co.colours, rep(pam.colour, times = co.n - co.colours.n))
+        print("Additional columns of co-occurrence data will be filled with the first colour in x.colours.")
+        co.colours <- c(co.colours, rep(x.colours[1], times = co.n - co.colours.n))
     }
 
-    # encode 0's and 1's in the co-occurrence matrix with colour codes so that ggtree can make a heat map for the matrix
+    # encode 0's and 1's in the resulting matrix with colour codes so that ggtree can make a heat map for the matrix
     sample.n <- nrow(co)  # number of samples in the co-occurrence matrix
-    y.provided <- (class(y) == "character") & (length(y) > 0)
+    y.provided <- (class(y) == "character") && (length(y) > 0)
     if (y.provided) {
-        y <- y[1]  # in case a user provides multiple names for y
-        y.provided <- y.provided & (y %in% colnames(pam))  # Otherwise, pam[, y] fails.
+        y <- y[1]  # In case a user provides multiple names for y; other y's will be ignored.
+        y.provided <- y.provided && (y %in% colnames(pam))  # Otherwise, pam[, y] fails.
     }
+
+    # assign colours to explanatory and response alleles
     if (y.provided) {  # assign a colour code for y when it is specified
-        pam.colours <- unique(c(pam.colour, y.colour))  # A single colour is returned if pam.colour = y.colour.
-        colour.code <- length(pam.colours)  # codes: 0: absence; 1: explanatory alleles; 2: response allele.
-        y.obs <- as.integer(pam[, y])  # y.obs (observations of Y in strains) is a binary vector.
-        pam[, y] <- pam[, y] * colour.code
-        for (i in 1 : co.n) {
-            if (!(co.colours[i] %in% pam.colours)) {
-                colour.code <- colour.code + 1
-                co[, i] <- co[, i] * colour.code  # eg. c(1, 0, 1) * 3 = c(3, 0, 3)
+        if (x.colour.num > 1) {
+            if (is.null(names(x.colours))) {
+                stop("Argument error: x.colours must be a named vector when its length is greater than one.")
             }
+            pam.colours <- append(x.colours, y.colour)  # assuming x.colours is a named vector
+            pam.colour.n <- length(pam.colours)
+            names(pam.colours)[pam.colour.n] <- y  # Y allele's name
+            for (colour.code in 1 : pam.colour.n) {
+                a <- names(pam.colours[colour.code])  # allele name
+                pam[, a] <- pam[, a] * colour.code
+            }
+        } else if (x.colour.num == 1) {
+            pam.colours <- unique(x.colours, y.colour)  # A single colour is returned if x.colours = y.colour. as.character(x.colours): remove names from the vector.
+            colour.code <- length(pam.colours)  # codes: 0: absence; 1: explanatory alleles; 2: response allele.
+            pam[, y] <- pam[, y] * colour.code  # Do not need to set entry values for x as they equal one where the Y allele is present.
+        } else {
+            stop("Argument error: x.colours must have at least one colour code.")
+        }
+        colour.code.max <- colour.code
+
+        # assign a colour code each column of the co-occurrence matrix
+        for (i in 1 : co.n) {
+            co.colour <- co.colours[i]
+            if (co.colour %in% pam.colours) {  # when a new colour is to be assigned
+                colour.code <- which(pam.colours == co.colour)[1]
+            } else {
+                colour.code.max <- colour.code.max + 1
+                colour.code <- colour.code.max
+            }
+            co[, i] <- co[, i] * colour.code  # eg. c(1, 0, 1) * 3 = c(3, 0, 3)
         }
         # colour levels for the heat map
-        #   0: null; 1: x's in PAM; 2: y in PAM when y.colour != pam.colour; others: co-occurrence groups
+        #   0: null; 1 - n: x's in PAM; n + 1: y in PAM when y.colour is not in x.colours; others: co-occurrence groups
         htmap.colours <- c(null.colour, pam.colours, co.colours[which(!(co.colours %in% pam.colours))])
     } else {  # All alleles are coloured the same when the y allele is not specified.
         print("The response genotype y is not properly specified.")
-        colour.code <- 1  # for pam.colour; colour.code = 0 denotes the colour of absence
+        colour.code <- 1  # for x.colours; colour.code = 0 denotes the colour of absence
+        x.colour <- x.colours[1]
         for (i in 1 : co.n) {
-            if (co.colours[i] != pam.colour) {  # then assign a different colour
+            if (co.colours[i] != x.colours) {  # then assign a different colour
                 colour.code <- colour.code + 1
                 co[, i] <- co[, i] * colour.code
-            }  # skip the column if the corresponding colour equals pam.colour
+            }  # skip the column if the corresponding colour equals x.colours
         }
 
         # colour levels for the heat map
-        #   0: null, 1: PAM, others: co-occurrence groups
-        htmap.colours <- c(null.colour, pam.colour, co.colours[which(co.colours != pam.colour)])
+        # 0: null, 1: PAM, others: co-occurrence groups
+        htmap.colours <- c(null.colour, x.colour, co.colours[which(co.colours != x.colours)])
     }
+
     lv <- 0 : colour.code  # levels of values
     lv.labels <- as.character(lv)
     names(htmap.colours) <- lv.labels  # convert this colours into a named vector
 
     # merge matrices to make a single heat map
+    # This is a critical step for colouring the heat map.
     htmap <- as.data.frame(cbind(pam, co))  # Row names are retained during this conversion.
     for (i in names(htmap)) {
         htmap[, i] <- factor(htmap[, i], levels = lv, labels = lv.labels)
@@ -296,7 +323,8 @@ ringPlotPAM <- function(pam, genotypes, tree, y = NULL, y.pat = NULL,
     # add a heat map to the tree
     p <- gheatmap(p = p, data = htmap, color = "white", colnames = print.colnames,
                   width = htmap.width, offset = offset, font.size = font.size) +
-        coord_polar(theta = "y") + scale_fill_manual(values = htmap.colours, breaks = lv.labels)
+        coord_polar(theta = "y") +
+        scale_fill_manual(values = htmap.colours, breaks = lv.labels)
 
     # To-do: the legend display is not ideal.
     if (show.legend) {
