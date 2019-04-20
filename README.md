@@ -16,6 +16,7 @@ This project is supported by the Department of Biochemistry and Molecular Biolog
     * 1.1. [Dependencies](#dependencies)  
     * 1.2. [Helper scripts](#helpers)  
 2. [Quick start](#quickStart)  
+3. [Package structure](#scriptOrganisation)
 
 ## <a name="installation">1. Installation</a>
 
@@ -95,7 +96,7 @@ assoc <- findPhysLink(snps = "Analysis/snps.csv",
                       ref = "ref", tree = tr,
                       min.co = 2, d.qs = c(0, 0.25, 0.5, 0.75, 1), max.p = 0.05,
                       max.range = 2000, min.pIBD = 0.9,
-                      output.dir = "Output", prefix = "demo", gemma.path = "~/apps/gemma",
+                      output.dir = "Output", prefix = "demo", gemma.path = "~/Apps/gemma",
                       n.cores = 8, save.stages = TRUE, del.temp = FALSE, skip = TRUE)
 
 snps <- assoc[["snps"]]  # a large list
@@ -106,4 +107,16 @@ saveRDS(assoc, file = "Out/assoc.rds")  # Analysis/Out/assoc.rds
 ```
 
 The element "snps" in the result list is usually too large to be loaded to an R session when the sample size or SNP number is large. Therefore we recommend to save the result list in two files.
+
+## <a name="scriptOrganisation">3. Package structure</a>
+
+This section illustrates organisation of public functions in GeneMates.
+
+### 3.1. Main function
+
+*findPhysLink*: the main function of GeneMates  
+
+- *lmm*: fits linear mixed models (LMMs) for allelic presence-absence status  
+- *summariseDist*: summarises APDs  
+- *evalPL*: evaluates evidence of physical linkage between alleles and scores edges in the output network  
 
