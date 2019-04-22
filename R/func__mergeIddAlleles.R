@@ -1,8 +1,9 @@
-#' @title Merge identically distributed alleles into a single physical cluster
+#' @title Merging nodes representing identically distributed alleles into a single
+#' node in an output network of findPhysLink.
 #'
 #' @description Merge nodes of identically distributed alleles into a single node to simplify the
 #' linkage network. When lmms.only = FALSE, two alleles are mergable only if the physical distances
-#' measured between them are well supporting the presence of physical linkage (namely, w_d = 1)
+#' measured between them are well supporting the presence of physical linkage (namely, s_d = 1)
 #' and the distributions of alleles are not identical by descent (IBD); when lmms.only = TRUE, two
 #' alleles are mergable if they are identically distributed (hence they are represented by the same
 #' pattern for linear mixed models).
@@ -50,7 +51,7 @@
 #
 # Copyright 2017 Yu Wan <wanyuac@gmail.com>
 # Licensed under the Apache License, Version 2.0
-# First edition: 30 June 2017; the latest edition: 15 September 2018.
+# First edition: 30 June 2017; the latest edition: 21 April 2019.
 
 mergeIddAlleles <- function(assoc, other.cols = NULL, lmms.only = FALSE,
                             replace.names = TRUE) {
@@ -62,11 +63,11 @@ mergeIddAlleles <- function(assoc, other.cols = NULL, lmms.only = FALSE,
                                              "n_y", "n_x", "n_xy", "beta",
                                              "p_adj", "l_remle", other.cols)]
     } else {
-        a <- subset(assoc, dif == 0)[, c("pair", "y", "x", "w_d", "s_d", "d_in_n",
+        a <- subset(assoc, dif == 0)[, c("pair", "y", "x", "s_d", "c", "d_in_n",
                                          "m_in", "pIBD_in")]  # "Error in 1:nrow(cls) : argument of length 0" arises when this becomes empty.
         assoc <- subset(assoc, dif == 1)[, c("pair", "y", "x", "y_pat", "x_pat",
                                              "n_y", "n_x", "n_xy", "d_in_n", "m_in",
-                                             "score", "s_a", "w_d", "s_d", "beta",
+                                             "s", "s_a", "s_d", "c", "beta",
                                              "p_adj", "l_remle", "clade", "size",
                                              "ds_max", "f_xy", "pIBD_in",
                                              other.cols)]
@@ -104,9 +105,9 @@ mergeIddAlleles <- function(assoc, other.cols = NULL, lmms.only = FALSE,
         keep.sep <- NULL  # Everything will be merged.
     } else {
         # Both alleles are mergable if their physical linkage is well supported
-        # and the distributions of alleles are not due to IBD (s_d takes this into
+        # and the distributions of alleles are not due to IBD (c takes this into
         # account).
-        to.merge <- a$w_d == 1  # Pairs of idd. alleles that fail this criterion will not appear as a merged node but separate nodes in the output association network.
+        to.merge <- a$s_d == 1  # Pairs of idd. alleles that fail this criterion will not appear as a merged node but separate nodes in the output association network.
         keep.sep <- a[!to.merge, ]  # a data frame for un-mergable alleles
         if (nrow(keep.sep) == 0) {
             keep.sep <- NULL
@@ -215,23 +216,23 @@ mergeIddAlleles <- function(assoc, other.cols = NULL, lmms.only = FALSE,
     while (nrow(a) > 0) {
         x <- a$x[1]
         y <- a$y[1]
-        to.merge <- (a$x == x) & (a$y == y)  # merge edges of the same direction
+        to.merge <- (a$x == x) & (a$y == y)  # a logical vector determining edges of the same direction to be merged
         b <- subset(a, to.merge)  # extract rows corresponding to these pairs; nrow(b) must be even.
         a <- subset(a, !to.merge)  # other rows, which are not processed in this iteration
 
         # make two rows per group of identical edges (the data frame b)
         # Under the assumption of symmetric directions for each pair of alleles, b must have at least two rows even
-        # if there is no duplicated rows.
-        c <- b[1, ]  # returns a single-column data frame
+        # if there is no duplicated row.
+        r <- b[1, ]  # returns a single-row data frame
 
         if (!lmms.only) {
-            # Since idd. alleles of the same cluster are physically linked (w_d = 1),
+            # Since idd. alleles of the same cluster are physically linked (s_d = 1),
             # I consider the new link betwwen the allele and the cluster is
             # supported by the distances as long as there is a single link between
             # an allele and any allele of a cluster is supported by physical distances.
             # So I use the max function to get the strongest support for physical
-            # linkage based on all s_d scores relating to this cluster.
-            # s_d = -1, 0 or 1; m_in in [0, 1]
+            # linkage based on all c scores relating to this cluster.
+            # c = -1, 0 or 1; m_in in [0, 1]
             # To calculate the new measurability, since the cluster of idd. alleles
             # has been merged into a single node, I treat all edges connecting to
             # members of this node as equally contributing to the distance
@@ -240,7 +241,7 @@ mergeIddAlleles <- function(assoc, other.cols = NULL, lmms.only = FALSE,
             # (n_xy is the same for all edges as alleles are idd.), hence the
             # new in-group distance frequency m_in is the sum of original in-group
             # distance frequencies averaged by n.
-            c$d_in_n <- sum(b$d_in_n)  # c is a data frame of a single row
+            r$d_in_n <- sum(b$d_in_n)  # c is a data frame of a single row
 
             # Notice if a1 and a2 are idd. alleles and a3 ~ a1 or a1 ~ a3 is
             # not significant, then edges a3 ~ a2 or a2 ~ a3 does not exist as well.
@@ -248,14 +249,14 @@ mergeIddAlleles <- function(assoc, other.cols = NULL, lmms.only = FALSE,
             # data frame b, it must be either {a3 ~ a1, a1 ~ a3, a3 ~ a2, a2 ~a3}
             # or {a3 ~ a1, a3 ~ a2}. As a result, unidirectional associations
             # does not produce differences in the sum of d_in_n in this algorithm.
-            c$n_xy <- sum(b$n_xy)  # Will be greater than n_x and n_y.
-            c$m_in <- round(c$d_in_n / c$n_xy, digits = 6)  # In fact, the equation is [sum(b$n_d) / 2] / [sum(b$n_xy) / 2] as every two rows are symmetric.
-            c$s_d <- max(b$s_d)  # A connection to one, then a connection to all.
-            c$w_d <- c$m_in * c$s_d  # s_a must be the same in b as alleles are idd; s_d = 1; c$m_in must always be one as all the edges are in perfect physical linkage (whose m_in = 1).
-            c$score <- c$s_a + c$w_d  # So basically w_d = s_d here.
-            c$pIBD_in <- max(b$pIBD_in)
+            r$n_xy <- sum(b$n_xy)  # Will be greater than n_x and n_y.
+            r$m_in <- round(r$d_in_n / r$n_xy, digits = 6)  # In fact, the equation is [sum(b$n_d) / 2] / [sum(b$n_xy) / 2] as every two rows are symmetric.
+            r$c <- max(b$c)  # A connection to one, then a connection to all.
+            r$s_d <- r$m_in * r$c  # s_a must be the same in b as alleles are idd; c = 1; r$m_in must always be one as all the edges are in perfect physical linkage (whose m_in = 1).
+            r$s <- r$s_a + r$s_d  # So basically s_d = c here.
+            r$pIBD_in <- max(b$pIBD_in)
         }  # Else, do nothing.
-        merged <- rbind.data.frame(merged, c, stringsAsFactors = FALSE)
+        merged <- rbind.data.frame(merged, r, stringsAsFactors = FALSE)
     }
     merged <- merged[order(merged$pair, decreasing = FALSE), ]
 

@@ -5,13 +5,14 @@
 \title{Evaluate evidence of physical linkage for positive associations with summary statistics of distance measurements}
 \usage{
 evalPL(lmms, min.beta = 0, max.p = 0.05, max.range = 2000,
-  min.pIBD = 0.9)
+  min.pIBD = 0.9, score.dist = FALSE)
 }
 \arguments{
 \item{lmms}{This argument can be a list produced by the function summariseDist,
 which contains LMM parameters and distance measurements. It can also be the
-data frame assoc in the output of findPhysLink. When the latter kind of input
-is used, users can rescore the evidence using new criteria.}
+data frame assoc in the output of findPhysLink or lmms in the output of function
+lmm. When the latter two kinds of input are used, users can rescore the evidence
+using new criteria.}
 
 \item{min.beta}{only associations with beta's >= min.beta will be considered
 as showing evidence of physical linkage.}
@@ -24,6 +25,9 @@ allelic physical distances allowed to call consistent.}
 \item{min.pIBD}{(optional) Minimum probability of the root of a minimum
 inclusive clade to display a positive binary trait, such as having a pair of
 alleles co-occurring or a specific allelic physical distance. Default: 0.9 (90\%).}
+
+\item{score.dist}{(optional) A logical parameter specifying whether allelic
+physical distances should be taken into account for scoring edges. Default: FALSE.}
 }
 \description{
 This function evaluates evidence of physical linkage using association

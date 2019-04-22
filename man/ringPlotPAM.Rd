@@ -2,7 +2,7 @@
 % Please edit documentation in R/func__visualisation__ringPlotPAM.R
 \name{ringPlotPAM}
 \alias{ringPlotPAM}
-\title{Make a ring plot to show presence/absence of genotypes and allelic co-occurrence}
+\title{Make a ring plot to show presence-absence of genotypes and allelic co-occurrence}
 \usage{
 ringPlotPAM(pam, genotypes, tree, y = NULL, y.pat = NULL,
   struc.eff = NULL, clade.cor = NULL, clade.sizes = NULL,
@@ -12,11 +12,10 @@ ringPlotPAM(pam, genotypes, tree, y = NULL, y.pat = NULL,
   y.colour = "grey10", highlight.tips = NULL,
   highlight.tip.colour = "red", highlight.tip.shape = 16,
   highlight.tip.size = 1, highlight.tip.alpha = 0.75,
-  clade.colours = rainbow(10), output = "ringPlot.png",
-  is.pdf = FALSE, res = 72, width = 1600, height = 1600,
-  unit = "px", htmap.width = 0.5, offset = -0.001,
-  branch.width = 0.25, font.size = 2, print.colnames = TRUE,
-  show.legend = FALSE)
+  clade.colours = rainbow(10), output = "ringPlot.png", res = 72,
+  width = 1600, height = 1600, unit = "px", htmap.width = 0.5,
+  offset = -0.001, branch.width = 0.25, font.size = 2,
+  print.colnames = TRUE, show.legend = FALSE)
 }
 \arguments{
 \item{pam}{A presence/absence matrix (PAM) of genotypes (either alleles or genes)}
@@ -77,9 +76,7 @@ when co-occurrence events are relatively common.}
 \item{clade.colours}{(optional) A vector of colours for clades (at most 10) that are most correlated with projections that significantly
 contribute to the response variable y.}
 
-\item{output}{(optional) Path and name for the output image.}
-
-\item{is.pdf}{(optional) A logical value specifying if a PDF will be generated instead of a PNG file. Default: FALSE.}
+\item{output}{(optional) Path and name for the output PNG file.}
 
 \item{res}{(optional) Resolution of the output figure. Default: 72 ppi.}
 

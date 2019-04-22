@@ -49,7 +49,7 @@ drawHeatMap(data = NULL, x = "x", y = "y", val = "val", diag = 1,
 
 \item{font.size}{Font size of labels in the heat map.}
 
-\item{filename}{Path and name for the output image. The filename extension (in lower case) determines the output format.}
+\item{filename}{Path and name for the output PNG image.}
 
 \item{res}{Resolution of the output figure. Default: 72 ppi.}
 

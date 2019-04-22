@@ -20,7 +20,7 @@
 #' @param colour.breaks Break points (colour.grad + 1) of values for assigning colours.
 #' @param display.val A boolean value determining whether to overlay values on the heat map or not.
 #' @param font.size Font size of labels in the heat map.
-#' @param filename Path and name for the output image. The filename extension (in lower case) determines the output format.
+#' @param filename Path and name for the output PNG image.
 #' @param res Resolution of the output figure. Default: 72 ppi.
 #' @param width Width of the output image.
 #' @param height Height of the output image.
@@ -31,7 +31,7 @@
 #
 #  Copyright 2017 Yu Wan
 #  Licensed under the Apache License, Version 2.0
-#  Development history: 12 - 13 April 2017
+#  First edition: 12 - 13 April 2017, the latest version: 21 April 2019
 
 drawHeatMap <- function(data = NULL, x = "x", y = "y", val = "val", diag = 1, replace.na = 0,
                         cluster.row = TRUE, cluster.col = TRUE, cluster.method = "complete",
@@ -60,13 +60,11 @@ drawHeatMap <- function(data = NULL, x = "x", y = "y", val = "val", diag = 1, re
 
     # initialise a heat map
     require(pheatmap)
-    fn.len <- nchar(filename)
-    fn.ext <- tolower(substr(filename, start = fn.len - 2, stop = fn.len))
-    if (fn.ext == "png") {
-        png(filename = filename, width = width, height = height, res = res, units = unit)
-    } else {
-        pdf(filename = filename, paper = "a4", width = width, height = height)
-    }
+    #fn.len <- nchar(filename)
+    #fn.ext <- tolower(substr(filename, start = fn.len - 2, stop = fn.len))  # determine image format
+    #if (fn.ext == "png") {
+    png(filename = filename, width = width, height = height, res = res, units = unit)
+    #}
 
     # set colours
     if (is.null(colour.mid)) {  # a single colour transition, such as white <-> red

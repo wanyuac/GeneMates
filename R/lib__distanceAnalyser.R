@@ -1,8 +1,8 @@
 # A module of the phylix package for analysing physical distances
-# Copyright 2017-2018 Yu Wan
+# Copyright 2017-2018 Yu Wan (wanyuac@gmail.com)
 # Licensed under the Apache License, Version 2.0
 # Development history: 23 Janury - 27 March, 2017, 26 July 2017, ...
-# Latest update: 7 Aug 2018
+# Latest update: 22 Apr 2019
 
 # Read distances between alleles ###############
 .importPhysicalDists <- function(dists = NULL, delim = "\t", ingroup = NULL,
@@ -433,4 +433,17 @@
     }
 
     return(p)
+}
+
+.extractLMMoutputs <- function(lmms) {
+    # This a subordinate function of findPhysLink and it works when evalPL is assessing
+    # evidence of physical linkage without considering allelic physical distances.
+    elements <- names(lmms)  # c("dif", "idd") or "dif"
+    out <- vector(mode = "list", length = length(elements))
+    names(out) <- elements
+    for (i in elements) {
+        out[[i]] <- lmms[[i]][["h1"]]
+    }
+
+    return(out)
 }

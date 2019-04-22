@@ -1,4 +1,4 @@
-#' @title Mapping a vector of numerics to vertex sizes through a linear transformation
+#' @title Mapping a numeric vector to vertex sizes through a linear transformation
 #'
 #' @description This function generates vertex sizes for plotting networks based on a vertex attribute.
 #' It works in the same way as the Cytoscape in mapping continuous values to an attribute. This is a

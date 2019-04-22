@@ -1,4 +1,4 @@
-#' @title Retrive allelic presence/absence information given a vector of allele names
+#' @title Retrive allelic presence-absence information given a vector of allele names
 #'
 #' @description This function is to be run after the findPhysLink pipeline.
 #'

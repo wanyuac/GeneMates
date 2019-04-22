@@ -119,9 +119,9 @@
 #' @author Yu Wan, \email{wanyuac@@gmail.com}
 #' @export
 #
-#  Copyright 2017-2018 Yu Wan
+#  Copyright 2017 Yu Wan
 #  Licensed under the Apache License, Version 2.0
-#  First edition: 17 March 2017, the lastest edition: 10 Jan 2019
+#  First edition: 17 March 2017, the lastest edition: 22 April 2019
 
 findPhysLink <- function(assoc.out = NULL,
                          snps = NULL, snps.delim = ",", pos.col = "Pos", min.mac = 1,
@@ -180,7 +180,7 @@ findPhysLink <- function(assoc.out = NULL,
         lmms.ds <- records[["lmms.ds"]]
         score.dists <- TRUE
         rm(records)
-    } else if (!is.null(phys.dists)) {
+    } else if (!is.null(phys.dists)) {  # when physical distances are provided
         ds <- .importPhysicalDists(dists = phys.dists, delim = dist.delim,
                                    ingroup = rownames(assoc.out[["alleles"]][["A"]]),
                                    outgroup = outliers)  # a data frame of original distance measurements
@@ -188,18 +188,19 @@ findPhysLink <- function(assoc.out = NULL,
         lmms.ds <- .retrievePairID(lmms.ds, assoc.out[["lmms"]])  # attach a pair ID for every pair of queries
         if (save.stages) {
             saveRDS(list(ds = ds, lmms.ds = lmms.ds), file = stage.record)
-        }
+        }  # No stage file is generated when physical distances are not available.
         score.dists <- TRUE
     } else {
         print("The function only perform LMM-based association tests because no allelic physical distance is provided.")
         score.dists <- FALSE
     }
 
-    # 3. Scoring allelic physical distances ###############
+    # 3. Calculating summary statistics of allelic physical distances ###############
     if (score.dists) {
-        # 1) Infer identical-by-descent of measured distances and calculate slopes of the measurements ===============
-        # return summary statistics of distance measurements per allele pair
-        # Elements on the input list lmms will be concatenated into a single data frame as the output.
+        # Function summariseDist infers identical-by-descent of measured distances
+        # and calculate slopes of the measurements. It returns summary statistics
+        # of distance measurements per allele pair. Elements on the input list lmms
+        # will be concatenated into a single data frame as the output.
         stage.record <- stage.outputs[["ds.summary"]]
         if (save.stages & file.exists(stage.record)) {
             ds.stats <- .recoverHistory(stage.record)
@@ -215,39 +216,68 @@ findPhysLink <- function(assoc.out = NULL,
                 saveRDS(ds.stats, file = stage.record)
             }
         }
+    }
 
 
-        # 2) Evaluate evidence of physical linkage for every pair of alleles ===============
-        stage.record <- stage.outputs[["assoc"]]
-        if (save.stages & file.exists(stage.record)) {
-            assoc <- .recoverHistory(stage.record)  # In practice, it is very unlikely that a user wants to recover the result of this stage.
-        } else {
+    # 4. Evaluate evidence of physical linkage for every pair of alleles ###############
+    stage.record <- stage.outputs[["assoc"]]
+    if (save.stages & file.exists(stage.record)) {
+        # In practice, it is very unlikely that a user wants to recover the result of this stage.
+        # However, this step is helpful when a user fails saving results after obtaining
+        # the output of findPhysLink. This step enables the user to quickly recover
+        # the final result.
+        assoc <- .recoverHistory(stage.record)
+    } else {
+        if (score.dists) {
             # Concatenate data frames and score evidence of physical linkage
             assoc <- evalPL(lmms = ds.stats, min.beta = 0, max.p = max.p,
-                            max.range = max.range, min.pIBD = min.pIBD)
-
-            # Merge structural random effects into the result table
-            assoc <- merge(x = assoc,
-                           y = assoc.out[["struc"]][["mc"]][, c("y", "x", "clade",
-                                                                "size", "f_xy", "ds_max")],
-                           by = c("y", "x"), all = TRUE, sort = FALSE)
-            leading.columns <- c("pair", "y", "x", "y_pat", "x_pat", "dif", "n_y",
-                                 "n_x", "n_xy", "m", "m_in", "score", "s_a", "w_d",
-                                 "s_d", "beta", "p_adj", "l_remle", "clade", "size",
-                                 "ds_max", "f_xy")
-            assoc <- assoc[, c(leading.columns, setdiff(names(assoc), leading.columns))]  # rearrange columns of assoc
-            assoc <- assoc[order(assoc$pair, assoc$y, decreasing = FALSE), ]
-            if (save.stages) {
-                saveRDS(assoc, file = stage.record)
-            }
+                            max.range = max.range, min.pIBD = min.pIBD, score.dist = TRUE)
+        } else {
+            assoc <- evalPL(lmms = .extractLMMoutputs(assoc.out[["lmms"]]),
+                            min.beta = 0, max.p = max.p, max.range = max.range,
+                            min.pIBD = min.pIBD, score.dist = FALSE)
         }
 
-        # 3) Expand the return object when physical distances are provided ===============
-        assoc.out[["ds"]] <- ds
-        assoc.out[["lmms.ds"]] <- lmms.ds
-        assoc.out[["ds.stats"]] <- ds.stats
+        # Merge structural random effects into the result table
+        assoc <- merge(x = assoc,
+                       y = assoc.out[["struc"]][["mc"]][, c("y", "x", "clade", "size", "f_xy", "ds_max")],
+                       by = c("y", "x"), all = TRUE, sort = FALSE)  # ds_max: produced by function findMinIncClade for maximum sample distance
+
+        # Rearrange columns of the data frame assoc
+        leading.columns <- c("pair", "y", "x", "y_pat", "x_pat", "dif", "n_y",
+                             "n_x", "n_xy", "m", "m_in", "s", "s_a", "s_d",
+                             "c", "beta", "p_adj", "l_remle", "clade", "size",
+                             "ds_max", "f_xy")  # not including "se" or "p_wald"
+        assoc_ncol <- ncol(assoc)
+        leading.columns.len <- length(leading.columns)
+        if (assoc_ncol > leading.columns.len) {
+            assoc <- assoc[, c(leading.columns, setdiff(names(assoc), leading.columns))]  # rearrange columns of assoc without dropping columns
+        } else if (assoc_ncol == leading.columns.len) {
+            assoc <- assoc[, leading.columns]
+        } else {
+            print("Warning: the data frame assoc has less columns than leading.columns.")
+            assoc <- assoc[, intersect(x = leading.columns, y = names(assoc))]
+        }
+
+        # Rearrange rows of assoc based on pair IDs
+        assoc <- assoc[order(assoc$pair, assoc$y, decreasing = FALSE), ]
+
+        # Append assoc to the output list
         assoc.out[["assoc"]] <- assoc
-        assoc.out[["stage.outputs"]] <- append(assoc.out[["stage.outputs"]], stage.outputs)
+
+        # Expand the return list assoc.out
+        if (score.dists) {
+            assoc.out[["ds"]] <- ds
+            assoc.out[["lmms.ds"]] <- lmms.ds
+            assoc.out[["ds.stats"]] <- ds.stats
+            assoc.out[["stage.outputs"]] <- append(assoc.out[["stage.outputs"]], stage.outputs)
+        } else {
+            assoc.out[["stage.outputs"]] <- append(assoc.out[["stage.outputs"]], stage.outputs["assoc"])
+        }
+
+        if (save.stages) {
+            saveRDS(assoc, file = stage.record)
+        }
     }
 
     # 4. Clearance ###############

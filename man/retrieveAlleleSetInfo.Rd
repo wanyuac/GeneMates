@@ -2,7 +2,7 @@
 % Please edit documentation in R/func__retrieveAlleleSetInfo.R
 \name{retrieveAlleleSetInfo}
 \alias{retrieveAlleleSetInfo}
-\title{Retrive allelic presence/absence information given a vector of allele names}
+\title{Retrive allelic presence-absence information given a vector of allele names}
 \usage{
 retrieveAlleleSetInfo(targets, assoc, allelic.pam, min.count = 2,
   phylo.dists = NULL, dist.method = "binary",

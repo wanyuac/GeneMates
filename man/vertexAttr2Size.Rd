@@ -2,7 +2,7 @@
 % Please edit documentation in R/func__networkAnalyser__vertexAttr2Size.R
 \name{vertexAttr2Size}
 \alias{vertexAttr2Size}
-\title{Mapping a vector of numerics to vertex sizes through a linear transformation}
+\title{Mapping a numeric vector to vertex sizes through a linear transformation}
 \usage{
 vertexAttr2Size(x, x.min = min(x), x.max = max(x), size.min = 15,
   size.max = 60)

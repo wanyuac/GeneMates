@@ -2,7 +2,8 @@
 % Please edit documentation in R/func__mergeIddAlleles.R
 \name{mergeIddAlleles}
 \alias{mergeIddAlleles}
-\title{Merge identically distributed alleles into a single physical cluster}
+\title{Merging nodes representing identically distributed alleles into a single
+node in an output network of findPhysLink.}
 \usage{
 mergeIddAlleles(assoc, other.cols = NULL, lmms.only = FALSE,
   replace.names = TRUE)
@@ -28,7 +29,7 @@ if replace.names equals TRUE.}
 \description{
 Merge nodes of identically distributed alleles into a single node to simplify the
 linkage network. When lmms.only = FALSE, two alleles are mergable only if the physical distances
-measured between them are well supporting the presence of physical linkage (namely, w_d = 1)
+measured between them are well supporting the presence of physical linkage (namely, s_d = 1)
 and the distributions of alleles are not identical by descent (IBD); when lmms.only = TRUE, two
 alleles are mergable if they are identically distributed (hence they are represented by the same
 pattern for linear mixed models).

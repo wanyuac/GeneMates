@@ -1,4 +1,5 @@
-#' @title heatMapPAM
+#' @title An expansion of ggtree's gheatmap function for displaying an allelic
+#' presence-absence matrix.
 #'
 #' @description To append a heatmap of a presence-absence matrix (PAM) to the
 #' right side of a phylogenetic tree. This function is modified from the function

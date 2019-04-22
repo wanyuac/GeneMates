@@ -2,7 +2,8 @@
 % Please edit documentation in R/func__visualisation__heatMapPAM.R
 \name{heatMapPAM}
 \alias{heatMapPAM}
-\title{heatMapPAM}
+\title{An expansion of ggtree's gheatmap function for displaying an allelic
+presence-absence matrix.}
 \usage{
 heatMapPAM(p, data, col_colours = "black", null_colour = "grey90",
   border_colour = "white", cluster_cols = FALSE,

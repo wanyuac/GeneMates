@@ -1,4 +1,4 @@
-#' @title Make a ring plot to show presence/absence of genotypes and allelic co-occurrence
+#' @title Make a ring plot to show presence-absence of genotypes and allelic co-occurrence
 #'
 #' @description This function requires the ggtree package to run. RGBA (RGB + alpha channel) colours are used by default.
 #' It is imortant to note that random effects are always unobservable in LMMs, however, we can deduce the posterior
@@ -49,8 +49,7 @@
 #' @param highlight.tip.alpha (optional) A numeric specifying the alpha of the tip symbol. Default: 0.75.
 #' @param clade.colours (optional) A vector of colours for clades (at most 10) that are most correlated with projections that significantly
 #' contribute to the response variable y.
-#' @param output (optional) Path and name for the output image.
-#' @param is.pdf (optional) A logical value specifying if a PDF will be generated instead of a PNG file. Default: FALSE.
+#' @param output (optional) Path and name for the output PNG file.
 #' @param res (optional) Resolution of the output figure. Default: 72 ppi.
 #' @param width (optional) Width of the output image.
 #' @param height (optional) Height of the output image.
@@ -97,7 +96,7 @@
 # Dependency: ape, ggplot2, ggtree
 # Copyright 2017 Yu Wan
 # Licensed under the Apache License, Version 2.0
-# First edition: 23 June 2017, lastest edition: 28 February 2018
+# First edition: 23 June 2017, lastest edition: 21 April 2019
 
 ringPlotPAM <- function(pam, genotypes, tree, y = NULL, y.pat = NULL,
                         struc.eff = NULL, clade.cor = NULL, clade.sizes = NULL,
@@ -108,9 +107,8 @@ ringPlotPAM <- function(pam, genotypes, tree, y = NULL, y.pat = NULL,
                         highlight.tips = NULL, highlight.tip.colour = "red",
                         highlight.tip.shape = 16, highlight.tip.size = 1,
                         highlight.tip.alpha = 0.75, clade.colours = rainbow(10),
-                        output = "ringPlot.png", is.pdf = FALSE,
-                        res = 72, width = 1600, height = 1600, unit = "px",
-                        htmap.width = 0.5, offset = -0.001, branch.width = 0.25,
+                        output = "ringPlot.png", res = 72, width = 1600, height = 1600,
+                        unit = "px", htmap.width = 0.5, offset = -0.001, branch.width = 0.25,
                         font.size = 2, print.colnames = TRUE, show.legend = FALSE) {
 
     if (is.character(genotypes)) {  # when there is a single group of alleles whose co-occurrence is to be visualised
@@ -334,11 +332,7 @@ ringPlotPAM <- function(pam, genotypes, tree, y = NULL, y.pat = NULL,
     }
 
     # draw the plot
-    if (is.pdf) {
-        pdf(filename = output, paper = "a4", width = width, height = height)
-    } else {
-        png(filename = output, width = width, height = height, res = res, units = unit)
-    }
+    png(filename = output, width = width, height = height, res = res, units = unit)
     par(oma = rep(0.1, times = 4), mar = rep(0.1, times = 4))
     print(p)
     dev.off()

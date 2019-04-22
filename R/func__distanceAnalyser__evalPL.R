@@ -5,8 +5,9 @@
 #'
 #' @param lmms This argument can be a list produced by the function summariseDist,
 #' which contains LMM parameters and distance measurements. It can also be the
-#' data frame assoc in the output of findPhysLink. When the latter kind of input
-#' is used, users can rescore the evidence using new criteria.
+#' data frame assoc in the output of findPhysLink or lmms in the output of function
+#' lmm. When the latter two kinds of input are used, users can rescore the evidence
+#' using new criteria.
 #' @param min.beta only associations with beta's >= min.beta will be considered
 #' as showing evidence of physical linkage.
 #' @param max.p only associations with P values <= max.p will be considered as signficant.
@@ -15,15 +16,18 @@
 #' @param min.pIBD (optional) Minimum probability of the root of a minimum
 #' inclusive clade to display a positive binary trait, such as having a pair of
 #' alleles co-occurring or a specific allelic physical distance. Default: 0.9 (90\%).
+#' @param score.dist (optional) A logical parameter specifying whether allelic
+#' physical distances should be taken into account for scoring edges. Default: FALSE.
 #'
 #' @author Yu Wan (\email{wanyuac@@gmail.com})
 #' @export
 #
-#  Copyright 2017-2018 Yu Wan
+#  Copyright 2017-2019 Yu Wan
 #  Licensed under the Apache License, Version 2.0
-#  First edition: 1 June 2017; latest edition: 27 Oct 2018
+#  First edition: 1 June 2017; latest edition: 20 April 2019
 
-evalPL <- function(lmms, min.beta = 0, max.p = 0.05, max.range = 2000, min.pIBD = 0.9) {
+evalPL <- function(lmms, min.beta = 0, max.p = 0.05, max.range = 2000, min.pIBD = 0.9,
+                   score.dist = FALSE) {
     print(paste0(Sys.time(), ": Evaluating evidence of physical linkage."))
 
     # Sanity check
@@ -55,10 +59,18 @@ evalPL <- function(lmms, min.beta = 0, max.p = 0.05, max.range = 2000, min.pIBD 
     # Score evidence for physical linkage
     assoc$s_a <- as.integer(apply(as.matrix(assoc[, c("beta", "p_adj")]), 1,
                                   .scoreAssocEvidence, min.beta, max.p))
-    assoc$s_d <- as.integer(apply(assoc[, c("d_in_n", "d_in_range", "pIBD_in")], 1,
-                                  .scoreDistEvidence, max.range, min.pIBD))
-    assoc$w_d <- round(assoc$m_in * assoc$s_d, digits = 6)  # weighted s_d. Measurability has six decimals.
-    assoc$score <- assoc$s_a + assoc$w_d  # The score belongs to [-2, 2] or equals NA.
+    if (score.dist) {
+        assoc$c <- as.integer(apply(assoc[, c("d_in_n", "d_in_range", "pIBD_in")], 1,
+                                    .scoreDistEvidence, max.range, min.pIBD))  # consistency score
+        assoc$s_d <- round(assoc$m_in * assoc$c, digits = 6)  # distance score (measurability-weighted consistency score). The measurability has six decimals.
+        assoc$s <- assoc$s_a + assoc$s_d  # The score belongs to [-2, 2] or equals NA.
+    } else {
+        assoc$m <- rep(NA, times = nrow(assoc))  # I choose NA rather than zero in this circumstance since we do not know the measurability when the distance measurement is not carried out.
+        assoc$m_in <- assoc$m
+        assoc$s <- assoc$s_a
+        assoc$s_d <- assoc$m_in
+        assoc$c <- assoc$s_d
+    }
 
     return(assoc)
 }

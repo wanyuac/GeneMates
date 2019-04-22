@@ -45,9 +45,9 @@
 #' @author Yu Wan, \email{wanyuac@@gmail.com}
 #' @export
 #
-#  Copyright 2017-2018 Yu Wan
+#  Copyright 2017-2019 Yu Wan
 #  Licensed under the Apache License, Version 2.0
-#  First edition: 15 Dec 2017; the latest edition: 24 August 2018
+#  First edition: 15 Dec 2017; the latest edition: 20 April 2019
 
 # LMM-based association tests
 lmm <- function(snps = NULL, snps.delim = ",", pos.col = "Pos", min.mac = 1,

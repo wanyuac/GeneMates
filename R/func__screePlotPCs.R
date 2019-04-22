@@ -22,7 +22,7 @@
 screePlotPCs <- function(ev, ev.unsorted = FALSE) {
     # ev: all eigenvalues, pre-sorted in an ascending order
     # npcs: number of principal components to be considered
-    # First, calculate how much variantion does each projection axis captures
+    # First, calculate how much variantion does each projection axis captures.
     if (ev.unsorted) {
         ev <- sort(ev, decreasing = TRUE)
     }

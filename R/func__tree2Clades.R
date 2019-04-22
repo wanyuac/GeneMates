@@ -1,4 +1,4 @@
-#' @title Decompose a tree into a presence/absence matrix of samples in each clade of the tree
+#' @title Decompose a tree into a presence-absence matrix of samples in each clade of the tree
 #'
 #' @description This function is an adaptation of the tree2patterns function in the BugWAS package for phylix.
 #'

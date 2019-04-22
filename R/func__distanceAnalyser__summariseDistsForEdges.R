@@ -47,14 +47,14 @@
 #
 #  Copyright 2018 Yu Wan
 #  Licensed under the Apache License, Version 2.0
-#  First edition: 10 Oct 2017, the lastest edition: 11 Oct 2018
+#  First edition: 10 Oct 2017, the lastest edition: 21 Apr 2019
 
 summariseDistsForEdges <- function(E, ds, d.max = 250e3, n.max = 2, source.graph = "graph",
                                    source.contig = "contig", source.complete = "complete",
                                    sort.output = TRUE) {
     require(data.table)
 
-    # E: an edge list of allele names, beta, co-occurrence count, distance score s_d and pair IDs.
+    # E: an edge list of allele names, beta, co-occurrence count, distance score s_d (c * m_in) and pair IDs.
     # ds: a data frame of allelic physical distances.
     # 1. Convert the edge list into an undirected network
     if (is.na(source.graph) && is.na(source.contig && is.na(source.complete))) {
@@ -107,7 +107,7 @@ summariseDistsForEdges <- function(E, ds, d.max = 250e3, n.max = 2, source.graph
     ds <- getRowsXY(df = ds, k1 = a1, k2 = a2, c1 = "query1", c2 = "query2")
     n <- nrow(ds)
     if (n > 0) {
-        m <- round(n / co, digits = 4)  # measurability based on all distance measurements
+        m <- round(n / co, digits = 4)  # conditional measurability of all distance measurements given the co-occurrence count
         if (!is.na(source.graph)) {
             ng <- sum(ds$source == source.graph)  # number of distances measured in assembly graphs
         } else {
@@ -126,9 +126,9 @@ summariseDistsForEdges <- function(E, ds, d.max = 250e3, n.max = 2, source.graph
         }
 
         # summarise reliable distances
-        nr <- nrow(ds_reli)
+        nr <- nrow(ds_reli)  # number of reliable distances
         if (nr > 0) {
-            mr <- round(nr / co, digits = 4)
+            mr <- round(nr / co, digits = 4)  # conditional measurability of reliable distances given the co-occurrence count
             source_tab <- table(ds_reli$source)
             source_list <- names(source_tab)
             if (!is.na(source.graph) && source.graph %in% source_list) {

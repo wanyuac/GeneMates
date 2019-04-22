@@ -2,7 +2,7 @@
 % Please edit documentation in R/func__tree2Clades.R
 \name{tree2Clades}
 \alias{tree2Clades}
-\title{Decompose a tree into a presence/absence matrix of samples in each clade of the tree}
+\title{Decompose a tree into a presence-absence matrix of samples in each clade of the tree}
 \usage{
 tree2Clades(tr, sample.order)
 }
