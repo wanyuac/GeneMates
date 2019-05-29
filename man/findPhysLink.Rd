@@ -6,16 +6,16 @@
 bacterial genes at the allele level}
 \usage{
 findPhysLink(assoc.out = NULL, snps = NULL, snps.delim = ",",
-  pos.col = "Pos", min.mac = 1, genetic.pam = NULL,
-  genetic.pam.delim = "\\t", genes.excl = NULL, allelic.pam = NULL,
-  allelic.pam.delim = "\\t", min.count = 2, min.co = 2,
-  mapping = NULL, phys.dists = NULL, dist.delim = "\\t",
-  max.node.num = NULL, max.dist = NULL, ingroup = NULL,
-  outliers = NULL, ref = NULL, tree = NULL, sample.dists = NULL,
-  d.qs = c(0, 0.25, 0.5, 0.75, 1), max.p = 0.05, max.range = 2000,
-  min.pIBD = 0.9, output.dir = "output", prefix = NULL,
-  gemma.path = "gemma", n.cores = -1, save.stages = TRUE,
-  del.temp = TRUE, skip = TRUE)
+  pos.col = "Pos", ref.col = "Ref", min.mac = 1,
+  genetic.pam = NULL, genetic.pam.delim = "\\t", genes.excl = NULL,
+  allelic.pam = NULL, allelic.pam.delim = "\\t", min.count = 2,
+  min.co = 2, mapping = NULL, phys.dists = NULL,
+  dist.delim = "\\t", max.node.num = NULL, max.dist = NULL,
+  ingroup = NULL, outliers = NULL, ref = NULL, tree = NULL,
+  sample.dists = NULL, d.qs = c(0, 0.25, 0.5, 0.75, 1), max.p = 0.05,
+  max.range = 2000, min.pIBD = 0.9, output.dir = "output",
+  prefix = NULL, gemma.path = "gemma", n.cores = -1,
+  save.stages = TRUE, del.temp = TRUE, skip = TRUE)
 }
 \arguments{
 \item{assoc.out}{A previous output of findPhysLink when it was used only for
@@ -34,6 +34,9 @@ and dist.delim are defined similary)}
 
 \item{pos.col}{(optional) An integer (column index) or a string (column name)
 specifying which column contains SNP positions}
+
+\item{ref.col}{(optional) A string specifying the column for SNPs of the reference
+genome.}
 
 \item{min.mac}{(optional) An integer specifying the minimal number of times
 required for the minor allele of every biallelic SNP to occur across all isolates.
@@ -85,8 +88,8 @@ includes all isolates by default.}
 \item{outliers}{(optional) A vector of characters for isolate/strain names to
 be excluded from snps, pam and ds}
 
-\item{ref}{(optional) name of the reference genome. The column name "Ref" in
-the SNP matrix will be replaced with this argument.}
+\item{ref}{(optional) A new name for the reference genome. The column name specified
+by ref.col in the SNP matrix will be replaced with this argument.}
 
 \item{tree}{(optional) A path to a tree file or a phylo object for a tree of
 all samples.

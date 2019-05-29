@@ -26,6 +26,9 @@ This project is supported by the Department of Biochemistry and Molecular Biolog
     * 3.7. [Visualisation](#visualisation)  
     * 3.8. [Helper functions](#helpers)  
     * 3.9. [Alternative association analysis](#plr)  
+4. [Inputs](#inputs)  
+    * 4.1. [Import core-genome SNP matrix](#cgSNPs)  
+5. [References](#references)
 
 ## <a name="installation">1. Installation</a>
 
@@ -34,7 +37,7 @@ There are two approaches to install this package. Take the GeneMates version 0.1
 **R**
 
 ```R
-install.packages(pkgs = "GeneMates_0.1.6.tar.gz", lib = "Lib")
+install.packages(pkgs = "GeneMates_0.2.0.tar.gz", lib = "Lib")
 ```
 
 **bash**
@@ -42,7 +45,7 @@ install.packages(pkgs = "GeneMates_0.1.6.tar.gz", lib = "Lib")
 The program Rscript should be accessible as a command. Namely, the path of R should be added to $PATH before hand.
 
 ````bash
-./install_GeneMates.sh GeneMates_0.1.6.tar.gz Lib 
+./install_GeneMates.sh GeneMates_0.2.0.tar.gz Lib 
 ````
 
 ## <a name="dependencies">1.1. Dependencies</a>
@@ -95,15 +98,7 @@ library(GeneMates)
 
 tr <- read.tree("rooted.tree")  # a maximum-likelihood tree
 
-assoc <- findPhysLink(snps = "Analysis/snps.csv", snps.delim = ",", pos.col = "Pos", min.mac = 1,
-                      genetic.pam = "gpam.tsv", genetic.pam.delim = "\t",
-                      allelic.pam = "apam.tsv", allelic.pam.delim = "\t",
-                      mapping = NULL, min.count = 15, phys.dists = "prioritised_dists.tsv",
-                      dist.delim = "\t", max.node.num = 2, max.dist = 250e3,
-                      ref = "ref", tree = tr, min.co = 2, d.qs = c(0, 0.25, 0.5, 0.75, 1),
-                      max.p = 0.05, max.range = 2000, min.pIBD = 0.9,
-                      output.dir = "Output", prefix = "demo", gemma.path = "~/Apps/gemma",
-                      n.cores = 8, save.stages = TRUE, del.temp = FALSE, skip = TRUE)
+assoc <- findPhysLink(snps = "Analysis/snps.csv", snps.delim = ",", pos.col = "Pos", ref.pos = "Ref", min.mac = 1, genetic.pam = "gpam.tsv", genetic.pam.delim = "\t", allelic.pam = "apam.tsv", allelic.pam.delim = "\t", mapping = NULL, min.count = 15, phys.dists = "prioritised_dists.tsv", dist.delim = "\t", max.node.num = 2, max.dist = 250e3, ref = "ref", tree = tr, min.co = 2, d.qs = c(0, 0.25, 0.5, 0.75, 1), max.p = 0.05, max.range = 2000, min.pIBD = 0.9, output.dir = "Output", prefix = "demo", gemma.path = "~/Apps/gemma", n.cores = 8, save.stages = TRUE, del.temp = FALSE, skip = TRUE)
 
 snps <- assoc[["snps"]]  # a large list
 saveRDS(snps, file = "Out/snps.rds")  # Analysis/Out/snps.rds
@@ -141,7 +136,7 @@ This section illustrates organisation of public functions in GeneMates.
 The following functions analyse the output network of *findPhysLink*.  
 
 - *mkNetwork*: creates a network object (Graph) from the result of *findPhysLink*.  
-- compileGraphs*: compiles graphs into a single network while retaining separation between individual graphs.  
+- *compileGraphs*: compiles graphs into a single network while retaining separation between individual graphs.  
 - *summariseCliques*: summarises allele content per clique.  
 - *summarisePhysDistForClusters*: summarises APDs for allele clusters.  
 - *summariseDistsForEdges*: summarises APDs for each edge.  
@@ -212,3 +207,73 @@ Functions under this category are developed for helping users to extract and ins
 
 - *plr*: uses Firth's penalised logistic regression rather than LMMs to model allelic presence-absence status. It works in a similar manner as *lmm*.  
 
+## <a name = "inputs">4. Inputs</a>
+GeneMates takes as input four kinds of data for detection of HGcoT. A function is created for importing each kind of data. This section explain the usage of these four functions.
+
+### <a name = "cgSNPs">4.1. Import core-genome SNP matrix</a>
+
+####  Input
+
+Function *importCoreGenomeSNPs* reads a cgSNP table, encodes SNP genotypes, extracts biallelic SNPs and performs zero-centring of encoded SNP genotypes. The behaviour of this function is similar to the function *get_SNP_data* in R package [BugWAS](https://github.com/sgearle/bugwas) (see BUGWAS_modular.R). The function *importCoreGenomeSNPs* expects the SNP table to follow the output format of the script parseSNPtable.py in a read-mapping pipeline [RedDog](https://github.com/katholt/RedDog). Accordingly, the SNP table should be stored as a CSV file by default and an example of its structure is shown as follows.
+
+| Pos,Ref,Isolate1,Isolate2,Isolate3,... |
+| -------------------------------------- |
+| 10,A,A,A,A,...                         |
+| 21,C,C,C,C,...                         |
+| 25,C,C,C,T,...                         |
+| ... |
+
+Here, the hyphen "-" denotes the SNP site at the 21<sup>st</sup> base (Pos) of the reference genome "Ref" is not present in Isolate2.
+
+####  Arguments (excluding those specifying output filenames)
+
+- snps.delim: a single character for the delimiter in the SNP table to be imported. Default: ",".
+- pos.col: the name for the position column. Default: "Pos".
+- ref.col: the name for the reference column. Default: "Ref".
+- replace.ref: new name for the reference column when the column is present in the SNP table.
+- ingroup: a character vector of isolate names to be included in the resulting SNP matrix, which may include reference SNP genotypes.
+- outliers: a character vector of outlier isolate names, which may include the reference strain. These isolates will be excluded from the SNP matrix. Note that an error arises when ingroup and outliers overlap.
+- min.mac: the minimum minor-allele count of each SNP across all isolates excluding outlier isolates. Default: 1, keep every SNP whose minor allele occurs at least once in the remaining isolates.
+
+####  Limitation
+
+Because of the code
+
+```R
+snps.var <- apply(snps.core, 2, function(x) length(unique(x)))
+snps.bi <- snps.core[, as.integer(snps.var) == 2]
+snp.alleles <- .getAllelePairs(snps.bi)
+G <- .encodeAlleles(snps.bi, snp.alleles)
+```
+
+function *importCoreGenomeSNPs* only works correctly when all SNPs are detected in all ingroup genomes (namely, cgSNPs). In other words, missing SNP genotypes (each is denoted by a hyphen) create false genotype counts. It is not necessary to address this limitation for GeneMates because our estimation of bacterial population structure only relies on biallelic SNP sites that are found in all ingroup isolates.
+
+#### Procedure
+
+- Read the SNP table, replace the reference strain name when possible, exclude outlier isolates and/or keep ingroup isolates.
+- Count the number of genotypes per SNP site, identify biallelic SNP sites in the ingroup genomes and determine minor (allele frequency < 0.5) and major alleles of each biallelic SNP site. Note that when both alleles of the same SNP site occur at the same frequency of 0.5, the alleles will be sorted alphabetically (namely, following the order of "A", "C", "G", "T" resulting from the behaviour of the R function *table*) and the first allele will be chosen as the minor allele.
+- Encode alleles of each biallelic SNP site in accordance with a convention in genome-wide association analysis (GWAS)<sup>1, 2 (software manual)</sup>.
+  - 1: minor allele
+  - 0: major allele
+- (Optional) filter out biallelic SNPs of insufficient minor-allele frequencies (MAFs).
+- MAF-based zero-centring of the remaining biallelic SNP matrix.
+- Save codes and positions of biallelic SNPs in the BIMBAM format for [GEMMA](https://github.com/genetics-statistics/GEMMA) (see the [manual](http://www.xzlab.org/software/GEMMAmanual.pdf) of GEMMA for details of this file format) and return a large list to the parental R session.
+
+#### Output
+
+Function *importCoreGenomeSNPs* returns a large list to R. Cautions must be taken to run this function due to the large size of the output list: users are advised to check their computer capacity in the first place. Elements of the output list are listed as follows.
+
+- G: a binary matrix (rows: isolate names, columns: SNP sites) of biallelic SNP sites in the ingroup genomes. This matrix does not contain information of SNP positions.
+- S: a column-wise zero-centred SNP matrix G.
+- snp.alleles: a matrix of major and minor alleles of SNP sites in G.
+- mac: a named integer vector of minor-allele counts of SNP sites in G.
+- core: a matrix of unencoded cgSNP genotypes in ingroup genomes (rows denote isolate names and columns denote SNP sites). This matrix includes biallelic SNPs.
+- var: a named integer vector of genotype counts across all cgSNPs in ingroup genomes.
+- bi: a matrix of biallelic SNPs extracted from the matrix _core_.
+- G.bimbam: a BIMBAM-formatted data frame directly converted from the matrix G.
+- annots: a BIMBAM-formatted data frame of SNP positions.
+
+## <a name = "references">References</a>
+
+1. McVean, G. A Genealogical Interpretation of Principal Components Analysis. _PLOS Genet_. 5, e1000686 (2009).
+2. Zhou, X. & Stephens, M. Genome-wide efficient mixed-model analysis for association studies. _Nat Genet_ 44, 821–824 (2012).

@@ -25,13 +25,15 @@
 #' and dist.delim are defined similary)
 #' @param pos.col (optional) An integer (column index) or a string (column name)
 #' specifying which column contains SNP positions
+#' @param ref.col (optional) A string specifying the column for SNPs of the reference
+#' genome.
 #' @param ingroup (optional) A vector of characters for names of isolates to be
 #' analysed. Isolates may be sorted, such as according to the phylogeny. The function
 #' includes all isolates by default.
 #' @param outliers (optional) A vector of characters for isolate/strain names to
 #' be excluded from snps, pam and ds
-#' @param ref (optional) name of the reference genome. The column name "Ref" in
-#' the SNP matrix will be replaced with this argument.
+#' @param ref (optional) A new name for the reference genome. The column name specified
+#' by ref.col in the SNP matrix will be replaced with this argument.
 #' @param min.mac (optional) An integer specifying the minimal number of times
 #' required for the minor allele of every biallelic SNP to occur across all isolates.
 #' SNPs failed this criterion will be removed from this analysis.
@@ -121,10 +123,10 @@
 #
 #  Copyright 2017 Yu Wan
 #  Licensed under the Apache License, Version 2.0
-#  First edition: 17 March 2017, the lastest edition: 22 April 2019
+#  First edition: 17 March 2017, the lastest edition: 29 May 2019
 
-findPhysLink <- function(assoc.out = NULL,
-                         snps = NULL, snps.delim = ",", pos.col = "Pos", min.mac = 1,
+findPhysLink <- function(assoc.out = NULL, snps = NULL, snps.delim = ",",
+                         pos.col = "Pos", ref.col = "Ref", min.mac = 1,
                          genetic.pam = NULL, genetic.pam.delim = "\t", genes.excl = NULL,
                          allelic.pam = NULL, allelic.pam.delim = "\t",
                          min.count = 2, min.co = 2, mapping = NULL,
@@ -150,8 +152,8 @@ findPhysLink <- function(assoc.out = NULL,
             assoc.out <- .recoverHistory(stage.record)
         } else {
             assoc.out <- lmm(snps = snps, snps.delim = snps.delim, pos.col = pos.col,
-                             min.mac = min.mac, genetic.pam = genetic.pam,
-                             genetic.pam.delim = genetic.pam.delim,
+                             ref.col = ref.col, min.mac = min.mac,
+                             genetic.pam = genetic.pam, genetic.pam.delim = genetic.pam.delim,
                              genes.excl = genes.excl, allelic.pam = allelic.pam,
                              allelic.pam.delim = allelic.pam.delim,
                              min.count = min.count, min.co = min.co,

@@ -4,13 +4,14 @@
 \alias{lmm}
 \title{Testing for associations between occurrence of bacterial genes/alleles with linear mixed model}
 \usage{
-lmm(snps = NULL, snps.delim = ",", pos.col = "Pos", min.mac = 1,
-  genetic.pam = NULL, genetic.pam.delim = "\\t", genes.excl = NULL,
-  allelic.pam = NULL, allelic.pam.delim = "\\t", mapping = NULL,
-  min.count = 2, min.co = 2, ingroup = NULL, outliers = NULL,
-  ref = NULL, tree = NULL, sample.dists = NULL,
-  output.dir = "output", prefix = NULL, gemma.path = "gemma",
-  n.cores = -1, save.stages = TRUE, skip = TRUE)
+lmm(snps = NULL, snps.delim = ",", pos.col = "Pos",
+  ref.col = "Ref", min.mac = 1, genetic.pam = NULL,
+  genetic.pam.delim = "\\t", genes.excl = NULL, allelic.pam = NULL,
+  allelic.pam.delim = "\\t", mapping = NULL, min.count = 2,
+  min.co = 2, ingroup = NULL, outliers = NULL, ref = NULL,
+  tree = NULL, sample.dists = NULL, output.dir = "output",
+  prefix = NULL, gemma.path = "gemma", n.cores = -1,
+  save.stages = TRUE, skip = TRUE)
 }
 \arguments{
 \item{snps}{Core-genome SNPs used for estimating the relatedness matrix.}
@@ -18,6 +19,8 @@ lmm(snps = NULL, snps.delim = ",", pos.col = "Pos", min.mac = 1,
 \item{snps.delim}{(optional) Delimiters of fields in the SNP table (pam.delim and dist.delim are defined similary)}
 
 \item{pos.col}{(optional) An integer (column index) or a string (column name) specifying which column contains SNP positions}
+
+\item{ref.col}{(optional) A string specifying the column for SNPs of the reference genome.}
 
 \item{min.mac}{(optional) An integer specifying the minimal number of times required for the minor allele of every biallelic SNP to occur across all isolates. SNPs failed this criterion will be removed from this analysis.}
 
@@ -44,7 +47,7 @@ the corresponding alleles never co-occur. However, this will increase the number
 
 \item{outliers}{(optional) A vector of characters for isolate/strain names to be excluded from snps, pam}
 
-\item{ref}{(optional) name of the reference genome. The column name "Ref" in the SNP matrix will be replaced with this argument.}
+\item{ref}{(optional) A new name for the reference genome. The column name specified by ref.col in the SNP matrix will be replaced with this argument.}
 
 \item{tree}{(optional) A path to a tree file or a phylo object for a tree of all samples.
 The format of the tree file must be compartile to the read.tree function in the ape package.}

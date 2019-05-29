@@ -17,7 +17,7 @@ tr <- read.tree("input/tr.tree")
 # Output_physLink and output. Therefore, it is recommended that users keep using "output" for the
 # argument output.dir.
 assoc <- findPhysLink(snps = "input/cgSNPs.csv",
-                      snps.delim = ",", pos.col = "Pos", min.mac = 1,
+                      snps.delim = ",", pos.col = "Pos", ref.col = "Ref", min.mac = 1,
                       ingroup = NULL, outliers = NULL, ref = NULL,
                       genetic.pam = "input/gpam.tsv", genetic.pam.delim = "\t",
                       genes.excl = c("AMPH_Ecoli_Bla", "AmpC2_Ecoli_Bla", "AmpC1_Ecoli_Bla", "MrdA_Bla"),

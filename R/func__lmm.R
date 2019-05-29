@@ -10,9 +10,10 @@
 #      Valid values: a complete path to a SNP table, or an un-centred, encoded, biallelic SNP matrix G
 #' @param snps.delim (optional) Delimiters of fields in the SNP table (pam.delim and dist.delim are defined similary)
 #' @param pos.col (optional) An integer (column index) or a string (column name) specifying which column contains SNP positions
+#' @param ref.col (optional) A string specifying the column for SNPs of the reference genome.
 #' @param ingroup (optional) A vector of characters for names of isolates to be analysed. Isolates may be sorted, such as according to the phylogeny. The function includes all isolates by default.
 #' @param outliers (optional) A vector of characters for isolate/strain names to be excluded from snps, pam
-#' @param ref (optional) name of the reference genome. The column name "Ref" in the SNP matrix will be replaced with this argument.
+#' @param ref (optional) A new name for the reference genome. The column name specified by ref.col in the SNP matrix will be replaced with this argument.
 #' @param min.mac (optional) An integer specifying the minimal number of times required for the minor allele of every biallelic SNP to occur across all isolates. SNPs failed this criterion will be removed from this analysis.
 #' @param genes.excl (optional) Genes to be excluded from PAMs. For example, genes.excl = c("AmpH_Bla", "OqxBgb_Flq", "OqxA_Flq", "SHV.OKP.LEN_Bla").
 #' @param genetic.pam A presence-absence matrix of genes. It may be a compiled table from SRST2.
@@ -47,13 +48,13 @@
 #
 #  Copyright 2017-2019 Yu Wan
 #  Licensed under the Apache License, Version 2.0
-#  First edition: 15 Dec 2017; the latest edition: 20 April 2019
+#  First edition: 15 Dec 2017; the latest edition: 29 May 2019
 
 # LMM-based association tests
-lmm <- function(snps = NULL, snps.delim = ",", pos.col = "Pos", min.mac = 1,
-                genetic.pam = NULL, genetic.pam.delim = "\t", genes.excl = NULL,
-                allelic.pam = NULL, allelic.pam.delim = "\t", mapping = NULL,
-                min.count = 2, min.co = 2,
+lmm <- function(snps = NULL, snps.delim = ",", pos.col = "Pos", ref.col = "Ref",
+                min.mac = 1, genetic.pam = NULL, genetic.pam.delim = "\t",
+                genes.excl = NULL, allelic.pam = NULL, allelic.pam.delim = "\t",
+                mapping = NULL, min.count = 2, min.co = 2,
                 ingroup = NULL, outliers = NULL, ref = NULL,
                 tree = NULL, sample.dists = NULL,
                 output.dir = "output", prefix = NULL,
@@ -103,9 +104,10 @@ lmm <- function(snps = NULL, snps.delim = ",", pos.col = "Pos", min.mac = 1,
     } else {
         # elements of snps: G, S, G.bimbam, annots, snp.alleles, mac, core, bi and var
         snps <- importCoreGenomeSNPs(snps = snps, snps.delim = snps.delim,
-                                     pos.col = pos.col, replace.ref = ref,
-                                     min.mac = min.mac, ingroup = ingroup,
-                                     outliers = outliers, G.file = outputs[["snps"]],
+                                     pos.col = pos.col, ref.col = ref.col,
+                                     replace.ref = ref, min.mac = min.mac,
+                                     ingroup = ingroup, outliers = outliers,
+                                     G.file = outputs[["snps"]],
                                      annots.file = outputs[["snp.annots"]],
                                      skip = skip)
         if (save.stages) {
