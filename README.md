@@ -210,7 +210,7 @@ Functions under this category are developed for helping users to extract and ins
 ## <a name = "inputs">4. Inputs</a>
 GeneMates takes as input four kinds of data for detection of HGcoT. A function is created for importing each kind of data. This section explain the usage of these four functions.
 
-### <a name = "cgSNPs">4.1. Import core-genome SNP matrix</a>
+### <a name = "cgSNPs">4.1. Importing core-genome SNP matrix</a>
 
 ####  Input
 
@@ -251,7 +251,7 @@ function *importCoreGenomeSNPs* only works correctly when all SNPs are detected 
 #### Procedure
 
 - Read the SNP table, replace the reference strain name when possible, exclude outlier isolates and/or keep ingroup isolates.
-- Count the number of genotypes per SNP site, identify biallelic SNP sites in the ingroup genomes and determine minor (allele frequency < 0.5) and major alleles of each biallelic SNP site. Note that when both alleles of the same SNP site occur at the same frequency of 0.5, the alleles will be sorted alphabetically (namely, following the order of "A", "C", "G", "T" resulting from the behaviour of the R function *table*) and the first allele will be chosen as the minor allele.
+- Count the number of genotypes per SNP site, identify biallelic SNP sites in the ingroup genomes and determine minor (allele frequency < 0.5) and major alleles of each biallelic SNP site. Note that when both alleles of the same SNP site occur at the same frequency 0.5, the alleles will be sorted alphabetically (namely, following the order of "A", "C", "G", "T" resulting from the behaviour of the R function *table*) and the first allele will be chosen as the minor allele.
 - Encode alleles of each biallelic SNP site in accordance with a convention in genome-wide association analysis (GWAS)<sup>1, 2 (software manual)</sup>.
   - 1: minor allele
   - 0: major allele
