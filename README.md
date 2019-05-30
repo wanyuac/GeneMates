@@ -27,7 +27,7 @@ This project is supported by the Department of Biochemistry and Molecular Biolog
     * 3.8. [Helper functions](#helpers)  
     * 3.9. [Alternative association analysis](#plr)  
 4. [Inputs](#inputs)  
-    * 4.1. [Import core-genome SNP matrix](#cgSNPs)  
+    * 4.1. [Importing core-genome SNP matrix](#cgSNPs)  
 5. [References](#references)
 
 ## <a name="installation">1. Installation</a>
