@@ -28,6 +28,7 @@ This project is supported by the Department of Biochemistry and Molecular Biolog
     * 3.9. [Alternative association analysis](#plr)  
 4. [Inputs](#inputs)  
     * 4.1. [Importing core-genome SNP matrix](#cgSNPs)  
+    * 4.2. [Importing allelic presence-absence matrix](#importAlleleicPAM)
 5. [References](#references)
 
 ## <a name="installation">1. Installation</a>
@@ -272,6 +273,42 @@ Function *importCoreGenomeSNPs* returns a large list to R. Cautions must be take
 - bi: a matrix of biallelic SNPs extracted from the matrix _core_.
 - G.bimbam: a BIMBAM-formatted data frame directly converted from the matrix G.
 - annots: a BIMBAM-formatted data frame of SNP positions.
+
+### <a name = "importAlleleicPAM">4.2. Importing allelic presence-absence matrix</a>
+
+#### Input
+
+GeneMates provides function _importAllelicPAM_ to read an allelic PAM, which is a binary matrix denoting presence (1) and absence (0) of alleles of the genes of interest across bacterial isolates. The PAM can be created using a helper pipeline PAMmaker and it has the following structure.
+
+| Sample | Allele 1 | Allele 2 | Allele_3 |... |
+| ----- | -----| ----- | ----- | ----- |
+| Isolate_1 | 1 | 1 | 0 | ... |
+| Isolate_2 | 1 | 0 | 0 | ... |
+| ... | ... | ... | ... | ... |
+
+#### Procedure
+
+Users may use the R command ```?importAllelicPAM``` to see an argument list with explanations. The function carries out steps as follows.
+
+- Exclude rows corresponding to outlier isolates (argument: _outliers_).
+- Reorganise rows in accordance with the argument _sample.order_ when it is specified. This step matches the orders of isolates in the cgSNP matrix and the allelic PAM when _importAllelicPAM_ is used as a subordinate function of _findPhysLink_.
+- Remove columns having insufficient allele counts in accordance with the argument _min.count_. In particular, this step always removes empty columns (allele count = 0).
+- Remove columns corresponding to alleles that are not included in a user-specified vector of allele names _alleles.inc_. The argument _alleles.inc_ is specified when a user wants to only include alleles of interest for analysis.
+- Compress the resulting allelic PAM into a pattern matrix by merging identical columns into one. Columns of the resulting pattern matrix are tested for pairwise associations in functions _findPhysLink_, _lmm_ and _plr_. The generation of the pattern matrix was learnt from the BugWAS package. However, scaling of patterns with the square root of the number of each alleles under each pattern is not performed in _importAllelicPAM_ because GeneMates does not calculate a relatedness matrix from the allelic PAM. By contrast, this scaling is necessary for BugWAS to obtain a correct relatedness matrix from a pattern matrix converted from a cgSNP matrix (which can be easily proved using matrix algebra — the relatedness matrix computed from the cgSNP matrix remains the same when replacing the SNP matrix with a scaled pattern matrix).
+- Zero-centring columns (patterns) of the pattern matrix and make a transpose of the zero-centred pattern matrix as an array of explanatory variables for GEMMA.
+- Create a BIMBAM-formatted "phenotype" file from the untransposed zero-centred pattern matrix for GEMMA.
+
+#### Output
+
+Function _importAllelicPAM_ returns a large list of seven elements.
+
+- Y: a column-wise zero-centred pattern matrix whose columns are treated as "phenotypes" by GEMMA for association tests.
+- X: a transpose of Y, which is treated as "genotypes" by GEMMA for association tests.
+- A: the final allelic PAM, which is converted into Y.
+- B: an uncentred pattern matrix directly converted from the matrix A.
+- allele.pat: a data frame of two columns mapping each allele to the pattern that it belongs to.
+- pat.sizes: a data frame of two columns showing the number of alleles belonging to each pattern.
+- all: the allelic PAM with outlier isolates and empty columns removed. No other filter is applied to this matrix.
 
 ## <a name = "references">References</a>
 

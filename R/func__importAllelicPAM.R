@@ -81,7 +81,7 @@ importAllelicPAM <- function(pam, pam.delim = "\t", outliers = NULL, min.count =
             }
         }
 
-        # remove alleles of genes that have been excluded in accordance with the gene.excl argument
+        # remove alleles of genes that have been excluded in accordance with the alleles.inc argument
         if (is.character(alleles.inc)) {
             print("Filtering alleles according to the argument alleles.inc.")
             inc <- colnames(pam) %in% alleles.inc
