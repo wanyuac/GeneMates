@@ -29,6 +29,8 @@ This project is supported by the Department of Biochemistry and Molecular Biolog
 4. [Inputs](#inputs)  
     * 4.1. [Importing core-genome SNP matrix](#cgSNPs)  
     * 4.2. [Importing allelic presence-absence matrix](#importAlleleicPAM)
+    * 4.3. [Importing genetic presence-absence matrix](#gPAM)
+    * 4.4. [Importing physical distances between genomic loci](#pds)
 5. [References](#references)
 
 ## <a name="installation">1. Installation</a>
@@ -129,6 +131,7 @@ This section illustrates organisation of public functions in GeneMates.
   - *findMinIncClade*: determines the minimum inclusive clade (MIC) of each allele across the tree.
   - *testForStruEff*: hypothesis tests for structural random effects.
   - *corCladeProj*: estimates correlation between clades and sample projections.
+- _importPhysicalDists_: reads physical distances between genomic loci of bacterial isolates.
 - *summariseDist*: summarises APDs.  
 - *evalPL*: evaluates evidence of physical linkage between alleles and scores edges in the output network.  
 
@@ -278,13 +281,15 @@ Function *importCoreGenomeSNPs* returns a large list to R. Cautions must be take
 
 #### Input
 
-GeneMates provides function _importAllelicPAM_ to read an allelic PAM, which is a binary matrix denoting presence (1) and absence (0) of alleles of the genes of interest across bacterial isolates. The PAM can be created using a helper pipeline PAMmaker and it has the following structure.
+GeneMates provides function _importAllelicPAM_ to read an allelic PAM, which is a binary matrix denoting presence (1) and absence (0) of alleles of the genes of interest across bacterial isolates. The PAM can be created using a helper pipeline [PAMmaker](https://github.com/wanyuac/PAMmaker) and it has the following structure.
 
 | Sample | Allele 1 | Allele 2 | Allele_3 |... |
 | ----- | -----| ----- | ----- | ----- |
 | Isolate_1 | 1 | 1 | 0 | ... |
 | Isolate_2 | 1 | 0 | 0 | ... |
 | ... | ... | ... | ... | ... |
+
+Note that only the first column name "Sample" is fixed in every allelic PAM.
 
 #### Procedure
 
@@ -309,6 +314,49 @@ Function _importAllelicPAM_ returns a large list of seven elements.
 - allele.pat: a data frame of two columns mapping each allele to the pattern that it belongs to.
 - pat.sizes: a data frame of two columns showing the number of alleles belonging to each pattern.
 - all: the allelic PAM with outlier isolates and empty columns removed. No other filter is applied to this matrix.
+
+### <a name = "gPAM">4.3. Importing genetic presence-absence matrix</a>
+
+#### Input
+
+Function _importGeneticPAM_ reads a genetic PAM into R. A genetic PAM stores more information than its corresponding allelic PAM: it is a character matrix showing allele calls per gene of interest in bacterial isolates. Every genetic PAM has the following structure.
+
+| Sample | Gene 1 | Gene 2 | Gene 3 | ... |
+| ----- | ----- | ----- | ----- | ----- |
+| Isolate 1 | Allele 1\_1 | - | - | ... |
+| Isolate 2 | Allele 1_1 | Allele 2\_1 | Allele 3\_1 | ... |
+| Isolate 3 | - | Allele 2\_2 | - | ... |
+| ... | ... | ... | ... | ... |
+
+Note that only the first column name "Sample" is fixed in every genetic PAM. In addition, each hyphen denotes absence of any alleles of a gene in an isolate.
+
+The function _importGeneticPAM_ postulates that the genetic PAM follows an SRST2-compatible output format. Moreover, no ambiguity or variant sign ("?" and "*", respectively) is present in the PAM. We recommend to use PAMmaker to create genetic PAMs.
+
+#### Procedure
+
+Function _importGeneticPAM_ carries out the same procedure as _importAllelicPAM_ because they share the same structure except argument names. Therefore, users may see Section 4.2 for details.
+
+#### Output
+
+A list of three elements is returned by _importGeneticPAM_:
+
+- pam: the final genetic PAM.
+- all: the genetic PAM with outlier isolates excluded, isolate name sorted by a given order and empty columns removed.
+- alleles.inc: a vector of allele names in the element pam.
+
+### <a name = "pds">4.4. Importing physical distances between genomic loci</a>
+
+#### Input
+
+Function _importPhysicalDists_ reads a table of physical distances into R. The table can be created from the Bandage output using a helper pipeline [physDist](https://github.com/wanyuac/physDist). The table must have eight columns of names "query1", "query2", "sample", "distance", "node_number", "source", "orientation" and "distance_path".
+
+#### Procedure
+
+The processing of data in the function _importPhysicalDists_ is simpler than the other three functions for data input. It only excludes distances from isolates that are not included in the parameter _ingroup_ or included in the parameter _outgroup_.
+
+#### Output
+
+Function _importPhysicalDists_ returns a data frame of eight columns.
 
 ## <a name = "references">References</a>
 

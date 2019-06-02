@@ -1,43 +1,8 @@
-# A module of the phylix package for analysing physical distances
+# A module of GeneMates for analysing physical distances
 # Copyright 2017-2018 Yu Wan (wanyuac@gmail.com)
 # Licensed under the Apache License, Version 2.0
 # Development history: 23 Janury - 27 March, 2017, 26 July 2017, ...
-# Latest update: 22 Apr 2019
-
-# Read distances between alleles ###############
-.importPhysicalDists <- function(dists = NULL, delim = "\t", ingroup = NULL,
-                                 outgroup = NULL) {
-    # This function filters the distances for strain names, but it does not perform
-    # further filter for the maximum distance or node number, which is done in
-    # the function summariseDist.
-    ds.class <- class(dists)
-    if (ds.class == "character") {  # a path to the distance file
-        print(paste0(Sys.time(), ": reading physical distances from ", dists))
-        ds <- read.delim(dists, sep = delim, stringsAsFactors = FALSE)
-        ds <- ds[, c("query1", "query2", "sample", "distance", "node_number",
-                     "source", "orientation", "distance_path")]
-    } else if (ds.class == "data.frame") {
-        print("Skip reading distances as they have been imported.")
-    } else {
-        stop("Input error: the dists argument must be a file path or a data frame.")
-    }
-
-    # Filter distances to keep those in the SNP matrix
-    # This step is pretty important. Otherwise, the function .estimateIBD will
-    # return an error of "length of phenotypic and of phylogenetic data do not
-    # match" because extra samples get selected for distance analysis.
-    # A user may specify ingroup and/or outgroup strains for this filter.
-    if (!is.null(ingroup)) {
-        print("Filtering allelic physical distances for ingroup strains.")
-        ds <- subset(ds, sample %in% ingroup)
-    }
-    if (!is.null(outgroup)) {
-        print("Filtering allelic physical distances to remove outgroup strains.")
-        ds <- subset(ds, !(sample %in% outgroup))
-    }
-
-    return(ds)
-}
+# Latest update: 2 June 2019
 
 # Collapse any pair of directed edges into an undirected edge ###############
 # One row of two allele names in an arbitrary order per pair of LMMs.

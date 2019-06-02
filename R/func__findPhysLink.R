@@ -123,7 +123,7 @@
 #
 #  Copyright 2017 Yu Wan
 #  Licensed under the Apache License, Version 2.0
-#  First edition: 17 March 2017, the lastest edition: 29 May 2019
+#  First edition: 17 March 2017, the lastest edition: 2 June 2019
 
 findPhysLink <- function(assoc.out = NULL, snps = NULL, snps.delim = ",",
                          pos.col = "Pos", ref.col = "Ref", min.mac = 1,
@@ -183,9 +183,9 @@ findPhysLink <- function(assoc.out = NULL, snps = NULL, snps.delim = ",",
         score.dists <- TRUE
         rm(records)
     } else if (!is.null(phys.dists)) {  # when physical distances are provided
-        ds <- .importPhysicalDists(dists = phys.dists, delim = dist.delim,
-                                   ingroup = rownames(assoc.out[["alleles"]][["A"]]),
-                                   outgroup = outliers)  # a data frame of original distance measurements
+        ds <- importPhysicalDists(dists = phys.dists, delim = dist.delim,
+                                  ingroup = rownames(assoc.out[["alleles"]][["A"]]),
+                                  outgroup = outliers)  # a data frame of original distance measurements
         lmms.ds <- .attachDistances(assoc.out[["lmms"]], ds)  # attach every distance measurement to allele pairs within the LMM outputs fitted under the alternative hypothesis H1
         lmms.ds <- .retrievePairID(lmms.ds, assoc.out[["lmms"]])  # attach a pair ID for every pair of queries
         if (save.stages) {
