@@ -52,15 +52,15 @@ The program Rscript should be accessible as a command. Namely, the path of R sho
 ./install_GeneMates.sh GeneMates_0.2.0.tar.gz Lib 
 ````
 
-## <a name="dependencies">1.1. Dependencies</a>
+### <a name="dependencies">1.1. Dependencies</a>
 
-### Software
+#### Software
 
 * [R](https://www.r-project.org) ≥ 3.3.3
 * [GEMMA](https://github.com/genetics-statistics/GEMMA) 0.96
 * [BLAST+](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download) ≥ 2.2.30
 
-### R packages
+#### R packages
 
 * parallel (≥ 3.3.3)
 * data.table (≥ 1.10.4)
@@ -73,21 +73,16 @@ The program Rscript should be accessible as a command. Namely, the path of R sho
 * network (≥ 1.13.0.1)
 * networkDynamic (≥ 0.9.0)
 
-## <a name="helpers">1.2. Helper scripts</a>
+### <a name="helpers">1.2. Helper scripts</a>
 
 We have developed the following scripts to help users to prepare input data for GeneMates:  
 
-1. Screening genomic data for known genes  
-
-   - [PAMmaker](https://github.com/wanyuac/PAMmaker), which compiles outputs of [SRST2](https://github.com/katholt/srst2) and geneDetector.  
-   - [geneDetector](https://github.com/wanyuac/geneDetector) for genome assemblies.  
-
-2. [readSimulator](https://github.com/wanyuac/readSimulator) for simulating short reads from template DNA sequences.  
-
-3. [cgSNPs](https://github.com/wanyuac/cgSNPs) for processing core-genome SNPs (cgSNPs).  
-
-4. Measurement and compilation of allelic physical distances (APDs)  
-
+- Screening genomic data for known genes  
+    - [PAMmaker](https://github.com/wanyuac/PAMmaker), which compiles outputs of [SRST2](https://github.com/katholt/srst2) and geneDetector.  
+    - [geneDetector](https://github.com/wanyuac/geneDetector) for genome assemblies.  
+- [readSimulator](https://github.com/wanyuac/readSimulator) for simulating short reads from template DNA sequences.  
+- [cgSNPs](https://github.com/wanyuac/cgSNPs) for processing core-genome SNPs (cgSNPs).  
+- Measurement and compilation of allelic physical distances (APDs)  
     - [Bandage](https://github.com/rrwick/Bandage) ≥ 0.8.1 for distance measurement  
     - [physDist](https://github.com/wanyuac/physDist) for compiling APDs  
 
