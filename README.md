@@ -2,13 +2,17 @@
 
 GeneMates is an R package implementing a network approach to identify horizontal gene co-transfer (HGcoT) between bacteria using whole-genome sequencing (WGS) data. It is particularly useful for investigating intra-species HGcoT, where presence-absence status of acquired genes is usually confounded by bacterial population structure due to clonal reproduction.
 
+**Tutorial**
+
+This project's [wiki](https://github.com/wanyuac/GeneMates/wiki) provides users with a series of tutorials on how to use GeneMates to investigate HGcoT, while the current README page aims to introduce installation, structure, inputs and the primary output of this package. The wiki will be gradually updated and users may send us requests via [Issues](https://github.com/wanyuac/GeneMates/issues).
+
 **Citation**
 
 Since our article for this package is under preparation, the package and helper tools should be used with caution. Please cite this repository if you use our tool:
 
-**Y. Wan, R.R. Wick, J. Zobel, M. Inouye, D. Ingle, K.E. Holt**, GeneMates: an R package detecting horizontal co-transfer of bacterial genes, GitHub: github.com/wanyuac/GeneMates, 2018.
+- **Y. Wan, R.R. Wick, J. Zobel, M. Inouye, D. Ingle, K.E. Holt**, GeneMates: an R package detecting horizontal co-transfer of bacterial genes, GitHub: github.com/wanyuac/GeneMates, 2019.
 
-This project is supported by the Department of Biochemistry and Molecular Biology, University of Melbourne.
+This project is supported by the Department of Biochemistry and Molecular Biology, University of Melbourne, Australia.
 
 ## Table of Contents
 
