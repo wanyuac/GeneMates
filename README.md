@@ -4,7 +4,7 @@ GeneMates is an R package implementing a network approach to identify horizontal
 
 **Tutorial**
 
-This project's [wiki](https://github.com/wanyuac/GeneMates/wiki) provides users with a series of tutorials on how to use GeneMates to investigate HGcoT, while the current README page aims to introduce installation, structure, inputs and the primary output of this package. The wiki will be gradually updated and users may send us requests via [Issues](https://github.com/wanyuac/GeneMates/issues).
+This project's [wiki](https://github.com/wanyuac/GeneMates/wiki) provides users with a tutorial on how to use GeneMates to investigate HGcoT, while the current README page aims to introduce installation, structure, inputs and the primary output of this package. The wiki will be gradually updated and users may send us requests via [Issues](https://github.com/wanyuac/GeneMates/issues).
 
 **Citation**
 
