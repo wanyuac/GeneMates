@@ -8,13 +8,18 @@
 #' in the heat map can be coloured by group information. This function is useful
 #' when users need draw a heat map of gene or allele contents across strains.
 #'
-#' In the PAM, absence status is coded as zero and presence status is coded as one.
+#' For each entry in the PAM, this function assumes that the absence status is coded as zero
+#' and the presence status is coded as one.
 #'
 #' @param p A tree view from the function ggtree in the package ggtree
 #' @param data A binary presence-absence matrix (PAM)
-#' @param col_colours Either a vector of colour codes named by column names of
-#' the PAM, or a single colour code for all columns.
+#' @param col_colours Either a vector of colour codes named by column names of the PAM,
+#' or a single colour code (for example, "red") for presence status in all columns.
 #' @param null_colour The colour for absence status.
+#' @param presence_label The label for presence status in the legend. Default: Presence.
+#' This parameter only works when col_colours equals a single colour code.
+#' @param absence_label The label for absence status in the legend. Default: Absence.
+#' This parameter also only works when col_colours equals a single colour code.
 #' @param border_colour Colour of heatmap cell border
 #' @param cluster_cols A logical argument determining if columns of PAM will be
 #' clustered or not. Default: FALSE. Clustering will not run when there are less
@@ -48,14 +53,15 @@
 #' @export
 #' @author Guangchuang Yu, Yu Wan (\email{wanyuac@@gmail.com})
 #
-# First edition of this function: 5 Sep 2018; the latest edition: 6 Feb 2019
+# First edition of this function: 5 Sep 2018; the latest edition: 28 Aug 2019
 # Licence: Artistic License 2.0 (follow the licence of the package ggtree)
 
 heatMapPAM <- function(p, data, col_colours = "black", null_colour = "grey90",
-                       border_colour = "white",
-                       cluster_cols = FALSE, cluster_method = "single",
-                       cluster_distance = "binary", rev_cols = FALSE,
-                       colnames = TRUE, colnames_position = "bottom", colnames_angle = 0,
+                       presence_label = "Presence", absence_label = "Absence",
+                       border_colour = "white", cluster_cols = FALSE,
+                       cluster_method = "single", cluster_distance = "binary",
+                       rev_cols = FALSE, colnames = TRUE,
+                       colnames_position = "bottom", colnames_angle = 0,
                        colnames_level = NULL, set_label_colours = FALSE,
                        colnames_offset_x = 0, colnames_offset_y = 0,
                        font.size = 4, hjust = 0.5, offset = 0, width = 1,
@@ -97,12 +103,12 @@ heatMapPAM <- function(p, data, col_colours = "black", null_colour = "grey90",
     n_colours <- length(col_colours)
     is_multi_colour <- n_colours > 1 && !is.null(names(col_colours))
     if (is_multi_colour) {
-        colours_uniq <- sort(unique(as.character(col_colours)), decreasing = FALSE)  # colours for positive values in PAM
+        colours_uniq <- sort(unique(as.character(col_colours)), decreasing = FALSE)  # colours for positive values in PAM. Column names are discarded here.
         colour_codes <- 1 : length(colours_uniq)  # codes for colours
-        names(colour_codes) <- colours_uniq  # e.g., c("red" = 1, "blue" = 2, ...)
-        column_names <- colnames(data)  # The matrix product loses column names, that is, the allele names.
+        names(colour_codes) <- colours_uniq  # e.g., colour_codes becomes c("red" = 1, "blue" = 2, ...)
+        column_names <- colnames(data)  # Since matrix product loses column names (allele names), we need to save them beforehand.
         if (clustered) {
-            col_colours <- col_colours[column_names]
+            col_colours <- col_colours[column_names]  # rearrange colour codes when columns of the PAM have been clustered
         } else if (n_colours > length(column_names))  {
             col_colours <- col_colours[column_names]
         }
@@ -111,7 +117,7 @@ heatMapPAM <- function(p, data, col_colours = "black", null_colour = "grey90",
         names(colours_uniq) <- as.character(colour_codes)
         colours_uniq <- append(c("0" = null_colour), colours_uniq)
 
-        # Convert values in the matrix into factors so as to map colours to the levels
+        # Convert values in the matrix to factors so as to map colours to the levels
         dd <- as.data.frame(data)
         for (i in names(dd)) {
             dd[, i] <- factor(dd[, i], levels = c(0, as.integer(colour_codes)),
@@ -119,6 +125,11 @@ heatMapPAM <- function(p, data, col_colours = "black", null_colour = "grey90",
         }
     } else {
         dd <- as.data.frame(data)
+
+        # Here, I convert binary values to factors in order to show the legend as binary rather than continuous.
+        for (i in names(dd)) {
+            dd[, i] <- factor(dd[, i], levels = c(0, 1), labels = c("0", "1"))
+        }
     }
 
     i <- order(df$y)
@@ -199,7 +210,7 @@ heatMapPAM <- function(p, data, col_colours = "black", null_colour = "grey90",
     if (is_multi_colour) {
         # This command does not scale label colours when paint_labels = FALSE.
         # Class: title of the legend
-        # scale_fill_manual: for tile colours; scale_colour_manual: for label colours
+        # scale_fill_manual sets tile colours; scale_colour_manual sets label colours
         p2 <- p2 + scale_fill_manual(name = "Class",
                                      breaks = c("0", as.character(colour_codes)),
                                      values = colours_uniq, na.value = NA) +
@@ -207,8 +218,11 @@ heatMapPAM <- function(p, data, col_colours = "black", null_colour = "grey90",
                                 breaks = c("0", as.character(colour_codes)),
                                 values = colours_uniq, na.value = NA)
     } else {
-        p2 <- p2 + scale_fill_gradient(low = null_colour, high = col_colours,
-                                       na.value = NA)
+        #p2 <- p2 + scale_fill_gradient(low = null_colour, high = col_colours, na.value = NA)
+        p2 <- p2 + scale_fill_manual(name = "Class", breaks = c("0", "1"),
+                               values = c("0" = null_colour, "1" = col_colours),
+                               labels = c(absence_label, presence_label),
+                               na.value = NA)
     }
 
     # Print legend

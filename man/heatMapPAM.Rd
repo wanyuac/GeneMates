@@ -6,6 +6,7 @@
 presence-absence matrix.}
 \usage{
 heatMapPAM(p, data, col_colours = "black", null_colour = "grey90",
+  presence_label = "Presence", absence_label = "Absence",
   border_colour = "white", cluster_cols = FALSE,
   cluster_method = "single", cluster_distance = "binary",
   rev_cols = FALSE, colnames = TRUE, colnames_position = "bottom",
@@ -19,10 +20,16 @@ heatMapPAM(p, data, col_colours = "black", null_colour = "grey90",
 
 \item{data}{A binary presence-absence matrix (PAM)}
 
-\item{col_colours}{Either a vector of colour codes named by column names of
-the PAM, or a single colour code for all columns.}
+\item{col_colours}{Either a vector of colour codes named by column names of the PAM,
+or a single colour code (for example, "red") for presence status in all columns.}
 
 \item{null_colour}{The colour for absence status.}
+
+\item{presence_label}{The label for presence status in the legend. Default: Presence.
+This parameter only works when col_colours equals a single colour code.}
+
+\item{absence_label}{The label for absence status in the legend. Default: Absence.
+This parameter also only works when col_colours equals a single colour code.}
 
 \item{border_colour}{Colour of heatmap cell border}
 
@@ -76,7 +83,8 @@ replacing scale_fill_gradient with scale_fill_discrete. As a result, columns
 in the heat map can be coloured by group information. This function is useful
 when users need draw a heat map of gene or allele contents across strains.
 
-In the PAM, absence status is coded as zero and presence status is coded as one.
+For each entry in the PAM, this function assumes that the absence status is coded as zero
+and the presence status is coded as one.
 }
 \examples{
 htmap <- heatMapPAM(...)
