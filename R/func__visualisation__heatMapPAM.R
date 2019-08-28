@@ -218,11 +218,11 @@ heatMapPAM <- function(p, data, col_colours = "black", null_colour = "grey90",
                                 breaks = c("0", as.character(colour_codes)),
                                 values = colours_uniq, na.value = NA)
     } else {
-        #p2 <- p2 + scale_fill_gradient(low = null_colour, high = col_colours, na.value = NA)
         p2 <- p2 + scale_fill_manual(name = "Class", breaks = c("0", "1"),
                                values = c("0" = null_colour, "1" = col_colours),
                                labels = c(absence_label, presence_label),
                                na.value = NA)
+        #p2 <- p2 + scale_fill_gradient(low = null_colour, high = col_colours, na.value = NA)  # reserve this command for continuous variable
     }
 
     # Print legend
