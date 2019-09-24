@@ -1,7 +1,7 @@
 Package: GeneMates
 Type: Package
 Title: Analysing association and physical linkage between bacterial genes
-Version: 0.2.1
+Version: 0.2.2
 Author: Yu Wan
 Maintainer: Yu Wan <wanyuac@gmail.com>
 Description: Applies univariate linear mixed models (LMMs) to bacterial genotype

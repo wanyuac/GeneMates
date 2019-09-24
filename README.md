@@ -190,7 +190,7 @@ GeneMates comprises functions analysing spatial and temporal distributions of ba
 - *ringPlotPAM*: makes a ring plot to show presence-absence of genotypes and allelic co-occurrence.  
 - *heatMapPAM*: an expansion of ggtree's gheatmap function for displaying an allelic PAM.  
 - *drawHeatMap*: a generic function creating a heat map for a given variable.  
-- *compPvalues*: draws a scatter plot and histograms to compare p-values from LMMs and PLMs.  
+- *comparePvalues*: draws a scatter plot and histograms to compare p-values from LMMs and PLMs.  
 - *showGeneContent*: draws a bubble plot and two bar plots to summarise gene and allele frequencies.  
 
 ### <a name = "helpers">3.8. Helper functions</a>
