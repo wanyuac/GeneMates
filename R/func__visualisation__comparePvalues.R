@@ -9,7 +9,7 @@
 #' number of rows in the input data frames p.lmm and p.plm, which must have the same number
 #' of rows as well.
 #'
-#' Dependencies: ggplot2, grid and gridExtra.
+#' Dependencies: ggplot2, grid, gridExtra, and reshape2.
 #'
 #' @param p.lmm A data frame from the function lmm for association status between
 #' patterns. Assuming assoc = lmm(...), then p.lmm = assoc$lmms.pat$dif$h1.
@@ -38,10 +38,14 @@
 #' lambda0, 0: weak structural random effects in both X and Y; 1: strong structural
 #' random effects only in X; 2: strong structural random effects only in Y; 3: strong
 #' structural random effects in both X and Y.
+#' @param panel An integer argument specifying how many panels are to be drawn in the
+#' figure. By default, three panels (panel = 3: two box plots and one scatter plot) are
+#' created. Otherwise, two panels (one scatter plot and one box plot with groups names
+#' LMM and PLM) are drawn.
 #' @param boxplot.show.group Whether to draw box plots showing every group of data points.
 #' Default: TRUE. Two box plots each has a single box will be drawn if this parameter
 #' is FALSE.
-#' @param boxplot.null.fill Fill colour when boxplot.group = FALSE. Default: grey80.
+#' @param boxplot.default.fill Fill colour when boxplot.group = FALSE. Default: grey80.
 #' @param plot.title.size Size of the title of each panel.
 #' @param axis.text.size Size of axis labels.
 #' @param axis.title.size Size of axis titles.
@@ -65,12 +69,12 @@
 #
 # Copyright 2018 Yu Wan
 # Licensed under the Apache License, Version 2.0
-# First version: 13 Sep 2018, the lastest edition: 24 Sep 2019
+# First version: 13 Sep 2018, the lastest edition: 25 Sep 2019
 
 comparePvalues <- function(p.lmm, p.plm, lmm.h0 = NULL, p.min = 2.2e-16, p.adj.max = 0.05,
                            L.weak = 0, bks = seq(0, 16, by = 2), show.p.adj.max = TRUE,
                            cols = c("0" = "grey50", "1" = "blue", "2" = "red", "3" = "purple"),
-                           boxplot.show.group = TRUE, boxplot.null.fill = "grey80",
+                           panel = 3, boxplot.show.group = TRUE, boxplot.default.fill = "grey80",
                            plot.title.size = 10, axis.title.size = 10,
                            axis.title.size.panelB = 3, axis.text.size = 8,
                            img = "pvalue_comparison.png",
@@ -138,95 +142,148 @@ comparePvalues <- function(p.lmm, p.plm, lmm.h0 = NULL, p.min = 2.2e-16, p.adj.m
 
     # Prepare three ggplot objects that constitute the resulting figure ===============
     group.names <- names(cols)
+    three.panels <- panel == 3
 
-    # Panel a: a box plot for coordinates on the Y axis (p-values from LMMs)
-    if (boxplot.show.group) {
-        a <- ggplot(data = p, mapping = aes(x = group, y = p_wald_nevLog10, fill = group)) +
-             geom_boxplot(lwd = 0.5, outlier.size = 0.8, colour = "black") +
-             scale_fill_manual(breaks = group.names, values = cols)
-        lab.x <- "Group"
+    if (three.panels) {
+        # Panel a: a box plot for coordinates on the Y axis (p-values from LMMs)
+        if (boxplot.show.group) {
+            a <- ggplot(data = p, mapping = aes(x = group, y = p_wald_nevLog10, fill = group)) +
+                geom_boxplot(lwd = 0.5, outlier.size = 0.8, colour = "black") +
+                scale_fill_manual(breaks = group.names, values = cols)
+            lab.x <- "Group"
+        } else {
+            a <- ggplot(data = p, mapping = aes(x = "", y = p_wald_nevLog10)) +
+                geom_boxplot(lwd = 0.5, outlier.size = 0.8, colour = "black", fill = boxplot.default.fill)
+            lab.x <- ""
+        }
+
+        if (show.p.adj.max) {
+            a <- a + geom_hline(yintercept = p.adj.max, linetype = "dashed", size = 0.5, colour = "grey25")
+        }
+
+        a <- a + labs(title = "a", x = lab.x, y = expression(-log[10](p[LMM]))) +
+            scale_y_continuous(limits = c(0, bks.max), trans = "sqrt", breaks = bks,
+                               labels = as.character(bks), expand = c(0, 0)) +
+            theme_bw() +
+            theme(plot.title = element_text(face = "bold", size = plot.title.size),
+                  panel.grid.major = element_line(colour = "grey90"),
+                  panel.grid.minor = element_line(colour = "grey95"),
+                  axis.text = element_text(size = axis.text.size, colour = "black"),
+                  axis.title = element_text(size = axis.title.size, colour = "black"),
+                  legend.position = "none")
+
+        # Panel b: a scatter plot showing how raw p-values differ between the two kinds of models
+        b <- ggplot(data = p, mapping = aes(x = p_chisq_nevLog10, y = p_wald_nevLog10, colour = group)) +
+            geom_point(shape = 16, size = 1)
+
+        if (show.p.adj.max) {
+            b <- b + geom_hline(yintercept = p.adj.max, colour = "grey25", size = 0.5, linetype = "dashed") +
+                geom_vline(xintercept = p.adj.max, colour = "grey25", size = 0.5, linetype = "dashed")
+        }
+
+        b <- b + geom_abline(intercept = 0, slope = 1, size = 0.5, colour = "black") +
+            labs(title = "b", x = expression(-log[10](p[PLM])), y = expression(-log[10](p[LMM]))) +
+            scale_colour_manual(breaks = group.names, values = cols) +
+            scale_x_continuous(limits = c(0, bks.max), trans = "sqrt", breaks = bks,
+                               labels = as.character(bks), expand = c(0, 0)) +
+            scale_y_continuous(limits = c(0, bks.max), trans = "sqrt", breaks = bks,
+                               labels = as.character(bks), expand = c(0, 0)) +
+            theme_bw() +
+            theme(plot.title = element_text(face = "bold", size = plot.title.size),
+                  panel.grid.major = element_line(colour = "grey90"),
+                  panel.grid.minor = element_line(colour = "grey95"),
+                  axis.text = element_text(size = axis.text.size, colour = "black"),
+                  axis.title = element_text(size = axis.title.size.panelB, face = "bold", colour = "white"),
+                  legend.position = "none")  # Set the text colour of axis titles to white to hide them
+
+        # Panel c: a box plot for coordinates on the X axis (p-values from PLMs)
+        if (boxplot.show.group) {
+            c <- ggplot(data = p, mapping = aes(x = group, y = p_chisq_nevLog10, fill = group)) +
+                geom_boxplot(lwd = 0.5, outlier.size = 0.8, colour = "black") +
+                scale_fill_manual(breaks = group.names, values = cols)
+        } else {
+            c <- ggplot(data = p, mapping = aes(x = "", y = p_chisq_nevLog10)) +
+                geom_boxplot(lwd = 0.5, outlier.size = 0.8, colour = "black", fill = boxplot.default.fill)
+        }
+
+        if (show.p.adj.max) {
+            c <- c + geom_hline(yintercept = p.adj.max, linetype = "dashed", size = 0.5, colour = "grey25")
+        }
+
+        c <- c + labs(title = "c", x = lab.x, y = expression(-log[10](p[PLM]))) +
+            scale_y_continuous(limits = c(0, bks.max), trans = "sqrt", breaks = bks,
+                               labels = as.character(bks), expand = c(0, 0)) +
+            coord_flip() + theme_bw() +
+            theme(plot.title = element_text(face = "bold", size = plot.title.size),
+                  panel.grid.major = element_line(colour = "grey90"),
+                  panel.grid.minor = element_line(colour = "grey95"),
+                  axis.text = element_text(size = axis.text.size, colour = "black"),
+                  axis.title = element_text(size = axis.title.size, colour = "black"),
+                  legend.position = "none")
     } else {
-        a <- ggplot(data = p, mapping = aes(x = "", y = p_wald_nevLog10)) +
-             geom_boxplot(lwd = 0.5, outlier.size = 0.8, colour = "black", fill = boxplot.null.fill)
-        lab.x <- ""
+        # Panel a: a scatter plot showing how raw p-values differ between the two kinds of models
+        b <- ggplot(data = p, mapping = aes(x = p_chisq_nevLog10, y = p_wald_nevLog10, colour = group)) +
+            geom_point(shape = 16, size = 1)
+
+        if (show.p.adj.max) {
+            b <- b + geom_hline(yintercept = p.adj.max, colour = "grey25", size = 0.5, linetype = "dashed") +
+                geom_vline(xintercept = p.adj.max, colour = "grey25", size = 0.5, linetype = "dashed")
+        }
+
+        b <- b + geom_abline(intercept = 0, slope = 1, size = 0.5, colour = "black") +
+            labs(title = "a", x = expression(-log[10](p[PLM])), y = expression(-log[10](p[LMM]))) +
+            scale_colour_manual(breaks = group.names, values = cols) +
+            scale_x_continuous(limits = c(0, bks.max), trans = "sqrt", breaks = bks,
+                               labels = as.character(bks), expand = c(0, 0)) +
+            scale_y_continuous(limits = c(0, bks.max), trans = "sqrt", breaks = bks,
+                               labels = as.character(bks), expand = c(0, 0)) +
+            theme_bw() +
+            theme(plot.title = element_text(face = "bold", size = plot.title.size),
+                  panel.grid.major = element_line(colour = "grey90"),
+                  panel.grid.minor = element_line(colour = "grey95"),
+                  axis.text = element_text(size = axis.text.size, colour = "black"),
+                  axis.title = element_text(size = axis.title.size.panelB, face = "bold", colour = "black"),
+                  legend.position = "none")
+
+        # Panel b: a box plot with two boxes comparing p-values from PLMs and LMMs
+        require(reshape2)
+
+        D <- p[, c("p_chisq_nevLog10", "p_wald_nevLog10")]
+        names(D) <- c("PLM", "LMM")
+        D <- melt(data = D, measure.vars = c("PLM", "LMM"), variable.name = "Group", value.name = "p",
+                  factorsAsStrings = FALSE)
+        d <- ggplot(data = D) + geom_boxplot(mapping = aes(x = Group, y = p), fill = boxplot.default.fill,
+                                             lwd = 0.5, outlier.size = 0.8, colour = "black")
+        if (show.p.adj.max) {
+            d <- d + geom_hline(yintercept = p.adj.max, linetype = "dashed", size = 0.5, colour = "grey25")
+        }
+
+        d <- d + labs(title = "b", x = "Model", y = expression(-log[10](p))) +
+            scale_y_continuous(limits = c(0, bks.max), trans = "sqrt", breaks = bks,
+                               labels = as.character(bks), expand = c(0, 0)) +
+            coord_flip() + theme_bw() +
+            theme(plot.title = element_text(face = "bold", size = plot.title.size),
+                  panel.grid.major = element_line(colour = "grey90"),
+                  panel.grid.minor = element_line(colour = "grey95"),
+                  axis.text = element_text(size = axis.text.size, colour = "black"),
+                  axis.title = element_text(size = axis.title.size, colour = "black"),
+                  legend.position = "none")
     }
 
-    if (show.p.adj.max) {
-        a <- a + geom_hline(yintercept = p.adj.max, linetype = "dashed", size = 0.5, colour = "grey25")
-    }
-
-    a <- a + labs(title = "a", x = lab.x, y = expression(-log[10](p[2]))) +
-         scale_y_continuous(limits = c(0, bks.max), trans = "sqrt", breaks = bks,
-                            labels = as.character(bks), expand = c(0, 0)) +
-         theme_bw() +
-         theme(plot.title = element_text(face = "bold", size = plot.title.size),
-               panel.grid.major = element_line(colour = "grey90"),
-               panel.grid.minor = element_line(colour = "grey95"),
-               axis.text = element_text(size = axis.text.size, colour = "black"),
-               axis.title = element_text(size = axis.title.size, colour = "black"),
-               legend.position = "none")
-
-    # Panel b: a scatter plot showing how raw p-values differ between the two kinds of models
-    b <- ggplot(data = p,
-                mapping = aes(x = p_chisq_nevLog10, y = p_wald_nevLog10,
-                              colour = group)) +
-        geom_point(shape = 16, size = 1)
-    if (show.p.adj.max) {
-        b <- b + geom_hline(yintercept = p.adj.max, colour = "grey25", size = 0.5,
-                            linetype = "dashed") +
-            geom_vline(xintercept = p.adj.max, colour = "grey25", size = 0.5,
-                       linetype = "dashed")
-    }
-    b <- b + geom_abline(intercept = 0, slope = 1, size = 0.5, colour = "black") +
-        labs(title = "b", x = expression(-log[10](p[1])),
-             y = expression(-log[10](p[2]))) +
-        scale_colour_manual(breaks = group.names, values = cols) +
-        scale_x_continuous(limits = c(0, bks.max), trans = "sqrt", breaks = bks,
-                           labels = as.character(bks), expand = c(0, 0)) +
-        scale_y_continuous(limits = c(0, bks.max), trans = "sqrt", breaks = bks,
-                           labels = as.character(bks), expand = c(0, 0)) +
-        theme_bw() +
-        theme(plot.title = element_text(face = "bold", size = plot.title.size),
-              panel.grid.major = element_line(colour = "grey90"),
-              panel.grid.minor = element_line(colour = "grey95"),
-              axis.text = element_text(size = axis.text.size, colour = "black"),
-              axis.title = element_text(size = axis.title.size.panelB,
-                                        face = "bold", colour = "white"),
-              legend.position = "none")  # Set the text colour of axis titles to white to hide them
-
-    # Panel c: a box plot for coordinates on the X axis (p-values from PLMs)
-    if (boxplot.show.group) {
-        c <- ggplot(data = p, mapping = aes(x = group, y = p_chisq_nevLog10, fill = group)) +
-             geom_boxplot(lwd = 0.5, outlier.size = 0.8, colour = "black") +
-             scale_fill_manual(breaks = group.names, values = cols)
-    } else {
-        c <- ggplot(data = p, mapping = aes(x = "", y = p_chisq_nevLog10)) +
-             geom_boxplot(lwd = 0.5, outlier.size = 0.8, colour = "black", fill = boxplot.null.fill)
-    }
-
-    if (show.p.adj.max) {
-        c <- c + geom_hline(yintercept = p.adj.max, linetype = "dashed", size = 0.5, colour = "grey25")
-    }
-
-    c <- c + labs(title = "c", x = lab.x, y = expression(-log[10](p[1]))) +
-         scale_y_continuous(limits = c(0, bks.max), trans = "sqrt", breaks = bks,
-                            labels = as.character(bks), expand = c(0, 0)) +
-         coord_flip() + theme_bw() +
-         theme(plot.title = element_text(face = "bold", size = plot.title.size),
-               panel.grid.major = element_line(colour = "grey90"),
-               panel.grid.minor = element_line(colour = "grey95"),
-               axis.text = element_text(size = axis.text.size, colour = "black"),
-               axis.title = element_text(size = axis.title.size, colour = "black"),
-               legend.position = "none")
 
     # Draw a figure ===============
     png(filename = img, width = img.w, height = img.h, units = img.u, res = img.r)
     par(oma = img.oma, mar = img.mar, mgp = img.mgp)
-    if (boxplot.show.group) {
-        grid.arrange(a, b, textGrob(""), c, ncol = 2, widths = c(2, 5), heights = c(5, 2))
+    if (three.panels) {
+        if (boxplot.show.group) {
+            grid.arrange(a, b, textGrob(""), c, nrow = 2, ncol = 2, widths = c(2, 5), heights = c(5, 2))
+        } else {
+            grid.arrange(a, b, textGrob(""), c, nrow = 2, ncol = 2, widths = c(1, 4), heights = c(4, 1))
+        }
     } else {
-        grid.arrange(a, b, textGrob(""), c, ncol = 2, widths = c(1, 4), heights = c(4, 1))
+        grid.arrange(b, d, nrow = 2, ncol = 1, heights = c(5, 2))
     }
+
     dev.off()
 
     return(p)

@@ -8,8 +8,8 @@
 comparePvalues(p.lmm, p.plm, lmm.h0 = NULL, p.min = 2.2e-16,
   p.adj.max = 0.05, L.weak = 0, bks = seq(0, 16, by = 2),
   show.p.adj.max = TRUE, cols = c(`0` = "grey50", `1` = "blue", `2` =
-  "red", `3` = "purple"), boxplot.show.group = TRUE,
-  boxplot.null.fill = "grey80", plot.title.size = 10,
+  "red", `3` = "purple"), panel = 3, boxplot.show.group = TRUE,
+  boxplot.default.fill = "grey80", plot.title.size = 10,
   axis.title.size = 10, axis.title.size.panelB = 3,
   axis.text.size = 8, img = "pvalue_comparison.png", img.w = 150,
   img.h = 150, img.r = 300, img.u = "mm", img.oma = c(0.1, 0.1,
@@ -53,11 +53,16 @@ lambda0, 0: weak structural random effects in both X and Y; 1: strong structural
 random effects only in X; 2: strong structural random effects only in Y; 3: strong
 structural random effects in both X and Y.}
 
+\item{panel}{An integer argument specifying how many panels are to be drawn in the
+figure. By default, three panels (panel = 3: two box plots and one scatter plot) are
+created. Otherwise, two panels (one scatter plot and one box plot with groups names
+LMM and PLM) are drawn.}
+
 \item{boxplot.show.group}{Whether to draw box plots showing every group of data points.
 Default: TRUE. Two box plots each has a single box will be drawn if this parameter
 is FALSE.}
 
-\item{boxplot.null.fill}{Fill colour when boxplot.group = FALSE. Default: grey80.}
+\item{boxplot.default.fill}{Fill colour when boxplot.group = FALSE. Default: grey80.}
 
 \item{plot.title.size}{Size of the title of each panel.}
 
@@ -99,7 +104,7 @@ default are coloured coded as red (group 0), purple (group 1), blue (group 2) an
 number of rows in the input data frames p.lmm and p.plm, which must have the same number
 of rows as well.
 
-Dependencies: ggplot2, grid and gridExtra.
+Dependencies: ggplot2, grid, gridExtra, and reshape2.
 }
 \author{
 Yu Wan (\email{wanyuac@gmail.com})

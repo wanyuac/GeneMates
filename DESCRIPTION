@@ -22,5 +22,6 @@ Imports:
     ggtree (>= 1.6.11),
     network (>= 1.13.0.1),
     networkDynamic (>= 0.9.0),
-    vegan (>= 2.4-4)
+    vegan (>= 2.4-4),
+    reshape2 (>= 1.4)
 RoxygenNote: 6.1.1
