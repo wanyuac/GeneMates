@@ -270,7 +270,6 @@ comparePvalues <- function(p.lmm, p.plm, lmm.h0 = NULL, p.min = 2.2e-16, p.adj.m
                   legend.position = "none")
     }
 
-
     # Draw a figure ===============
     png(filename = img, width = img.w, height = img.h, units = img.u, res = img.r)
     par(oma = img.oma, mar = img.mar, mgp = img.mgp)
@@ -283,7 +282,6 @@ comparePvalues <- function(p.lmm, p.plm, lmm.h0 = NULL, p.min = 2.2e-16, p.adj.m
     } else {
         grid.arrange(b, d, nrow = 2, ncol = 1, heights = c(5, 2))
     }
-
     dev.off()
 
     return(p)
