@@ -3,7 +3,8 @@
 #' evaluation of distance consistency. The distance table can be created using
 #' a helper pipeline physDist (github.com/wanyuac/physDist).
 #' @param dists The distance table to be imported.
-#' @param delim A character specifying the delimiter in the distance table. Default: "\t".
+#' @param delim A character specifying the delimiter in the distance table. Default:
+#' a tab character.
 #' @param ingroup A vector of strain names to be included in the result.
 #' @param outgroup A vector of strains whose physical distances will be excluded
 #' from the result.

@@ -38,10 +38,12 @@
 #' lambda0, 0: weak structural random effects in both X and Y; 1: strong structural
 #' random effects only in X; 2: strong structural random effects only in Y; 3: strong
 #' structural random effects in both X and Y.
-#' @param panel An integer argument specifying how many panels are to be drawn in the
-#' figure. By default, three panels (panel = 3: two box plots and one scatter plot) are
-#' created. Otherwise, two panels (one scatter plot and one box plot with groups names
+#' @param panel.num An integer argument specifying how many panels are to be drawn in the
+#' figure. By default, three panels (panel.num = 3: two box plots and one scatter plot)
+#' are created. Otherwise, two panels (one scatter plot and one box plot with groups names
 #' LMM and PLM) are drawn.
+#' @param panel.titles A vector of two (panel.num = 2) or three (panel.num = 3) characters
+#' for titles of figure panels. Default: c("a", "b", "c").
 #' @param boxplot.show.group Whether to draw box plots showing every group of data points.
 #' Default: TRUE. Two box plots each has a single box will be drawn if this parameter
 #' is FALSE.
@@ -74,7 +76,8 @@
 comparePvalues <- function(p.lmm, p.plm, lmm.h0 = NULL, p.min = 2.2e-16, p.adj.max = 0.05,
                            L.weak = 0, bks = seq(0, 16, by = 2), show.p.adj.max = TRUE,
                            cols = c("0" = "grey50", "1" = "blue", "2" = "red", "3" = "purple"),
-                           panel = 3, boxplot.show.group = TRUE, boxplot.default.fill = "grey80",
+                           panel.num = 3, panel.titles = c("a", "b", "c"),
+                           boxplot.show.group = TRUE, boxplot.default.fill = "grey80",
                            plot.title.size = 10, axis.title.size = 10,
                            axis.title.size.panelB = 3, axis.text.size = 8,
                            img = "pvalue_comparison.png",
@@ -85,6 +88,11 @@ comparePvalues <- function(p.lmm, p.plm, lmm.h0 = NULL, p.min = 2.2e-16, p.adj.m
     require(ggplot2)
     require(grid)
     require(gridExtra)
+
+    if (length(panel.titles) < panel.num) {
+        print("Warning: panel titles are fewer than the panel count. Replaced the titles with default values.")
+        panel.titles <- c("a", "b", "c")
+    }
 
     # Merge data frames ===============
     if (is.null(p.prev)) {
@@ -142,7 +150,7 @@ comparePvalues <- function(p.lmm, p.plm, lmm.h0 = NULL, p.min = 2.2e-16, p.adj.m
 
     # Prepare three ggplot objects that constitute the resulting figure ===============
     group.names <- names(cols)
-    three.panels <- panel == 3
+    three.panels <- panel.num == 3
 
     if (three.panels) {
         # Panel a: a box plot for coordinates on the Y axis (p-values from LMMs)
@@ -161,7 +169,7 @@ comparePvalues <- function(p.lmm, p.plm, lmm.h0 = NULL, p.min = 2.2e-16, p.adj.m
             a <- a + geom_hline(yintercept = p.adj.max, linetype = "dashed", size = 0.5, colour = "grey25")
         }
 
-        a <- a + labs(title = "a", x = lab.x, y = expression(-log[10](p[LMM]))) +
+        a <- a + labs(title = panel.titles[1], x = lab.x, y = expression(-log[10](p[LMM]))) +
             scale_y_continuous(limits = c(0, bks.max), trans = "sqrt", breaks = bks,
                                labels = as.character(bks), expand = c(0, 0)) +
             theme_bw() +
@@ -182,7 +190,7 @@ comparePvalues <- function(p.lmm, p.plm, lmm.h0 = NULL, p.min = 2.2e-16, p.adj.m
         }
 
         b <- b + geom_abline(intercept = 0, slope = 1, size = 0.5, colour = "black") +
-            labs(title = "b", x = expression(-log[10](p[PLM])), y = expression(-log[10](p[LMM]))) +
+            labs(title = panel.titles[2], x = expression(-log[10](p[PLM])), y = expression(-log[10](p[LMM]))) +
             scale_colour_manual(breaks = group.names, values = cols) +
             scale_x_continuous(limits = c(0, bks.max), trans = "sqrt", breaks = bks,
                                labels = as.character(bks), expand = c(0, 0)) +
@@ -210,7 +218,7 @@ comparePvalues <- function(p.lmm, p.plm, lmm.h0 = NULL, p.min = 2.2e-16, p.adj.m
             c <- c + geom_hline(yintercept = p.adj.max, linetype = "dashed", size = 0.5, colour = "grey25")
         }
 
-        c <- c + labs(title = "c", x = lab.x, y = expression(-log[10](p[PLM]))) +
+        c <- c + labs(title = panel.titles[3], x = lab.x, y = expression(-log[10](p[PLM]))) +
             scale_y_continuous(limits = c(0, bks.max), trans = "sqrt", breaks = bks,
                                labels = as.character(bks), expand = c(0, 0)) +
             coord_flip() + theme_bw() +
@@ -231,7 +239,7 @@ comparePvalues <- function(p.lmm, p.plm, lmm.h0 = NULL, p.min = 2.2e-16, p.adj.m
         }
 
         b <- b + geom_abline(intercept = 0, slope = 1, size = 0.5, colour = "black") +
-            labs(title = "a", x = expression(-log[10](p[PLM])), y = expression(-log[10](p[LMM]))) +
+            labs(title = panel.titles[1], x = expression(-log[10](p[PLM])), y = expression(-log[10](p[LMM]))) +
             scale_colour_manual(breaks = group.names, values = cols) +
             scale_x_continuous(limits = c(0, bks.max), trans = "sqrt", breaks = bks,
                                labels = as.character(bks), expand = c(0, 0)) +
@@ -258,7 +266,7 @@ comparePvalues <- function(p.lmm, p.plm, lmm.h0 = NULL, p.min = 2.2e-16, p.adj.m
             d <- d + geom_hline(yintercept = p.adj.max, linetype = "dashed", size = 0.5, colour = "grey25")
         }
 
-        d <- d + labs(title = "b", x = "Model", y = expression(-log[10](p))) +
+        d <- d + labs(title = panel.titles[2], x = "Model", y = expression(-log[10](p))) +
             scale_y_continuous(limits = c(0, bks.max), trans = "sqrt", breaks = bks,
                                labels = as.character(bks), expand = c(0, 0)) +
             coord_flip() + theme_bw() +

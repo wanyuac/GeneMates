@@ -10,7 +10,8 @@ importPhysicalDists(dists = NULL, delim = "\\t", ingroup = NULL,
 \arguments{
 \item{dists}{The distance table to be imported.}
 
-\item{delim}{A character specifying the delimiter in the distance table. Default: "\t".}
+\item{delim}{A character specifying the delimiter in the distance table. Default:
+a tab character.}
 
 \item{ingroup}{A vector of strain names to be included in the result.}
 
