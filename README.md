@@ -40,12 +40,12 @@ This project is supported by the Department of Biochemistry and Molecular Biolog
 
 ## <a name="installation">1. Installation</a>
 
-There are two approaches to install this package. Take the GeneMates version 0.1.6 for example. Assuming that we are going to install the package under a user-specified directory Lib:
+There are two approaches to install this package. Take the GeneMates version 0.2.1 for example. Assuming that we are going to install the package under a user-specified directory Lib:
 
 **R**
 
 ```R
-install.packages(pkgs = "GeneMates_0.2.0.tar.gz", lib = "Lib")
+install.packages(pkgs = "GeneMates_0.2.1.tar.gz", lib = "Lib")
 ```
 
 **bash**
@@ -53,7 +53,7 @@ install.packages(pkgs = "GeneMates_0.2.0.tar.gz", lib = "Lib")
 The program Rscript should be accessible as a command. Namely, the path of R should be added to $PATH before hand.
 
 ````bash
-./install_GeneMates.sh GeneMates_0.2.0.tar.gz Lib 
+./install_GeneMates.sh GeneMates_0.2.1.tar.gz Lib 
 ````
 
 ### <a name="dependencies">1.1. Dependencies</a>
