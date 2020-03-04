@@ -10,9 +10,11 @@ This project's [wiki](https://github.com/wanyuac/GeneMates/wiki) provides users 
 
 Since our article for this package is under preparation, the package and helper tools should be used with caution. Please cite this repository if you use our tool:
 
-- **Y. Wan, R.R. Wick, J. Zobel, M. Inouye, D. Ingle, K.E. Holt**, GeneMates: an R package detecting horizontal co-transfer of bacterial genes, GitHub: github.com/wanyuac/GeneMates, 2019.
+- Wan, Y., Wick, R. R., Zobel, J., Ingle, D. J., Inouye, M., & Holt, K. E. (2020). GeneMates: an R package for Detecting Horizontal Gene Co-transfer between Bacteria Using Gene-gene Associations Controlled for Population Structure. *BioRxiv*, 2020.02.29.970970. https://doi.org/10.1101/2020.02.29.970970.
 
-This project is supported by the Department of Biochemistry and Molecular Biology, University of Melbourne, Australia.
+This project was supported by the Department of Biochemistry and Molecular Biology, University of Melbourne, in Victoria, Australia.
+
+
 
 ## Table of Contents
 
@@ -37,6 +39,8 @@ This project is supported by the Department of Biochemistry and Molecular Biolog
     * 4.4. [Importing physical distances between genomic loci](#pds)
 5. [Output](#majorOutput)
 6. [References](#references)
+
+
 
 ## <a name="installation">1. Installation</a>
 
@@ -77,6 +81,8 @@ The program Rscript should be accessible as a command. Namely, the path of R sho
 * network (≥ 1.13.0.1)
 * networkDynamic (≥ 0.9.0)
 
+
+
 ### <a name="helpers">1.2. Helper scripts</a>
 
 We have developed the following scripts to help users to prepare input data for GeneMates:  
@@ -89,6 +95,8 @@ We have developed the following scripts to help users to prepare input data for 
 - Measurement and compilation of allelic physical distances (APDs)  
     - [Bandage](https://github.com/rrwick/Bandage) ≥ 0.8.1 for distance measurement  
     - [physDist](https://github.com/wanyuac/physDist) for compiling APDs  
+
+
 
 ## <a name="quickStart">2. Quick start</a>
 
@@ -111,6 +119,8 @@ saveRDS(assoc, file = "Out/assoc.rds")  # Analysis/Out/assoc.rds
 ```
 
 The element "snps" in the result list is usually too large to be loaded to an R session when the sample size or SNP number is large. Therefore we recommend to save the result list in two files.
+
+
 
 ## <a name="scriptOrganisation">3. Function hierarchy</a>
 
@@ -210,6 +220,8 @@ Functions under this category are developed for helping users to extract and ins
 ### <a name = "plr">3.9. Alternative association analysis</a>
 
 - *plr*: uses Firth's penalised logistic regression rather than LMMs to model allelic presence-absence status. It works in a similar manner as *lmm*.  
+
+
 
 ## <a name = "inputs">4. Inputs</a>
 GeneMates takes as input four kinds of data for detection of HGcoT. A function is created for importing each kind of data. This section explain the usage of these four functions.
@@ -358,6 +370,8 @@ The processing of data in the function _importPhysicalDists_ is simpler than the
 
 Function _importPhysicalDists_ returns a data frame of eight columns.
 
+
+
 ## <a name = "majorOutput">5. Output</a>
 
 The major user interface of GeneMates, the function *findPhysLink*, returns a large named list whose elements are explained as follows.
@@ -377,6 +391,8 @@ The major user interface of GeneMates, the function *findPhysLink*, returns a la
 - ds: output of the function _importPhysicalDists_ — unfiltered APDs.
 - lmms.ds: a list of an element "dif" (for differently distributed alleles tested for associations) and when identically distributed alleles are present, an element "idd". Each element is a data frame linking APDs to LMMs by allele pairs (Y, X).
 - ds.stats: output of the function _summariseDist_, a named list storing summary statistics of APDs for every LMM.
+
+
 
 ## <a name = "references">References</a>
 
