@@ -63,5 +63,5 @@ drawHeatMap(data = NULL, x = "x", y = "y", val = "val", diag = 1,
 This is a generic function for plotting a heat map given two ID variables and a value variable.
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

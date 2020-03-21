@@ -52,5 +52,5 @@ Y = assoc[["alleles"]][["Y"]], C = C[["C"]], K = C[["K"]], L = ncol(assoc[["snps
 
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

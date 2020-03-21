@@ -10,7 +10,7 @@
 #' assoc <- findPhysLink(...)
 #' clade.pam <- treeToClades(tr = assoc[["C"]][["tr"]], sample.order = rownames(assoc[["C"]][["C"]]))
 #'
-#' @author Yu Wan (\email{wanyuac@gmail.com})
+#' @author Yu Wan (\email{wanyuac@126.com})
 #' @export
 #
 #  Copyright 2017 Yu Wan

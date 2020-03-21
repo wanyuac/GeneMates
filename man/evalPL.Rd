@@ -34,5 +34,5 @@ This function evaluates evidence of physical linkage using association
 status and consistency in allelic physical distances.
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

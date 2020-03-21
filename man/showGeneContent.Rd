@@ -77,5 +77,5 @@ arguments. The diameter of each bubble is porportional to the allele number.
 Dependency: ggplot2.
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

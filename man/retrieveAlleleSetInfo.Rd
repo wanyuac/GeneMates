@@ -31,5 +31,5 @@ retrieveAlleleSetInfo(targets = c("aadA2", "dfrA12", "sul1"), assoc = a[["assoc"
 
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

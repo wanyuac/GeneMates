@@ -37,5 +37,5 @@ node.attr = c("n", "class"), id = "cliques")
 
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

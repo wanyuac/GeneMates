@@ -1,5 +1,5 @@
 # Functions for environment configurations.
-# Copyright 2018 Yu Wan <wanyuac@gmail.com>
+# Copyright 2018 Yu Wan <wanyuac@126.com>
 # Licensed under the Apache License, Version 2.0
 # First edition: 11 May 2017; the latest edition: 3 Apr 2018
 

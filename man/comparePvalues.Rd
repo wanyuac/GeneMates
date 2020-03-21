@@ -111,5 +111,5 @@ of rows as well.
 Dependencies: ggplot2, grid, gridExtra, and reshape2.
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

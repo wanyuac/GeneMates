@@ -51,5 +51,5 @@ single Graph object.
 Converting a given network into a co-occurrence network
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

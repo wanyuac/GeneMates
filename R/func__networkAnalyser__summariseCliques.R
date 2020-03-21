@@ -8,7 +8,7 @@
 #'
 #' @return A data frame of three columns: Clique, Size and Alleles.
 #'
-#' @author Yu Wan (\email{wanyuac@@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@126.com})
 #' @export summariseCliques
 #'
 #  Copyright 2018 Yu Wan

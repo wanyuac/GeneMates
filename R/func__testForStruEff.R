@@ -37,7 +37,7 @@
 #' s <- testForStruEff(pat.h0 = list(assoc[["lmms.pat"]][["dif"]][["h0"]], assoc[["lmms.pat"]][["idd"]][["h0"]]),
 #' Y = assoc[["alleles"]][["Y"]], C = C[["C"]], K = C[["K"]], L = ncol(assoc[["snps"]][["G"]]) n.cores = 8)
 #'
-#' @author Yu Wan (\email{wanyuac@@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@126.com})
 #' @export
 #
 #  Copyright 2017 Yu Wan

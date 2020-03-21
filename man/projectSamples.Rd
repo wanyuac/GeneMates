@@ -63,5 +63,5 @@ samples = rownames(G), L = ncol(G), prefix = "Kp_SVD", gemma.path = "~/apps/gemm
 
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

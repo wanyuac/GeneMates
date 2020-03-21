@@ -15,7 +15,7 @@
 #'
 #' @return An n-by-m matrix, where n is the sample size and m is the cluster number.
 #'
-#' @author Yu Wan (\email{wanyuac@@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@126.com})
 #' @export
 #
 #  Copyright 2019 Yu Wan

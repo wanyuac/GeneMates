@@ -24,5 +24,5 @@ Count how many neighbours does each node have in a network. The
 function treats the network as undirected.
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

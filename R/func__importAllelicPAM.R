@@ -17,10 +17,10 @@
 #' It can be used to filter the allelic PAM for in-group isolates.
 #' @param skip wheter to skip overwriting existant output files.
 #'
-#' @author Yu Wan (\email{wanyuac@@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@126.com})
 #' @export
 #
-# Copyright 2017 Yu Wan <wanyuac@gmail.com>
+# Copyright 2017 Yu Wan <wanyuac@126.com>
 # Licensed under the Apache License, Version 2.0
 # An early version: 21 May 2017; the latest edition: 22 Aug 2018
 

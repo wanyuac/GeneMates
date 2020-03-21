@@ -14,10 +14,10 @@
 #' @return This function returns a list of two elements: count and mapping, when
 #' freq = FALSE, else, returns a list of three elements: freq, mapping and sample_size_country.
 #'
-#' @author Yu Wan (\email{wanyuac@@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@126.com})
 #' @export countAllelesPerCountry
 #'
-# Copyright 2018 Yu Wan <wanyuac@gmail.com>
+# Copyright 2018 Yu Wan <wanyuac@126.com>
 # Licensed under the Apache License, Version 2.0
 # First edition: 16 Aug 2018; the latest update: 1 Nov 2018
 

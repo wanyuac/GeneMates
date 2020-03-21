@@ -1,7 +1,7 @@
 #!/bin/bash
-# Copyright 2017-2018 Yu Wan <wanyuac@gmail.com>
+# Copyright 2017-2020 Yu Wan <wanyuac@126.com>
 # Licensed under the Apache License, Version 2.0
-# First edition: 2 July 2017; lastest edition: 17 Janurary 2018
+# First edition: 2 July 2017; lastest edition: 21 March 2020
 
 display_usage() {
     echo "Installing GeneMates on a Linux machine.
@@ -9,14 +9,14 @@ display_usage() {
     Usage: (bash) ./install_GeneMates.sh [package] [install to which directory]
     Examples:
         chmod u+x install_GeneMates.sh
-        ./install_GeneMates.sh GeneMates_0.1.6.tar.gz ~/R_lib
+        ./install_GeneMates.sh GeneMates_0.2.2.tar.gz ~/R_lib
         ./install_GeneMates.sh ~/R_lib  # install the default package (specified in this script) to a target directory
         ./install_GeneMates.sh  # install the default package under the default directory of R libraries specified by .libPaths()[1].
     "
 }
 
 # Set default values for user variables
-package="GeneMates.tar.gz"
+package="GeneMates_0.2.2.tar.gz"
 exit_code=0
 
 # Read arguments and make an installation of the package

@@ -19,5 +19,5 @@ countAlleles(pam.genes, pam.alleles, patterns = NULL, pat.sizes = NULL)
 Make a data frame to summarise genes, alleles and allele frequencies.
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

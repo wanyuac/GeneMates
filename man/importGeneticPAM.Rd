@@ -30,5 +30,5 @@ This function reads the genetic presence-absence matrix and returns a list of re
 It automatically matches isolates to those in the SNP matrix.
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

@@ -3,7 +3,7 @@ Type: Package
 Title: Analysing association and physical linkage between bacterial genes
 Version: 0.2.2
 Author: Yu Wan
-Maintainer: Yu Wan <wanyuac@gmail.com>
+Maintainer: Yu Wan <wanyuac@126.com>
 Description: Applies univariate linear mixed models (LMMs) to bacterial genotype
     data to find out association between bacterial genes. Users may also incorporate
     physical distances between genes to identify physical linkages between these genes.

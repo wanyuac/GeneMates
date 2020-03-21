@@ -51,7 +51,7 @@
 #' plot(htmap$p)
 #'
 #' @export
-#' @author Guangchuang Yu, Yu Wan (\email{wanyuac@@gmail.com})
+#' @author Guangchuang Yu, Yu Wan (\email{wanyuac@@126.com})
 #
 # First edition of this function: 5 Sep 2018; the latest edition: 28 Aug 2019
 # Licence: Artistic License 2.0 (follow the licence of the package ggtree)

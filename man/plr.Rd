@@ -44,5 +44,5 @@ lr <- plr(pat = assoc$alleles$B, tests.pat = assoc$lmms.pat$dif$h1[, c("y_pat", 
 
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

@@ -19,7 +19,7 @@
 #' V(net)$size <- vertexAttr2Size(x = V(net)$n, x.min = 2, x.max = max(assoc[["mapping"]]$count),
 #' size.min = 15, size.max = 60)
 #'
-#' @author Yu Wan (\email{wanyuac@@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@126.com})
 #' @export
 #
 #  Copyright 2017 Yu Wan

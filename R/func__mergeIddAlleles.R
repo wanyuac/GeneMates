@@ -46,10 +46,10 @@
 #'                          stringsAsFactors = FALSE)
 #' lmms_merged <- mergeIddAlleles(assoc = lmms, lmms.only = TRUE)
 #'
-#' @author Yu Wan (\email{wanyuac@@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@126.com})
 #' @export
 #
-# Copyright 2017 Yu Wan <wanyuac@gmail.com>
+# Copyright 2017 Yu Wan <wanyuac@126.com>
 # Licensed under the Apache License, Version 2.0
 # First edition: 30 June 2017; the latest edition: 21 April 2019.
 

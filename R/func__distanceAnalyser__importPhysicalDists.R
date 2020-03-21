@@ -9,7 +9,7 @@
 #' @param outgroup A vector of strains whose physical distances will be excluded
 #' from the result.
 #' @return A data frame of physical distances.
-#' @author Yu Wan, \email{wanyuac@@gmail.com}
+#' @author Yu Wan, \email{wanyuac@@126.com}
 #' @export
 #  Copyright 2019 Yu Wan
 #  Licensed under the Apache License, Version 2.0

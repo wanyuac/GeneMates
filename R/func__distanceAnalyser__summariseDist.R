@@ -28,7 +28,7 @@
 #' @param n.cores Number of computational cores that will be used in parallel for
 #' this function.
 #'
-#' @author Yu Wan (\email{wanyuac@@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@126.com})
 #' @export
 #
 #  Copyright 2017-2018 Yu Wan

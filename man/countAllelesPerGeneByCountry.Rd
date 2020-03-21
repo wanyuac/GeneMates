@@ -24,5 +24,5 @@ cc <- countAllelesPerGeneByCountry(sam = sam, mapping = assoc$mapping, gm = asso
 
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

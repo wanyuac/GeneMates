@@ -1,5 +1,5 @@
 # A module (private functions) of the phylix package for association analysis
-# Copyright 2017 Yu Wan
+# Copyright 2017 Yu Wan <wanyuac@126.com>
 # Licensed under the Apache License, Version 2.0
 # First edition: 17 March - 10 April 2017; the latest edition: 24 August 2018
 

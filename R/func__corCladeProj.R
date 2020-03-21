@@ -24,7 +24,7 @@
 #' clades <- tree2Clades(...)
 #' r <- corCladeProj(clades = clades[["pam"]], projections = C[["C"]], clade.sizes = clades[["sizes"]], n.cores = 8)
 #'
-#' @author Yu Wan (\email{wanyuac@@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@126.com})
 #' @export
 #
 #  Copyright 2017 Yu Wan

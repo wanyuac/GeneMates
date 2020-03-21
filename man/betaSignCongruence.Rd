@@ -37,5 +37,5 @@ plms = assoc_lgr$pat, p.max = 1, step = 0.0005, nevLog = TRUE)
 
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

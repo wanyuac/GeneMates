@@ -26,7 +26,7 @@
 #' @param height Height of the output image.
 #' @param unit The unit of the width and height of the output image. Valid values: "mm" and "px" (default).
 #'
-#' @author Yu Wan (\email{wanyuac@gmail.com})
+#' @author Yu Wan (\email{wanyuac@126.com})
 #' @export
 #
 #  Copyright 2017 Yu Wan

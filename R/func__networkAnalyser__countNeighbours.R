@@ -12,7 +12,7 @@
 #' for allele-level and gene-level neighbour counts, respectively. Otherwise, a
 #' single data frame of allele-level neighbour counts is returned.
 #'
-#' @author Yu Wan (\email{wanyuac@@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@126.com})
 #' @export
 #
 #  Copyright 2018 Yu Wan

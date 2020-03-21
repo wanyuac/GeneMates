@@ -44,12 +44,14 @@ This project was supported by the Department of Biochemistry and Molecular Biolo
 
 ## <a name="installation">1. Installation</a>
 
-There are two approaches to install this package. Take the GeneMates version 0.2.1 for example. Assuming that we are going to install the package under a user-specified directory Lib:
+Latest stable release: v0.2.2 (21 March 2020).
+
+There are two approaches to install this package. Take GeneMates v0.2.2 for example. Assuming that we are going to install the package under a user-specified directory Lib:
 
 **R**
 
 ```R
-install.packages(pkgs = "GeneMates_0.2.1.tar.gz", lib = "Lib")
+install.packages(pkgs = "GeneMates_0.2.2.tar.gz", lib = "Lib")
 ```
 
 **bash**
@@ -57,7 +59,7 @@ install.packages(pkgs = "GeneMates_0.2.1.tar.gz", lib = "Lib")
 The program Rscript should be accessible as a command. Namely, the path of R should be added to $PATH before hand.
 
 ````bash
-./install_GeneMates.sh GeneMates_0.2.1.tar.gz Lib 
+./install_GeneMates.sh GeneMates_0.2.2.tar.gz Lib 
 ````
 
 ### <a name="dependencies">1.1. Dependencies</a>
@@ -83,7 +85,7 @@ The program Rscript should be accessible as a command. Namely, the path of R sho
 
 
 
-### <a name="helpers">1.2. Helper scripts</a>
+### <a name="helpers">1.2. Helper program and scripts</a>
 
 We have developed the following scripts to help users to prepare input data for GeneMates:  
 
@@ -93,8 +95,8 @@ We have developed the following scripts to help users to prepare input data for 
 - [readSimulator](https://github.com/wanyuac/readSimulator) for simulating short reads from template DNA sequences.  
 - [cgSNPs](https://github.com/wanyuac/cgSNPs) for processing core-genome SNPs (cgSNPs).  
 - Measurement and compilation of allelic physical distances (APDs)  
-    - [Bandage](https://github.com/rrwick/Bandage) ≥ 0.8.1 for distance measurement  
-    - [physDist](https://github.com/wanyuac/physDist) for compiling APDs  
+    - [Bandage (distance)](https://github.com/wanyuac/Bandage/releases/tag/v0.8.0-distance) for distance measurement. This version is a [branch](https://github.com/wanyuac/Bandage/tree/distance) of Bandage v0.8.0.  
+    - [physDist](https://github.com/wanyuac/physDist) for compiling APDs.  
 
 
 

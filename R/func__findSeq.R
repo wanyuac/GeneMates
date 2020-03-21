@@ -26,7 +26,7 @@
 #' bandage.params = "--ifilter 95 --evfilter 1e-3 --pathnodes 6 --minhitcov 0.98 --minpatlen 0.98 --maxpatlen 1.02",
 #' n.cores = 4, del.temp = FALSE)
 #'
-#' @author Yu Wan (\email{wanyuac@gmail.com})
+#' @author Yu Wan (\email{wanyuac@126.com})
 #' @export
 #
 #  Copyright 2017 Yu Wan

@@ -24,5 +24,5 @@ a0 <- assignPairID(lmms = a0, from = 1, paired.rows = TRUE)
 
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

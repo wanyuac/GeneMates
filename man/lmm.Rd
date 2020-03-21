@@ -79,5 +79,5 @@ bacterial population structure. This function does not utilise allelic physical 
 Dependency: packages data.table and parallel
 }
 \author{
-Yu Wan, \email{wanyuac@gmail.com}
+Yu Wan, \email{wanyuac@126.com}
 }

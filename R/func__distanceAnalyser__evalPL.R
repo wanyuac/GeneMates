@@ -19,7 +19,7 @@
 #' @param score.dist (optional) A logical parameter specifying whether allelic
 #' physical distances should be taken into account for scoring edges. Default: FALSE.
 #'
-#' @author Yu Wan (\email{wanyuac@@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@126.com})
 #' @export
 #
 #  Copyright 2017-2019 Yu Wan

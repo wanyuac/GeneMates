@@ -12,7 +12,7 @@
 #' a0 <- assoc[["lmms.pat"]][["dif"]][["h1"]]
 #' a0 <- assignPairID(lmms = a0, from = 1, paired.rows = TRUE)
 #'
-#' @author Yu Wan (\email{wanyuac@@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@126.com})
 #' @export
 #
 #  Copyright 2017 Yu Wan

@@ -19,5 +19,5 @@ This function extract allele names from cliques and return a
 summary data frame.
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

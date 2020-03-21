@@ -22,7 +22,7 @@
 #' Method getV(object, cluster.id, sorted = TRUE), which extracts vertex names of the cluster 'cluster.id' from a Graph object.
 #' The names are sorted in an ascending order alphabetically if sorted = TRUE.
 #'
-#' @author Yu Wan (\email{wanyuac@@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@126.com})
 #' @export
 #'
 #  Copyright 2017 Yu Wan

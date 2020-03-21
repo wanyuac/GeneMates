@@ -18,10 +18,10 @@
 #' ap1 <- getAllelesPerPattern(assoc[["mapping"]], sep = ",")
 #' ap2 <- getAllelesPerPattern(assoc[["alleles"]][["alle.pat"]], sep = ",")  # alternatively
 #'
-#' @author Yu Wan (\email{wanyuac@gmail.com})
+#' @author Yu Wan (\email{wanyuac@126.com})
 #' @export
 #
-# Copyright 2017 Yu Wan <wanyuac@gmail.com>
+# Copyright 2017 Yu Wan <wanyuac@126.com>
 # Licensed under the Apache License, Version 2.0
 # First and the lastest edit: 19 Sep 2017
 

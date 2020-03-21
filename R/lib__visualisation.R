@@ -1,7 +1,8 @@
-# Yu Wan (wanyuac@gmail.com, https://github.com/wanyuac)
 # This function coverts a dataframe that corresponds to either the
 # upper/lower triangle in a matrix into a matrix.
 # Variables in the data frame: c(name1, name2, value)
+#
+# Copyright (C) 2018 Yu Wan <wanyuac@126.com>
 # First version: 10 Oct 2015; the latest edition: 4 Sep 2018
 # Apache License, Version 2.0
 

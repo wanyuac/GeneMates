@@ -41,7 +41,7 @@
 #' @param e.colour.high A character specifying the colour for edges of the highest weight.
 #' @param e.colour.num An integer specifying the number of colours to be assigned.
 #'
-#' @author Yu Wan (\email{wanyuac@@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@126.com})
 #' @export tempNet
 #
 #  Copyright 2018 Yu Wan

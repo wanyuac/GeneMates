@@ -1,5 +1,5 @@
 # A module of GeneMates for analysing physical distances
-# Copyright 2017-2018 Yu Wan (wanyuac@gmail.com)
+# Copyright 2017-2018 Yu Wan (wanyuac@126.com)
 # Licensed under the Apache License, Version 2.0
 # Development history: 23 Janury - 27 March, 2017, 26 July 2017, ...
 # Latest update: 2 June 2019

@@ -28,5 +28,5 @@ z <- getRowsXY(df = assoc[["assoc"]], k1 = "IntI1_1.1", k2 = "SulI_1616", c1 = 1
 
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

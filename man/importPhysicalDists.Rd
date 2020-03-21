@@ -27,5 +27,5 @@ evaluation of distance consistency. The distance table can be created using
 a helper pipeline physDist (github.com/wanyuac/physDist).
 }
 \author{
-Yu Wan, \email{wanyuac@gmail.com}
+Yu Wan, \email{wanyuac@126.com}
 }

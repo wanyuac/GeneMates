@@ -12,11 +12,11 @@
 #'
 #' Either allele.mat or pam.a is expected to be used as an input for this function.
 #'
-#' @author Yu Wan (\email{wanyuac@@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@126.com})
 #' @export
 #
 # First edition: 23 Janury 2017, 21 May 2017; the latest edition: 18 July 2018.
-# Copyright 2017-2018 Yu Wan <wanyuac@gmail.com>
+# Copyright 2017-2018 Yu Wan <wanyuac@126.com>
 # Licensed under the Apache License, Version 2.0
 
 mkFilterTSV <- function(allele.mat = NULL, pam.a = NULL, output = "targeted_isolates_alleles.tsv") {

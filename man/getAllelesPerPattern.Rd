@@ -29,5 +29,5 @@ ap2 <- getAllelesPerPattern(assoc[["alleles"]][["alle.pat"]], sep = ",")  # alte
 
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

@@ -31,10 +31,10 @@
 #' occurrence count per isolate. However, when years <= 0, the G element is a
 #' single Graph object.
 #'
-#' @author Yu Wan (\email{wanyuac@@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@126.com})
 #' @export
 #
-#  Copyright 2018 Yu Wan <wanyuac@gmail.com>
+#  Copyright 2018 Yu Wan <wanyuac@126.com>
 #  Licensed under the Apache License, Version 2.0
 #  First edition: 11 Aug 2018, the latest edition: 25 Dec 2018
 

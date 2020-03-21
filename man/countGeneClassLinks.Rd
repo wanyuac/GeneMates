@@ -26,5 +26,5 @@ This function is useful in summarising connections between
 gene classes (for example, antimicrobial classes) based on a network.
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

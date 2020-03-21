@@ -33,5 +33,5 @@ hclust.method and hclust.dist are passed to R base functions hclust and
 dist as arguments.
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

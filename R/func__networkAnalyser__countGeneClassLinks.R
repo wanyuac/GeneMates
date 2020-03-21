@@ -15,7 +15,7 @@
 #' Class_x).
 #'
 #' @export countGeneClassLinks
-#' @author Yu Wan (\email{wanyuac@@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@126.com})
 #
 # Previous name of this function: countAMRClassLinks
 # Copyright 2019 Yu Wan

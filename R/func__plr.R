@@ -29,7 +29,7 @@
 #' lr <- plr(pat = assoc$alleles$B, tests.pat = assoc$lmms.pat$dif$h1[, c("y_pat", "x_pat")],
 #'       tests.allele = assoc$tests$dif$tests, n.cores = 8, p.adj.method = "bonferroni")
 #'
-#' @author Yu Wan (\email{wanyuac@@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@126.com})
 #' @export
 #
 # Copyright 2017 Yu Wan

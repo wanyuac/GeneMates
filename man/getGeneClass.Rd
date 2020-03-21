@@ -25,5 +25,5 @@ arg_cls <- data.frame(allele = assoc$mapping$allele, class = getGeneClass(x = as
 
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

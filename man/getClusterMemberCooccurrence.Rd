@@ -69,5 +69,5 @@ Dependency: data.table, parallel
 
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

@@ -13,7 +13,7 @@
 #' a <- rbind.data.frame(subset(assoc[["assoc"]], score >= 1.5 | (s_d == 1 & dif == 0)), stringsAsFactors = FALSE)
 #' ap <- extractPairedRows(x = a, pair.id = "pair")
 #'
-#' @author Yu Wan (\email{wanyuac@@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@126.com})
 #' @export
 #
 #  Copyright 2017 Yu Wan

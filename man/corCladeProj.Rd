@@ -38,5 +38,5 @@ r <- corCladeProj(clades = clades[["pam"]], projections = C[["C"]], clade.sizes 
 
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

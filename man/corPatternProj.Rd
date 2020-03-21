@@ -26,5 +26,5 @@ r <- corPatternProj(pat.mat = a$alleles$B, proj.mat = a$struc$C$C)
 
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

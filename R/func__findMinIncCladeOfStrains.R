@@ -13,7 +13,7 @@
 #' mic <- findMinIncCladeOfStrains(strains = c("strain1", "strain2"), clade.pam = assoc[["struc"]][["clades"]][["pam"]],
 #' clade.sizes = assoc[["struc"]][["clades"]][["sizes"]])
 #'
-#' @author Yu Wan (\email{wanyuac@gmail.com})
+#' @author Yu Wan (\email{wanyuac@126.com})
 #' @export
 #
 #  Copyright 2017 Yu Wan

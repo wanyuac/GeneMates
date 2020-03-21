@@ -32,5 +32,5 @@ getAssocGenePair(x = assoc$mapping, g1 = "StrA_AGly", g2 = "DfrA8_Tmt", col1 = "
 
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

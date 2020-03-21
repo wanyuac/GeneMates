@@ -39,5 +39,5 @@ a_yr <- countAllelesPerYear(alleles = nwk$V$allele, sam = sam, mapping = assoc$m
 
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

@@ -6,10 +6,10 @@
 #' @param patterns (optional) a data frame consisting of two columns: allele and pattern ID
 #' @param pat.sizes (optional) a two-column data frame (pattern and size) for the number of alleles per pattern
 #'
-#' @author Yu Wan (\email{wanyuac@@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@126.com})
 #' @export
 #
-# Copyright 2017 Yu Wan <wanyuac@gmail.com>
+# Copyright 2017 Yu Wan <wanyuac@126.com>
 # Licensed under the Apache License, Version 2.0
 # First version: 26 May 2017; the latest edition: 24 May 2018
 

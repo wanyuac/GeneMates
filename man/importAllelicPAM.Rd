@@ -35,5 +35,5 @@ It can be used to filter the allelic PAM for in-group isolates.}
 This function reads the allelic p/a matrix and returns a list of relevant matrices.
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

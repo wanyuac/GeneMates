@@ -92,5 +92,5 @@ plot(htmap$p)
 
 }
 \author{
-Guangchuang Yu, Yu Wan (\email{wanyuac@gmail.com})
+Guangchuang Yu, Yu Wan (\email{wanyuac@126.com})
 }

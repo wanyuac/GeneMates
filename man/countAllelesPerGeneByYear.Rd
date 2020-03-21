@@ -24,5 +24,5 @@ ac <- countAllelesPerGeneByYear(sam = sam, mapping = assoc$mapping, gm = assoc$g
 
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

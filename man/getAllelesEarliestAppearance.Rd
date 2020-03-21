@@ -24,5 +24,5 @@ emg_1 <- getAllelesEarliestAppearance(alleles = targets, pam = rp_1$pam, sam = s
 
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

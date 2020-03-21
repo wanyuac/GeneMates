@@ -38,7 +38,7 @@
 #'
 #' Dependency: parallel
 #'
-#' @author Yu Wan (\email{wanyuac@@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@126.com})
 #' @export
 #
 #  Copyright 2017 - 2018 Yu Wan

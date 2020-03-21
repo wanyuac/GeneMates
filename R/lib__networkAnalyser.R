@@ -9,7 +9,7 @@
 #     g1 <- getGraph(gs, id = "a")
 #     V(g1)
 #
-# Copyright 2018 Yu Wan
+# Copyright 2018 Yu Wan <wanyuac@126.com>
 # Licensed under the Apache License, Version 2.0
 # First version: 10 Aug 2018; the latest update: 29 Oct 2018
 #

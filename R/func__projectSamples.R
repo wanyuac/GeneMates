@@ -43,7 +43,7 @@
 #' C <- projectSamples(K = "output/Kp_K.cXX.txt", G = "output/snp/Kp__G.txt", Y = "output/gene/Kp__Y.txt",
 #' samples = rownames(G), L = ncol(G), prefix = "Kp_SVD", gemma.path = "~/apps/gemma")
 #'
-#' @author Yu Wan (\email{wanyuac@@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@126.com})
 #' @export
 #
 #  Copyright 2017 Yu Wan

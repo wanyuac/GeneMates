@@ -24,5 +24,5 @@ Either allele.mat or pam.a is expected to be used as an input for this function.
 The function prints allele names of each strain when it has at least two alleles.
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

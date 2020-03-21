@@ -60,5 +60,5 @@ lmms_merged <- mergeIddAlleles(assoc = lmms, lmms.only = TRUE)
 
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

@@ -42,5 +42,5 @@ The function also compresses the SNP matrix into a pattern matrix. Notice it is 
 input SNP table only contains 100% conserved SNPs. This function does not check for the conservation status.
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

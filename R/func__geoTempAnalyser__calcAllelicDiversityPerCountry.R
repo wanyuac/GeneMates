@@ -23,10 +23,10 @@
 #' are computed.
 #'   s: isolation information of the final set of strains.
 #'
-#' @author Yu Wan (\email{wanyuac@@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@126.com})
 #' @export
 #'
-# Copyright 2018 Yu Wan <wanyuac@gmail.com>
+# Copyright 2018 Yu Wan <wanyuac@126.com>
 # Licensed under the Apache License, Version 2.0
 # First and the latest edition: 31 Oct 2018
 

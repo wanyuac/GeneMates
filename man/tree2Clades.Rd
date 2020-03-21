@@ -21,5 +21,5 @@ clade.pam <- treeToClades(tr = assoc[["C"]][["tr"]], sample.order = rownames(ass
 
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

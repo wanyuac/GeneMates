@@ -46,5 +46,5 @@ n.cores = 4, del.temp = FALSE)
 
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

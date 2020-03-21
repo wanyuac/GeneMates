@@ -10,10 +10,10 @@
 #'
 #' @examples emg_1 <- getAllelesEarliestAppearance(alleles = targets, pam = rp_1$pam, sam = sam)
 #'
-#' @author Yu Wan (\email{wanyuac@@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@126.com})
 #' @export
 #'
-# Copyright 2018 Yu Wan <wanyuac@gmail.com>
+# Copyright 2018 Yu Wan <wanyuac@126.com>
 # Licensed under the Apache License, Version 2.0
 # First and the latest edition: 4 Aug 2018
 #'

@@ -43,7 +43,7 @@
 #' @param save.stages (optional) Whether to turn on stage control or not. Recommend to turn it on when you are not sure whether the pipeline will be finished smoothly.
 #' @param skip (optional) Whether to avoid overwriting existing output files.
 #'
-#' @author Yu Wan, \email{wanyuac@@gmail.com}
+#' @author Yu Wan, \email{wanyuac@@126.com}
 #' @export
 #
 #  Copyright 2017-2019 Yu Wan

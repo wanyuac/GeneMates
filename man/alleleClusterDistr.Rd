@@ -26,5 +26,5 @@ as maximal cliques) in bacterial samples. It can be considered as a simplified
 version of function getClusterMemberCoocurrence.
 }
 \author{
-Yu Wan (\email{wanyuac@gmail.com})
+Yu Wan (\email{wanyuac@126.com})
 }

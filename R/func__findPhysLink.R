@@ -118,7 +118,7 @@
 #' time.end <- Sys.time()
 #' print(time.end - time.start)
 #'
-#' @author Yu Wan, \email{wanyuac@@gmail.com}
+#' @author Yu Wan, \email{wanyuac@@126.com}
 #' @export
 #
 #  Copyright 2017 Yu Wan

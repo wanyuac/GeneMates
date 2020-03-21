@@ -19,10 +19,10 @@
 #' w (weighted counts per strain) and mapping. When combine is a list, another
 #' two elements called comb_count, comb_freq and period are included.
 #'
-#' @author Yu Wan (\email{wanyuac@@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@126.com})
 #' @export countAllelesPerYear
 #'
-# Copyright 2018 Yu Wan <wanyuac@gmail.com>
+# Copyright 2018 Yu Wan <wanyuac@126.com>
 # Licensed under the Apache License, Version 2.0
 # First version: 3 Aug 2018; the latest edition: 16 Aug 2018
 

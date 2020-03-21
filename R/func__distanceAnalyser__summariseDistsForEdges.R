@@ -42,7 +42,7 @@
 #'   ds_stats <- ds_stats[, c("Allele_1", "Allele_2", "Co", "S_d", "M", "Mr", "N", "Nr", "Nc_r")]  # For prioritised distances, Nc_r and Ng are mutually exclusive.
 #'
 #'
-#' @author Yu Wan, \email{wanyuac@@gmail.com}
+#' @author Yu Wan, \email{wanyuac@@126.com}
 #' @export summariseDistsForEdges
 #
 #  Copyright 2018 Yu Wan

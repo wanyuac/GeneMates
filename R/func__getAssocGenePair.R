@@ -15,7 +15,7 @@
 #'
 #' @return A data frame from x.
 #'
-#' @author Yu Wan (\email{wanyuac@@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@126.com})
 #' @export
 #'
 #  Copyright 2018 Yu Wan

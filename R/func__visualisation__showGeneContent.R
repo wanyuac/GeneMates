@@ -38,7 +38,7 @@
 #' @param img.mar The argument mar for the function par.
 #' @param img.mgp The argument mgp for the function par.
 #'
-#' @author Yu Wan (\email{wanyuac@@gmail.com})
+#' @author Yu Wan (\email{wanyuac@@126.com})
 #' @export
 #
 # Copyright 2018 Yu Wan
