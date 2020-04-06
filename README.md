@@ -44,7 +44,7 @@ This project was supported by the Department of Biochemistry and Molecular Biolo
 
 ## <a name="installation">1. Installation</a>
 
-Latest stable release: v0.2.2 (21 March 2020).
+The latest stable release is [v0.2.2](https://github.com/wanyuac/GeneMates/releases/tag/v0.2.2) (21 March 2020). You may find previous versions on the [Releases](https://github.com/wanyuac/GeneMates/releases) page.
 
 There are two approaches to install this package. Take GeneMates v0.2.2 for example. Assuming that we are going to install the package under a user-specified directory Lib:
 
@@ -82,6 +82,8 @@ The program Rscript should be accessible as a command. Namely, the path of R sho
 * [ggtree](https://github.com/GuangchuangYu/ggtree)(≥ 1.6.11)
 * network (≥ 1.13.0.1)
 * networkDynamic (≥ 0.9.0)
+
+Since dependent R packages are not maintained by the GeneMates team and R may not install them automatically as you install GeneMates, you may follow manuals of these packages to complete the installation.
 
 
 
