@@ -28,3 +28,8 @@ $RECYCLE.BIN/
 *.RData
 *.Rhistory
 *.pper
+Example/input/apam.tsv
+Example/input/cgSNPs.csv
+Example/input/gpam.tsv
+Example/input/spds.tsv
+Example/input/tr.tree
