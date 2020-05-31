@@ -97,8 +97,8 @@ We have developed the following scripts to help users to prepare input data for 
 - [readSimulator](https://github.com/wanyuac/readSimulator) for simulating short reads from template DNA sequences.  
 - [cgSNPs](https://github.com/wanyuac/cgSNPs) for processing core-genome SNPs (cgSNPs).  
 - Measurement and compilation of allelic physical distances (APDs)  
-    - [Bandage (distance)](https://github.com/wanyuac/Bandage/releases/tag/v0.8.0-distance) for distance measurement. This version is a [branch](https://github.com/wanyuac/Bandage/tree/distance) of Bandage v0.8.0.  
-    - [physDist](https://github.com/wanyuac/physDist) for compiling APDs.  
+    - [Bandage (distance)](https://github.com/wanyuac/Bandage/releases/tag/v0.8.0_distance) for distance measurement. This version is a [branch](https://github.com/wanyuac/Bandage/tree/distance) of Bandage v0.8.0.  
+    - [APDtools](https://github.com/wanyuac/APDtools) (previously known as physDist) for compiling APDs measured by Bandage.  
 
 
 
