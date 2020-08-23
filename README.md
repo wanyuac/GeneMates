@@ -99,6 +99,8 @@ We have developed the following scripts to help users to prepare input data for 
 - Measurement and compilation of allelic physical distances (APDs)  
     - [Bandage (distance)](https://github.com/wanyuac/Bandage/releases/tag/v0.8.0_distance) for distance measurement. This version is a [branch](https://github.com/wanyuac/Bandage/tree/distance) of Bandage v0.8.0.  
     - [APDtools](https://github.com/wanyuac/APDtools) (previously known as physDist) for compiling APDs measured by Bandage.  
+- Validation of inferred co-transferred allele clusters through sequence search and clustering
+    - [alleleClusterLocator](https://github.com/wanyuac/alleleClusterLocator)
 
 
 
