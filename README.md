@@ -89,7 +89,7 @@ Since dependent R packages are not maintained by the GeneMates team and R may no
 
 ### <a name="helpers">1.2. Helper program and scripts</a>
 
-We have developed the following scripts to help users to prepare input data for GeneMates:  
+We have developed the following scripts to help users to prepare input data for GeneMates as well as to validate results:  
 
 - Screening genomic data for known genes  
     - [PAMmaker](https://github.com/wanyuac/PAMmaker), which compiles outputs of [SRST2](https://github.com/katholt/srst2) and geneDetector.  
