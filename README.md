@@ -10,7 +10,7 @@ This project's [wiki](https://github.com/wanyuac/GeneMates/wiki) provides users 
 
 Since our article for this package is under peer review, the package and helper tools should be used with caution. Please cite this repository if you use our tool:
 
-- Wan, Y., Wick, R.R., Zobel, J. *et al.* GeneMates: an R package for detecting horizontal gene co-transfer between bacteria using gene-gene  associations controlled for population structure. *BMC Genomics* 21, 658 (2020). https://doi.org/10.1186/s12864-020-07019-6.
+- Wan, Y., Wick, R.R., Zobel, J., Ingle, D.J., Inouye, M., Holt, K.E. GeneMates: an R package for detecting horizontal gene co-transfer between bacteria using gene-gene  associations controlled for population structure. *BMC Genomics* 21, 658 (2020). https://doi.org/10.1186/s12864-020-07019-6.
 <!--  - Wan, Y., Wick, R. R., Zobel, J., Ingle, D. J., Inouye, M., & Holt, K. E. (2020). GeneMates: an R package for Detecting Horizontal Gene Co-transfer between Bacteria Using Gene-gene Associations Controlled for Population Structure. *BioRxiv*, 2020.02.29.970970. https://doi.org/10.1101/2020.02.29.970970.-->
 
 This project was supported by the Department of Biochemistry and Molecular Biology, University of Melbourne, in Victoria, Australia.
