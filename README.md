@@ -8,8 +8,7 @@ GeneMates is an R package implementing a network approach to identify horizontal
 
 We would appreciate your citation if you find GeneMates or its helper scripts helpful to your project:
 
-- Wan, Y., Wick, R.R., Zobel, J., Ingle, D.J., Inouye, M., Holt, K.E. GeneMates: an R package for detecting horizontal gene co-transfer between bacteria using gene-gene  associations controlled for population structure. *BMC Genomics* 21, 658 (2020). https://doi.org/10.1186/s12864-020-07019-6.
-<!--  - Wan, Y., Wick, R. R., Zobel, J., Ingle, D. J., Inouye, M., & Holt, K. E. (2020). GeneMates: an R package for Detecting Horizontal Gene Co-transfer between Bacteria Using Gene-gene Associations Controlled for Population Structure. *BioRxiv*, 2020.02.29.970970. https://doi.org/10.1101/2020.02.29.970970.-->
+- Wan, Y., Wick, R.R., Zobel, J., Ingle, D.J., Inouye, M., Holt, K.E. GeneMates: an R package for detecting horizontal gene co-transfer between bacteria using gene-gene  associations controlled for population structure. *BMC Genomics* 21, 658 (2020). https://doi.org/10.1186/s12864-020-07019-6.  
 
 This project was supported by the Department of Biochemistry and Molecular Biology, University of Melbourne, Victoria, Australia.
 
@@ -91,12 +90,12 @@ Since dependent R packages are not maintained by the GeneMates team and R may no
 We have developed the following scripts to help users to prepare input data for GeneMates as well as to validate results:  
 
 - Screening genomic data for known genes  
-    - [PAMmaker](https://github.com/wanyuac/PAMmaker), which compiles outputs of [SRST2](https://github.com/katholt/srst2) and geneDetector.  
+    - [PAMmaker](https://github.com/wanyuac/PAMmaker), which compiles and converts outputs of [SRST2](https://github.com/katholt/srst2), [ARIBA](https://github.com/sanger-pathogens/ariba), and geneDetector into allelic presence-absence matrices (PAMs).  
     - [geneDetector](https://github.com/wanyuac/geneDetector) for genome assemblies.  
 - [readSimulator](https://github.com/wanyuac/readSimulator) for simulating short reads from template DNA sequences.  
 - [cgSNPs](https://github.com/wanyuac/cgSNPs) for processing core-genome SNPs (cgSNPs).  
 - Measurement and compilation of allelic physical distances (APDs)  
-    - [Bandage (distance)](https://github.com/wanyuac/Bandage/releases/tag/v0.8.0_distance) for distance measurement. This version is a [branch](https://github.com/wanyuac/Bandage/tree/distance) of Bandage v0.8.0.  
+    - [Bandage (distance)](https://github.com/wanyuac/Bandage/releases/tag/v0.8.0_distance) , a particular [branch](https://github.com/wanyuac/Bandage/tree/distance) of program [Bandage](https://github.com/rrwick/Bandage) v0.8.0 created for the distance measurement.  
     - [APDtools](https://github.com/wanyuac/APDtools) (previously known as physDist) for compiling APDs measured by Bandage.  
 - Validation of inferred co-transferred allele clusters through sequence search and clustering
     - [alleleClusterLocator](https://github.com/wanyuac/alleleClusterLocator)
