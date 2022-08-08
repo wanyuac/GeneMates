@@ -6,9 +6,16 @@
 \title{Retrieving member allele co-occurrence status and strain distributions
 for clusters of alleles}
 \usage{
-getClusterMemberCooccurrence(clstr, cluster.colname = "cluster",
-  allele.colname = "allele", pam, clade.pam = NULL,
-  clade.sizes = NULL, sample.dists = NULL, n.cores = -1)
+getClusterMemberCooccurrence(
+  clstr,
+  cluster.colname = "cluster",
+  allele.colname = "allele",
+  pam,
+  clade.pam = NULL,
+  clade.sizes = NULL,
+  sample.dists = NULL,
+  n.cores = -1
+)
 }
 \arguments{
 \item{clstr}{a data frame consisting of at least two columns: one for cluster

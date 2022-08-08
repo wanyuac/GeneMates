@@ -5,8 +5,7 @@
 \title{Calculate sign congruence of fixed effects (betas) between linear mixed
 models (LMMs) and penalised logistic models (PLMs)}
 \usage{
-betaSignCongruence(lmms, plms, p.max = 1, step = 5e-04,
-  nevLog = TRUE)
+betaSignCongruence(lmms, plms, p.max = 1, step = 5e-04, nevLog = TRUE)
 }
 \arguments{
 \item{lmms}{A data frame from the function lmm for association status between

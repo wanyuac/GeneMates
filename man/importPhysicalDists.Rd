@@ -4,8 +4,12 @@
 \alias{importPhysicalDists}
 \title{Importing a table of physical distances as a data frame}
 \usage{
-importPhysicalDists(dists = NULL, delim = "\\t", ingroup = NULL,
-  outgroup = NULL)
+importPhysicalDists(
+  dists = NULL,
+  delim = "\\t",
+  ingroup = NULL,
+  outgroup = NULL
+)
 }
 \arguments{
 \item{dists}{The distance table to be imported.}

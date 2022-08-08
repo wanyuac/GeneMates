@@ -4,8 +4,14 @@
 \alias{countAllelesPerCountry}
 \title{Count alleles per country}
 \usage{
-countAllelesPerCountry(alleles = NULL, sam, mapping, apam, nul = NA,
-  freq = FALSE)
+countAllelesPerCountry(
+  alleles = NULL,
+  sam,
+  mapping,
+  apam,
+  nul = NA,
+  freq = FALSE
+)
 }
 \arguments{
 \item{alleles}{A character vector of allele names.}

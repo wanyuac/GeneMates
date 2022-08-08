@@ -4,8 +4,14 @@
 \alias{evalPL}
 \title{Evaluate evidence of physical linkage for positive associations with summary statistics of distance measurements}
 \usage{
-evalPL(lmms, min.beta = 0, max.p = 0.05, max.range = 2000,
-  min.pIBD = 0.9, score.dist = FALSE)
+evalPL(
+  lmms,
+  min.beta = 0,
+  max.p = 0.05,
+  max.range = 2000,
+  min.pIBD = 0.9,
+  score.dist = FALSE
+)
 }
 \arguments{
 \item{lmms}{This argument can be a list produced by the function summariseDist,

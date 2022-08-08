@@ -5,9 +5,16 @@
 \alias{summariseDistsForEdges}
 \title{Summarise allelic physical distances for edges in an association network}
 \usage{
-summariseDistsForEdges(E, ds, d.max = 250000, n.max = 2,
-  source.graph = "graph", source.contig = "contig",
-  source.complete = "complete", sort.output = TRUE)
+summariseDistsForEdges(
+  E,
+  ds,
+  d.max = 250000,
+  n.max = 2,
+  source.graph = "graph",
+  source.contig = "contig",
+  source.complete = "complete",
+  sort.output = TRUE
+)
 }
 \arguments{
 \item{E}{An edge list having columns in the order: allele_1, allele_2, co-occurrence

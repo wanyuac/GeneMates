@@ -4,9 +4,16 @@
 \alias{mkNetwork}
 \title{Create network data from association results.}
 \usage{
-mkNetwork(assoc = NULL, name.x = "x", name.y = "y",
-  edge.attr = NULL, node.x.attr = NULL, node.y.attr = NULL,
-  node.attr.names = "node", id = "")
+mkNetwork(
+  assoc = NULL,
+  name.x = "x",
+  name.y = "y",
+  edge.attr = NULL,
+  node.x.attr = NULL,
+  node.y.attr = NULL,
+  node.attr.names = "node",
+  id = ""
+)
 }
 \arguments{
 \item{assoc}{A data frame from which the network is created. It may be pre-filtered

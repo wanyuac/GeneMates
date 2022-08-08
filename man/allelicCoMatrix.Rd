@@ -4,8 +4,12 @@
 \alias{allelicCoMatrix}
 \title{Create a co-occurrence matrix from allelic PAM}
 \usage{
-allelicCoMatrix(clusters = NULL, pam = NULL, hclust.method = NULL,
-  hclust.dist = "binary")
+allelicCoMatrix(
+  clusters = NULL,
+  pam = NULL,
+  hclust.method = NULL,
+  hclust.dist = "binary"
+)
 }
 \arguments{
 \item{clusters}{A named or unnamed list of allele name vectors that define

@@ -4,13 +4,31 @@
 \alias{drawHeatMap}
 \title{Draw a heat map for a given variable}
 \usage{
-drawHeatMap(data = NULL, x = "x", y = "y", val = "val", diag = 1,
-  replace.na = 0, cluster.row = TRUE, cluster.col = TRUE,
-  cluster.method = "complete", dist.row = "euclidean",
-  dist.col = "euclidean", colour.low = "white", colour.mid = NULL,
-  colour.high = "red", colour.grad = 50, colour.breaks,
-  display.val = FALSE, font.size = 10, filename = "heatmap.png",
-  res = 72, width = 800, height = 800, unit = "px")
+drawHeatMap(
+  data = NULL,
+  x = "x",
+  y = "y",
+  val = "val",
+  diag = 1,
+  replace.na = 0,
+  cluster.row = TRUE,
+  cluster.col = TRUE,
+  cluster.method = "complete",
+  dist.row = "euclidean",
+  dist.col = "euclidean",
+  colour.low = "white",
+  colour.mid = NULL,
+  colour.high = "red",
+  colour.grad = 50,
+  colour.breaks,
+  display.val = FALSE,
+  font.size = 10,
+  filename = "heatmap.png",
+  res = 72,
+  width = 800,
+  height = 800,
+  unit = "px"
+)
 }
 \arguments{
 \item{data}{A data frame of at least three columns, such as x, y and z, or a matrix to be plotted directly as a heat map.}

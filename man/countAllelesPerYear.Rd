@@ -4,8 +4,15 @@
 \alias{countAllelesPerYear}
 \title{Count alleles per year}
 \usage{
-countAllelesPerYear(alleles = NULL, sam, mapping, apam, nul_count = NA,
-  nul_freq = NA, combine = NULL)
+countAllelesPerYear(
+  alleles = NULL,
+  sam,
+  mapping,
+  apam,
+  nul_count = NA,
+  nul_freq = NA,
+  combine = NULL
+)
 }
 \arguments{
 \item{alleles}{A character vector of allele names.}

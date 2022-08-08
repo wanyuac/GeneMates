@@ -4,8 +4,13 @@
 \alias{vertexAttr2Size}
 \title{Mapping a numeric vector to vertex sizes through a linear transformation}
 \usage{
-vertexAttr2Size(x, x.min = min(x), x.max = max(x), size.min = 15,
-  size.max = 60)
+vertexAttr2Size(
+  x,
+  x.min = min(x),
+  x.max = max(x),
+  size.min = 15,
+  size.max = 60
+)
 }
 \arguments{
 \item{x}{Input numeric vector to be transformed.}

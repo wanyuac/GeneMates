@@ -4,8 +4,7 @@
 \alias{plr}
 \title{Firth's penalised logistic regression}
 \usage{
-plr(pat, tests.pat, tests.allele, n.cores = -1,
-  p.adj.method = "bonferroni")
+plr(pat, tests.pat, tests.allele, n.cores = -1, p.adj.method = "bonferroni")
 }
 \arguments{
 \item{pat}{An uncentred matrix of patterns of the allelic presence/absence status

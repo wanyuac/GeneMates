@@ -5,17 +5,42 @@
 \title{Testing for associations and physical linkage between every pair of
 bacterial genes at the allele level}
 \usage{
-findPhysLink(assoc.out = NULL, snps = NULL, snps.delim = ",",
-  pos.col = "Pos", ref.col = "Ref", min.mac = 1,
-  genetic.pam = NULL, genetic.pam.delim = "\\t", genes.excl = NULL,
-  allelic.pam = NULL, allelic.pam.delim = "\\t", min.count = 2,
-  min.co = 2, mapping = NULL, phys.dists = NULL,
-  dist.delim = "\\t", max.node.num = NULL, max.dist = NULL,
-  ingroup = NULL, outliers = NULL, ref = NULL, tree = NULL,
-  sample.dists = NULL, d.qs = c(0, 0.25, 0.5, 0.75, 1), max.p = 0.05,
-  max.range = 2000, min.pIBD = 0.9, output.dir = "output",
-  prefix = NULL, gemma.path = "gemma", n.cores = -1,
-  save.stages = TRUE, del.temp = TRUE, skip = TRUE)
+findPhysLink(
+  assoc.out = NULL,
+  snps = NULL,
+  snps.delim = ",",
+  pos.col = "Pos",
+  ref.col = "Ref",
+  min.mac = 1,
+  genetic.pam = NULL,
+  genetic.pam.delim = "\\t",
+  genes.excl = NULL,
+  allelic.pam = NULL,
+  allelic.pam.delim = "\\t",
+  min.count = 2,
+  min.co = 2,
+  mapping = NULL,
+  phys.dists = NULL,
+  dist.delim = "\\t",
+  max.node.num = NULL,
+  max.dist = NULL,
+  ingroup = NULL,
+  outliers = NULL,
+  ref = NULL,
+  tree = NULL,
+  sample.dists = NULL,
+  d.qs = c(0, 0.25, 0.5, 0.75, 1),
+  max.p = 0.05,
+  max.range = 2000,
+  min.pIBD = 0.9,
+  output.dir = "output",
+  prefix = NULL,
+  gemma.path = "gemma",
+  n.cores = -1,
+  save.stages = TRUE,
+  del.temp = TRUE,
+  skip = TRUE
+)
 }
 \arguments{
 \item{assoc.out}{A previous output of findPhysLink when it was used only for

@@ -4,10 +4,16 @@
 \alias{findSeq}
 \title{Search for a query sequence against a list of assemblies}
 \usage{
-findSeq(query = NULL, assemblies = NULL, bandage.path = "./bandage",
+findSeq(
+  query = NULL,
+  assemblies = NULL,
+  bandage.path = "./bandage",
   blast.params = "-task megablast",
-  bandage.params = "--ifilter 95 --evfilter 1e-3 --pathnodes 6 --minhitcov 0.98 --minpatlen 0.98 --maxpatlen 1.02",
-  n.cores = -1, del.temp = TRUE)
+ 
+    bandage.params = "--ifilter 95 --evfilter 1e-3 --pathnodes 6 --minhitcov 0.98 --minpatlen 0.98 --maxpatlen 1.02",
+  n.cores = -1,
+  del.temp = TRUE
+)
 }
 \arguments{
 \item{query}{Path to a FASTA file, which may contain multiple query sequences.}

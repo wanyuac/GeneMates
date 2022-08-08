@@ -4,8 +4,16 @@
 \alias{mkCoocurNetwork}
 \title{Converting a given network into a co-occurrence network}
 \usage{
-mkCoocurNetwork(alleles = NULL, net = NULL, pam = NULL, sam = NULL,
-  name.col = 1, years = 0, ds = NULL, use.ingroup.d = FALSE)
+mkCoocurNetwork(
+  alleles = NULL,
+  net = NULL,
+  pam = NULL,
+  sam = NULL,
+  name.col = 1,
+  years = 0,
+  ds = NULL,
+  use.ingroup.d = FALSE
+)
 }
 \arguments{
 \item{alleles}{A vector of alleles for which pairwise co-occurrence counts

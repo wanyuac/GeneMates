@@ -5,8 +5,12 @@
 \title{Merging nodes representing identically distributed alleles into a single
 node in an output network of findPhysLink.}
 \usage{
-mergeIddAlleles(assoc, other.cols = NULL, lmms.only = FALSE,
-  replace.names = TRUE)
+mergeIddAlleles(
+  assoc,
+  other.cols = NULL,
+  lmms.only = FALSE,
+  replace.names = TRUE
+)
 }
 \arguments{
 \item{assoc}{The data frame named assoc in findPhysLink's output. By design, alleles are all

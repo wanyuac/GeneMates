@@ -4,8 +4,11 @@
 \alias{mkFilterTSV}
 \title{Making a guidance TSV file as an input for the physDist pipeline}
 \usage{
-mkFilterTSV(allele.mat = NULL, pam.a = NULL,
-  output = "targeted_isolates_alleles.tsv")
+mkFilterTSV(
+  allele.mat = NULL,
+  pam.a = NULL,
+  output = "targeted_isolates_alleles.tsv"
+)
 }
 \arguments{
 \item{allele.mat}{A matrix in the output format of SRST2, which shows an allele per gene for each sample.

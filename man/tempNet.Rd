@@ -4,13 +4,28 @@
 \alias{tempNet}
 \title{Creating a temporal network from graphs}
 \usage{
-tempNet(gs, v.label = "allele", e.tail = "node1", e.head = "node2",
-  directed = FALSE, t.gap = 1, v.value = "count", v.value.base = 0,
-  v.size.min = 1, v.size.max = 25, v.colour = "red",
-  e.weight = "n_xy", e.weight.base = 1, e.weight.cutoff = 0,
-  e.width.min = 1, e.width.max = 10, e.colour = "m",
-  e.colour.low = "#FFA0A0", e.colour.high = "#FF0000",
-  e.colour.num = 9)
+tempNet(
+  gs,
+  v.label = "allele",
+  e.tail = "node1",
+  e.head = "node2",
+  directed = FALSE,
+  t.gap = 1,
+  v.value = "count",
+  v.value.base = 0,
+  v.size.min = 1,
+  v.size.max = 25,
+  v.colour = "red",
+  e.weight = "n_xy",
+  e.weight.base = 1,
+  e.weight.cutoff = 0,
+  e.width.min = 1,
+  e.width.max = 10,
+  e.colour = "m",
+  e.colour.low = "#FFA0A0",
+  e.colour.high = "#FF0000",
+  e.colour.num = 9
+)
 }
 \arguments{
 \item{gs}{A GraphSet object with years as graph IDs.}

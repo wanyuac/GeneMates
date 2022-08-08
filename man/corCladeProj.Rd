@@ -4,8 +4,12 @@
 \alias{corCladeProj}
 \title{Estimating correlations between clades and projections of samples}
 \usage{
-corCladeProj(clades = NULL, projections = NULL, clade.sizes = NULL,
-  n.cores = -1)
+corCladeProj(
+  clades = NULL,
+  projections = NULL,
+  clade.sizes = NULL,
+  n.cores = -1
+)
 }
 \arguments{
 \item{clades}{A presence/absence matrix of samples in every clade. It can be generated with the function tree2Clades.}

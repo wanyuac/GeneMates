@@ -4,18 +4,42 @@
 \alias{ringPlotPAM}
 \title{Make a ring plot to show presence-absence of genotypes and allelic co-occurrence}
 \usage{
-ringPlotPAM(pam, genotypes, tree, y = NULL, y.pat = NULL,
-  struc.eff = NULL, clade.cor = NULL, clade.sizes = NULL,
-  struc.pmax = 0.05, struc.nmax = 10, genotype.cluster = TRUE,
-  genotype.dist = "binary", cluster.method = "single",
-  x.colours = "grey50", co.colours = "red", null.colour = "grey90",
-  y.colour = "grey10", highlight.tips = NULL,
-  highlight.tip.colour = "red", highlight.tip.shape = 16,
-  highlight.tip.size = 1, highlight.tip.alpha = 0.75,
-  clade.colours = rainbow(10), output = "ringPlot.png", res = 72,
-  width = 1600, height = 1600, unit = "px", htmap.width = 0.5,
-  offset = -0.001, branch.width = 0.25, font.size = 2,
-  print.colnames = TRUE, show.legend = FALSE)
+ringPlotPAM(
+  pam,
+  genotypes,
+  tree,
+  y = NULL,
+  y.pat = NULL,
+  struc.eff = NULL,
+  clade.cor = NULL,
+  clade.sizes = NULL,
+  struc.pmax = 0.05,
+  struc.nmax = 10,
+  genotype.cluster = TRUE,
+  genotype.dist = "binary",
+  cluster.method = "single",
+  x.colours = "grey50",
+  co.colours = "red",
+  null.colour = "grey90",
+  y.colour = "grey10",
+  highlight.tips = NULL,
+  highlight.tip.colour = "red",
+  highlight.tip.shape = 16,
+  highlight.tip.size = 1,
+  highlight.tip.alpha = 0.75,
+  clade.colours = rainbow(10),
+  output = "ringPlot.png",
+  res = 72,
+  width = 1600,
+  height = 1600,
+  unit = "px",
+  htmap.width = 0.5,
+  offset = -0.001,
+  branch.width = 0.25,
+  font.size = 2,
+  print.colnames = TRUE,
+  show.legend = FALSE
+)
 }
 \arguments{
 \item{pam}{A presence/absence matrix (PAM) of genotypes (either alleles or genes)}

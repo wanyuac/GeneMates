@@ -4,8 +4,7 @@
 \alias{findMinIncCladeOfStrains}
 \title{Finding out and summarising the minimal inclusive clade containing all given strains}
 \usage{
-findMinIncCladeOfStrains(strains = NULL, clade.pam = NULL,
-  clade.sizes = NULL)
+findMinIncCladeOfStrains(strains = NULL, clade.pam = NULL, clade.sizes = NULL)
 }
 \arguments{
 \item{strains}{a vector of strain names}

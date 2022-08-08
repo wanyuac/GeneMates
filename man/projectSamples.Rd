@@ -4,8 +4,18 @@
 \alias{projectSamples}
 \title{Project samples onto eigenvectors (of positive eigenvalues) of the semi-positive definite matrix t(S) * S}
 \usage{
-projectSamples(K, G, Y, L, samples, prefix = "S", get.dists = TRUE,
-  dist.method = "euclidean", get.tree = TRUE, gemma.path)
+projectSamples(
+  K,
+  G,
+  Y,
+  L,
+  samples,
+  prefix = "S",
+  get.dists = TRUE,
+  dist.method = "euclidean",
+  get.tree = TRUE,
+  gemma.path
+)
 }
 \arguments{
 \item{K}{a string specifying the path to a file of the relatedness matrix produced using GEMMA}

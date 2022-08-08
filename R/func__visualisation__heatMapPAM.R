@@ -53,7 +53,7 @@
 #' @export
 #' @author Guangchuang Yu, Yu Wan (\email{wanyuac@@126.com})
 #
-# First edition of this function: 5 Sep 2018; the latest edition: 28 Aug 2019
+# First edition of this function: 5 Sep 2018; the latest edition: 8 Aug 2022
 # Licence: Artistic License 2.0 (follow the licence of the package ggtree)
 
 heatMapPAM <- function(p, data, col_colours = "black", null_colour = "grey90",
@@ -213,10 +213,11 @@ heatMapPAM <- function(p, data, col_colours = "black", null_colour = "grey90",
         # scale_fill_manual sets tile colours; scale_colour_manual sets label colours
         p2 <- p2 + scale_fill_manual(name = "Class",
                                      breaks = c("0", as.character(colour_codes)),
-                                     values = colours_uniq, na.value = NA) +
-            scale_colour_manual(name = "Class",
-                                breaks = c("0", as.character(colour_codes)),
-                                values = colours_uniq, na.value = NA)
+                                     values = colours_uniq, na.value = NA)
+            # Bug identified (8/8/2022): loss of tip labels after scalling colours
+            # + scale_colour_manual(name = "Class",
+            #                    breaks = c("0", as.character(colour_codes)),
+            #                    values = colours_uniq, na.value = NA)
     } else {
         p2 <- p2 + scale_fill_manual(name = "Class", breaks = c("1", "0"),
                                values = c("1" = col_colours, "0" = null_colour),

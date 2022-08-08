@@ -4,9 +4,16 @@
 \alias{importAllelicPAM}
 \title{Import the allelic presence-absence matrix (PAM) of bacterial genes.}
 \usage{
-importAllelicPAM(pam, pam.delim = "\\t", outliers = NULL,
-  min.count = 1, alleles.inc = NULL, output.y = "",
-  sample.order = NULL, skip = TRUE)
+importAllelicPAM(
+  pam,
+  pam.delim = "\\t",
+  outliers = NULL,
+  min.count = 1,
+  alleles.inc = NULL,
+  output.y = "",
+  sample.order = NULL,
+  skip = TRUE
+)
 }
 \arguments{
 \item{pam}{either the final PAM or the file name of a raw PAM created by the PAMmaker pipeline.

@@ -5,15 +5,31 @@
 \title{An expansion of ggtree's gheatmap function for displaying an allelic
 presence-absence matrix.}
 \usage{
-heatMapPAM(p, data, col_colours = "black", null_colour = "grey90",
-  presence_label = "Presence", absence_label = "Absence",
-  border_colour = "white", cluster_cols = FALSE,
-  cluster_method = "single", cluster_distance = "binary",
-  rev_cols = FALSE, colnames = TRUE, colnames_position = "bottom",
-  colnames_angle = 0, colnames_level = NULL,
-  set_label_colours = FALSE, colnames_offset_x = 0,
-  colnames_offset_y = 0, font.size = 4, hjust = 0.5, offset = 0,
-  width = 1, show_legend = FALSE)
+heatMapPAM(
+  p,
+  data,
+  col_colours = "black",
+  null_colour = "grey90",
+  presence_label = "Presence",
+  absence_label = "Absence",
+  border_colour = "white",
+  cluster_cols = FALSE,
+  cluster_method = "single",
+  cluster_distance = "binary",
+  rev_cols = FALSE,
+  colnames = TRUE,
+  colnames_position = "bottom",
+  colnames_angle = 0,
+  colnames_level = NULL,
+  set_label_colours = FALSE,
+  colnames_offset_x = 0,
+  colnames_offset_y = 0,
+  font.size = 4,
+  hjust = 0.5,
+  offset = 0,
+  width = 1,
+  show_legend = FALSE
+)
 }
 \arguments{
 \item{p}{A tree view from the function ggtree in the package ggtree}

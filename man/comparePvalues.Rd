@@ -5,17 +5,34 @@
 \title{Draw a scatter plot and histograms to compare p-values from linear mixed models
 (LMMs) and penalised logistic models (PLMs).}
 \usage{
-comparePvalues(p.lmm, p.plm, lmm.h0 = NULL, p.min = 2.2e-16,
-  p.adj.max = 0.05, L.weak = 0, bks = seq(0, 16, by = 2),
-  show.p.adj.max = TRUE, cols = c(`0` = "grey50", `1` = "blue", `2` =
-  "red", `3` = "purple"), panel.num = 3, panel.titles = c("a", "b",
-  "c"), boxplot.show.group = TRUE, boxplot.default.fill = "grey80",
-  plot.title.size = 10, axis.title.size = 10,
-  axis.title.size.panelB = 3, axis.text.size = 8,
-  img = "pvalue_comparison.png", img.w = 150, img.h = 150,
-  img.r = 300, img.u = "mm", img.oma = c(0.1, 0.1, 0.1, 0.1),
-  img.mar = c(3, 2.6, 1, 0.5), img.mgp = c(1.8, 0.6, -0.2),
-  p.prev = NULL)
+comparePvalues(
+  p.lmm,
+  p.plm,
+  lmm.h0 = NULL,
+  p.min = 2.2e-16,
+  p.adj.max = 0.05,
+  L.weak = 0,
+  bks = seq(0, 16, by = 2),
+  show.p.adj.max = TRUE,
+  cols = c(`0` = "grey50", `1` = "blue", `2` = "red", `3` = "purple"),
+  panel.num = 3,
+  panel.titles = c("a", "b", "c"),
+  boxplot.show.group = TRUE,
+  boxplot.default.fill = "grey80",
+  plot.title.size = 10,
+  axis.title.size = 10,
+  axis.title.size.panelB = 3,
+  axis.text.size = 8,
+  img = "pvalue_comparison.png",
+  img.w = 150,
+  img.h = 150,
+  img.r = 300,
+  img.u = "mm",
+  img.oma = c(0.1, 0.1, 0.1, 0.1),
+  img.mar = c(3, 2.6, 1, 0.5),
+  img.mgp = c(1.8, 0.6, -0.2),
+  p.prev = NULL
+)
 }
 \arguments{
 \item{p.lmm}{A data frame from the function lmm for association status between

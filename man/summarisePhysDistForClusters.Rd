@@ -5,9 +5,17 @@
 \alias{summarisePhysDistForClusters}
 \title{Summarising physical distances involving clusters of alleles}
 \usage{
-summarisePhysDistForClusters(cls.distr, cls.col = 1, allele.col = 2,
-  cls, ds, bidirectional = TRUE, sample.dists = NULL,
-  clade.pam = NULL, clade.sizes = NULL)
+summarisePhysDistForClusters(
+  cls.distr,
+  cls.col = 1,
+  allele.col = 2,
+  cls,
+  ds,
+  bidirectional = TRUE,
+  sample.dists = NULL,
+  clade.pam = NULL,
+  clade.sizes = NULL
+)
 }
 \arguments{
 \item{cls.distr}{A data frame produced by the function getClusterMemberCooccurrence for cluster distributions.
